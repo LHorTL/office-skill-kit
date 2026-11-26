@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>写完文章还要花2小时排版？这套一稿多发本地工作流帮我省下80%时间 · 公众号排版 &amp; 小红书无损卡片工坊</title>
+<style>
+  :root {
+    --bg: #f6f6f4;
+    --surface: #ffffff;
+    --surface-subtle: #fafaf8;
+    --ink: #18181b;
+    --muted: #64748b;
+    --border: #e5e7eb;
+    --accent: #c83e2b;
+    --accent-soft: #fdf2f0;
+    --green: #15803d;
+    --green-bg: #f0fdf4;
+    --amber: #b45309;
+    --amber-bg: #fffbeb;
+    --red: #b91c1c;
+    --red-bg: #fef2f2;
+    --radius: 12px;
+    --shadow: 0 1px 3px rgba(15, 23, 42, 0.05), 0 8px 24px rgba(15, 23, 42, 0.04);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .topbar-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 14px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .brand-mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: var(--ink);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: -0.5px;
+  }
+  .brand h1 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .brand p {
+    margin: 0;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .tabs {
+    display: flex;
+    gap: 6px;
+    background: #efefec;
+    padding: 4px;
+    border-radius: 10px;
+  }
+  .tab-btn {
+    border: 0;
+    background: transparent;
+    color: #475569;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.16s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .tab-btn.active {
+    background: var(--surface);
+    color: var(--ink);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+  .pill-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 1px 7px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .pill-badge.green { background: var(--green-bg); color: var(--green); }
+  .pill-badge.amber { background: var(--amber-bg); color: var(--amber); }
+  .pill-badge.red { background: var(--red-bg); color: var(--red); }
+
+  .container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 24px 20px 64px;
+  }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .toolbar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    box-shadow: var(--shadow);
+  }
+  .group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .group-label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-right: 4px;
+  }
+  .btn {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--ink);
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .btn:hover { border-color: #cbd5e1; background: #f8fafc; }
+  .btn.active {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: #ffffff;
+  }
+  .btn-primary {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: #ffffff;
+  }
+  .btn-primary:hover { background: #ad3221; border-color: #ad3221; }
+  .btn-dark {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: #ffffff;
+  }
+  .btn-dark:hover { background: #27272a; }
+  .input-inline {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 10px;
+    font-size: 13px;
+    color: var(--ink);
+    background: var(--surface-subtle);
+    width: 150px;
+  }
+
+  /* Tab 1: WeChat Preview Stage */
+  .wechat-stage {
+    display: flex;
+    justify-content: center;
+    padding: 26px 16px;
+    background: #ecece8;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+  }
+  .wechat-frame {
+    width: 680px;
+    max-width: 100%;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 12px 36px rgba(15, 23, 42, 0.08);
+    overflow: hidden;
+    transition: width 0.2s ease;
+  }
+  .wechat-frame.mobile {
+    width: 390px;
+    border: 10px solid #18181b;
+    border-radius: 30px;
+  }
+  .wechat-statusbar {
+    padding: 10px 16px;
+    background: #fafafa;
+    border-bottom: 1px solid #eeeeee;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #6b7280;
+  }
+
+  /* Tab 2: Xiaohongshu Canvas Grid */
+  .xhs-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 20px;
+    align-items: start;
+  }
+  @media (max-width: 980px) {
+    .xhs-layout { grid-template-columns: 1fr; }
+  }
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 18px;
+  }
+  .card-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px;
+    box-shadow: var(--shadow);
+  }
+  .card-canvas-wrap {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f3f4f6;
+    border: 1px solid #ececec;
+  }
+  .card-canvas-wrap canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .card-foot {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .card-label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .copy-sidebar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 84px;
+  }
+  .copy-sidebar h3 {
+    margin: 0 0 12px 0;
+    font-size: 14.5px;
+    font-weight: 700;
+  }
+  .hook-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    background: var(--surface-subtle);
+  }
+  .hook-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11.5px;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .hook-text {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .xhs-body-box {
+    width: 100%;
+    min-height: 220px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-family: inherit;
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--ink);
+    background: var(--surface-subtle);
+    resize: vertical;
+  }
+
+  /* Tab 3: Compliance & Anti-AI Audit */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .kpi-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    box-shadow: var(--shadow);
+  }
+  .kpi-title { font-size: 12.5px; color: var(--muted); margin-bottom: 6px; }
+  .kpi-val { font-size: 28px; font-weight: 800; line-height: 1.2; }
+  .kpi-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .audit-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 20px;
+  }
+  @media (max-width: 960px) {
+    .audit-grid { grid-template-columns: 1fr; }
+  }
+  .box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    box-shadow: var(--shadow);
+  }
+  .box h3 { margin: 0 0 12px 0; font-size: 15px; }
+  .finding-item {
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--red);
+    border-radius: 8px;
+    padding: 11px 13px;
+    margin-bottom: 10px;
+    background: var(--surface-subtle);
+  }
+  .finding-item.medium { border-left-color: var(--amber); }
+  .finding-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .finding-word {
+    font-weight: 700;
+    font-size: 13.5px;
+  }
+  .finding-reason { font-size: 12.5px; color: var(--muted); margin: 3px 0; }
+  .finding-fix {
+    font-size: 12.5px;
+    color: var(--green);
+    background: var(--green-bg);
+    padding: 5px 8px;
+    border-radius: 6px;
+    margin-top: 6px;
+  }
+  .annotated-text {
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-size: 13.5px;
+    line-height: 1.85;
+    max-height: 560px;
+    overflow-y: auto;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #fcfcfa;
+  }
+  .hl-high {
+    background: #fee2e2;
+    color: #991b1b;
+    border-bottom: 2px solid #dc2626;
+    padding: 0 2px;
+    border-radius: 3px;
+    font-weight: 700;
+  }
+  .hl-medium {
+    background: #fef3c7;
+    color: #92400e;
+    border-bottom: 2px solid #d97706;
+    padding: 0 2px;
+    border-radius: 3px;
+    font-weight: 600;
+  }
+  .toast {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    z-index: 90;
+    background: #18181b;
+    color: #ffffff;
+    padding: 11px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+    opacity: 0;
+    transform: translateY(8px);
+    pointer-events: none;
+    transition: all 0.2s ease;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+  .footer-note {
+    margin-top: 28px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+  }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-mark">工坊</div>
+      <div>
+        <h1>写完文章还要花2小时排版？这套一稿多发本地工作流帮我省下80%…</h1>
+        <p>100% 本地离线工坊 · 全文约 959 字 · 8 张 3:4 卡片 · 健康分 27/100</p>
+      </div>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button class="tab-btn active" data-tab="wechat" type="button">1. 微信公众号排版</button>
+      <button class="tab-btn" data-tab="xhs" type="button">2. 小红书 3:4 卡片 <span class="pill-badge">8张</span></button>
+      <button class="tab-btn" data-tab="audit" type="button">3. 违禁词 &amp; 去AI味 <span class="pill-badge red">17项</span></button>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <!-- TAB 1: WeChat MP Inline-CSS Editorial Preview -->
+  <section id="panel-wechat" class="panel active">
+    <div class="toolbar">
+      <div class="group" id="wechat-theme-group">
+        <span class="group-label">排版主题</span>
+      </div>
+      <div class="group">
+        <button class="btn active" id="view-desktop" type="button">桌面 680px</button>
+        <button class="btn" id="view-mobile" type="button">手机 390px</button>
+        <button class="btn" id="btn-copy-source" type="button">复制 HTML 源码</button>
+        <button class="btn" id="btn-dl-wechat" type="button">下载 HTML</button>
+        <button class="btn btn-primary" id="btn-copy-wechat" type="button">一键复制到公众号后台</button>
+      </div>
+    </div>
+    <div class="wechat-stage">
+      <div class="wechat-frame" id="wechat-frame">
+        <div class="wechat-statusbar">
+          <span id="wechat-theme-caption">主题：极简杂志白（100% Inline-CSS，无外部样式表）</span>
+          <span>mp.weixin.qq.com 粘贴直出</span>
+        </div>
+        <div id="wechat-preview-mount"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 2: Xiaohongshu 3:4 Canvas Card Studio -->
+  <section id="panel-xhs" class="panel">
+    <div class="toolbar">
+      <div class="group" id="card-theme-group">
+        <span class="group-label">卡片视觉风格</span>
+      </div>
+      <div class="group">
+        <span class="group-label">角标署名</span>
+        <input class="input-inline" id="author-input" type="text" value="林栖内容笔记" maxlength="20" />
+        <button class="btn btn-primary" id="btn-export-all" type="button">一键批量导出全部无损 PNG (1080×1440)</button>
+      </div>
+    </div>
+    <div class="xhs-layout">
+      <div>
+        <div class="cards-grid" id="cards-grid"></div>
+      </div>
+      <aside class="copy-sidebar">
+        <h3>爆款备选标题（严格 ≤ 20 字）</h3>
+        <div id="xhs-hooks-list"></div>
+        <h3 style="margin-top:16px;">小红书正文 &amp; 话题标签</h3>
+        <textarea class="xhs-body-box" id="xhs-body-text"></textarea>
+        <div style="margin-top:10px;display:flex;gap:8px;">
+          <button class="btn btn-dark" id="btn-copy-xhs-body" type="button" style="flex:1;">一键复制正文与标签</button>
+        </div>
+        <p style="font-size:11.5px;color:var(--muted);margin:10px 0 0 0;">
+          提示：点击“一键批量导出”时，若浏览器弹出多文件下载确认，请点“允许”即可连续保存全部 1080×1440 无损 PNG。
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- TAB 3: Tri-Platform Banned-Word & Anti-AI Audit -->
+  <section id="panel-audit" class="panel">
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-title">综合发布体检结论</div>
+        <div class="kpi-val" style="font-size:20px;margin-top:4px;color:var(--red);">红灯存在违禁/限流词，请先替换</div>
+        <div class="kpi-sub">覆盖广告法极限词 · 引流违禁词 · 中文 AI 腔</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-title">内容健康度</div>
+        <div class="kpi-val">27<span style="font-size:15px;font-weight:600;color:var(--muted);"> / 100</span></div>
+        <div class="kpi-sub">AI 味指数：66 / 100（越低越自然）</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-title">🔴 高危违禁 / 限流词</div>
+        <div class="kpi-val" style="color:var(--red);">11</div>
+        <div class="kpi-sub">建议发文前 100% 清理替换</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-title">🟡 AI 腔 &amp; 超长段提醒</div>
+        <div class="kpi-val" style="color:var(--amber);">6 <span style="font-size:14px;color:var(--muted);">/ 长段 0</span></div>
+        <div class="kpi-sub">改口语表达更利于完读率</div>
+      </div>
+    </div>
+
+    <div class="audit-grid">
+      <div class="box">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px;flex-wrap:wrap;">
+          <h3 style="margin:0;">逐条命中清单与自然替换建议</h3>
+          <button class="btn" id="btn-copy-audit" type="button">复制体检清单</button>
+        </div>
+        <div id="audit-findings-list"></div>
+      </div>
+      <div class="box">
+        <h3>原文红黄定位高亮</h3>
+        <div class="annotated-text" id="annotated-text"></div>
+      </div>
+    </div>
+  </section>
+
+  <p class="footer-note">本工作台 100% 纯本地离线运行 · 零联网上传 · 公众号与小红书风控规则会随平台更新调整，发布前请结合账号主体最终核验。</p>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script id="studio-data" type="application/json">{"meta":{"title":"写完文章还要花2小时排版？这套一稿多发本地工作流帮我省下80%时间","author":"林栖内容笔记","kicker":"自媒体提效 · 实操复盘","stats":{"total":959,"cjk":904,"words":55,"readMinutes":3},"defaultTheme":"minimal","defaultCardTheme":"cream"},"wechatThemes":[{"id":"minimal","name":"极简杂志白","tagline":"瑞士编排 · 克制留白","accent":"#c83e2b","html":"\u003csection style=\"max-width:677px;margin:0 auto;padding:22px 18px;background:#ffffff;font-family:-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", \"Helvetica Neue\", Arial, sans-serif;color:#1f2328;box-sizing:border-box;\"\u003e\u003csection style=\"margin:0 0 24px 0;padding:0 0 18px 0;border-bottom:1px solid #e5e7eb;\"\u003e\u003cp style=\"margin:0 0 10px 0;font-size:12px;letter-spacing:1.6px;color:#c83e2b;font-weight:700;\"\u003e自媒体提效 · 实操复盘\u003c/p\u003e\u003ch1 style=\"margin:0 0 12px 0;font-family:-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", sans-serif;font-size:23px;line-height:1.42;font-weight:700;color:#1f2328;letter-spacing:0.3px;\"\u003e写完文章还要花2小时排版？这套一稿多发本地工作流帮我省下80%时间\u003c/h1\u003e\u003cp style=\"margin:0;font-size:13px;line-height:1.6;color:#656d76;\"\u003e林栖内容笔记 · 全文约 959 字 · 预计阅读 3 分钟\u003c/p\u003e\u003c/section\u003e\u003cp style=\"margin:0 0 16px 0;font-size:15.5px;line-height:1.85;letter-spacing:0.4px;color:#1f2328;text-align:justify;word-break:break-word;\"\u003e在当今快速发展的自媒体时代，很多创作者都有同样的崩溃瞬间：花 1 小时写完一篇干货，结果去公众号编辑器调字号行距花了 40 分钟，再打开设计软件一张张拼小红书 3:4 封面和配图又磨掉 1 小时。值得注意的是，真正消耗精力的往往不是写作本身，而是重复搬运和跨端格式错乱。\u003c/p\u003e\u003csection style=\"margin:20px 0;padding:14px 16px;background:#eef8f3;border:1px solid #e5e7eb;border-left:4px solid #1b7a53;border-radius:6px;\"\u003e\u003cp style=\"margin:0 0 8px 0;font-size:13px;font-weight:700;letter-spacing:0.6px;color:#1b7a53;\"\u003e◆ 实操建议\u003c/p\u003e\u003cp style=\"margin:0;font-size:14.5px;line-height:1.78;color:#1f2328;\"\u003e如果你每周至少发 2 篇公众号或小红书，先统一用纯文本 Markdown 写初稿，再把排版、切卡和合规检查全部自动化，单篇平均可以省出 45 到 60 分钟。\u003c/p\u003e\u003c/section\u003e\u003csection style=\"margin:30px 0 14px 0;padding:4px 0 4px 12px;border-left:4px solid #c83e2b;\"\u003e\u003cp style=\"margin:0 0 2px 0;font-size:11px;font-weight:700;letter-spacing:1.4px;color:#c83e2b;\"\u003ePART 01\u003c/p\u003e\u003ch2 style=\"margin:0;font-family:-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", sans-serif;font-size:18px;line-height:1.45;font-weight:700;color:#1f2328;\"\u003e为什么传统编辑器越用越累\u003c/h2\u003e\u003c/section\u003e\u003cp style=\"margin:0 0 16px 0;font-size:15.5px;line-height:1.85;letter-spacing:0.4px;color:#1f2328;text-align:justify;word-break:break-word;\"\u003e不可否认，市面上很多在线排版工具提供了上百套花哨模板，但真正高频日更之后，很快会踩进三个坑：\u003c/p\u003e\u003cul style=\"margin:0 0 18px 0;padding:0 0 0 4px;list-style:none;\"\u003e\u003cli style=\"margin:0 0 8px 0;font-size:15px;line-height:1.8;color:#1f2328;\"\u003e\u003cspan style=\"color:#c83e2b;font-weight:700;margin-right:6px;\"\u003e•\u003c/span\u003e\u003cstrong style=\"font-weight:700;color:#1f2328;\"\u003e样式撞车严重\u003c/strong\u003e：大家都在用同款免费模板，读者划两屏就审美疲劳，很难建立个人视觉辨识度。\u003c/li\u003e\u003cli style=\"margin:0 0 8px 0;font-size:15px;line-height:1.8;color:#1f2328;\"\u003e\u003cspan style=\"color:#c83e2b;font-weight:700;margin-right:6px;\"\u003e•\u003c/span\u003e\u003cstrong style=\"font-weight:700;color:#1f2328;\"\u003e跨端格式翻车\u003c/strong\u003e：从云文档直接复制到公众号后台，代码块丢背景、表格被挤变形、引用块缩进全部乱套。\u003c/li\u003e\u003cli style=\"margin:0 0 8px 0;font-size:15px;line-height:1.8;color:#1f2328;\"\u003e\u003cspan style=\"color:#c83e2b;font-weight:700;margin-right:6px;\"\u003e•\u003c/span\u003e\u003cstrong style=\"font-weight:700;color:#1f2328;\"\u003e发小红书要重做一遍\u003c/strong\u003e：公众号长文发不了小红书，必须重新删字、找字体、导出 PNG，一拖延就干脆停更。\u003c/li\u003e\u003c/ul\u003e\u003cblockquote style=\"margin:18px 0;padding:14px 16px;background:#f8f8f7;border-left:3px solid #c83e2b;border-radius:0 6px 6px 0;\"\u003e\u003cp style=\"margin:0;font-size:14.5px;line-height:1.8;color:#656d76;\"\u003e好的排版从来不是堆砌花哨贴纸，而是让手机屏幕上的读者一眼抓住层次，顺畅读完最后一行。\u003c/p\u003e\u003c/blockquote\u003e\u003csection style=\"margin:30px 0 14px 0;padding:4px 0 4px 12px;border-left:4px solid #c83e2b;\"\u003e\u003cp style=\"margin:0 0 2px 0;font-size:11px;font-weight:700;letter-spacing:1.4px;color:#c83e2b;\"\u003ePART 02\u003c/p\u003e\u003ch2 style=\"margin:0;font-family:-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", sans-serif;font-size:18px;line-height:1.45;font-weight:700;color:#1f2328;\"\u003e实战对照：手工搬运 vs 离线工坊\u003c/h2\u003e\u003c/section\u003e\u003cp style=\"margin:0 0 16px 0;font-size:15.5px;line-height:1.85;letter-spacing:0.4px;color:#1f2328;text-align:justify;word-break:break-word;\"\u003e下面是我连续实测两周后记录的耗时对比，单看每篇省下的时间就很直观：\u003c/p\u003e\u003csection style=\"margin:20px 0;overflow-x:auto;\"\u003e\u003ctable style=\"width:100%;border-collapse:collapse;border-spacing:0;table-layout:auto;\"\u003e\u003cthead\u003e\u003ctr\u003e\u003cth style=\"padding:10px 10px;text-align:left;font-size:13.5px;font-weight:700;color:#1f2328;background:#f8f8f7;border:1px solid #e5e7eb;\"\u003e环节\u003c/th\u003e\u003cth style=\"padding:10px 10px;text-align:left;font-size:13.5px;font-weight:700;color:#1f2328;background:#f8f8f7;border:1px solid #e5e7eb;\"\u003e传统手工流程\u003c/th\u003e\u003cth style=\"padding:10px 10px;text-align:left;font-size:13.5px;font-weight:700;color:#1f2328;background:#f8f8f7;border:1px solid #e5e7eb;\"\u003e本地离线工坊\u003c/th\u003e\u003cth style=\"padding:10px 10px;text-align:center;font-size:13.5px;font-weight:700;color:#1f2328;background:#f8f8f7;border:1px solid #e5e7eb;\"\u003e耗时变化\u003c/th\u003e\u003c/tr\u003e\u003c/thead\u003e\u003ctbody\u003e\u003ctr style=\"background:#ffffff;\"\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#1f2328;border:1px solid #e5e7eb;\"\u003e公众号排版调样式\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#1f2328;border:1px solid #e5e7eb;\"\u003e约 35 分钟\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#1f2328;border:1px solid #e5e7eb;\"\u003e一键编译 + 富文本复制（10秒）\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:center;font-size:13.5px;line-height:1.65;color:#1f2328;border:1px solid #e5e7eb;\"\u003e节省 95%\u003c/td\u003e\u003c/tr\u003e\u003ctr style=\"background:#f8f8f7;\"\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#1f2328;border:1px solid #e5e7eb;\"\u003e小红书 6 张 3:4 图卡\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#1f2328;border:1px solid #e5e7eb;\"\u003e约 50 分钟\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#1f2328;border:1px solid #e5e7eb;\"\u003e自动分页 + 批量导出 PNG（30秒）\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:center;font-size:13.5px;line-height:1.65;color:#1f2328;border:1px solid #e5e7eb;\"\u003e节省 98%\u003c/td\u003e\u003c/tr\u003e\u003ctr style=\"background:#ffffff;\"\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#1f2328;border:1px solid #e5e7eb;\"\u003e违禁词与 AI 腔自查\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#1f2328;border:1px solid #e5e7eb;\"\u003e靠肉眼翻查容易漏\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#1f2328;border:1px solid #e5e7eb;\"\u003e红黄绿逐行标出 + 替换建议\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:center;font-size:13.5px;line-height:1.65;color:#1f2328;border:1px solid #e5e7eb;\"\u003e零漏检\u003c/td\u003e\u003c/tr\u003e\u003c/tbody\u003e\u003c/table\u003e\u003c/section\u003e\u003csection style=\"margin:30px 0 14px 0;padding:4px 0 4px 12px;border-left:4px solid #c83e2b;\"\u003e\u003cp style=\"margin:0 0 2px 0;font-size:11px;font-weight:700;letter-spacing:1.4px;color:#c83e2b;\"\u003ePART 03\u003c/p\u003e\u003ch2 style=\"margin:0;font-family:-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", sans-serif;font-size:18px;line-height:1.45;font-weight:700;color:#1f2328;\"\u003e三步跑通「一稿双发」标准动作\u003c/h2\u003e\u003c/section\u003e\u003col style=\"margin:0 0 18px 0;padding:0 0 0 2px;list-style:none;\"\u003e\u003cli style=\"margin:0 0 9px 0;font-size:15px;line-height:1.8;color:#1f2328;\"\u003e\u003cspan style=\"display:inline-block;min-width:20px;height:20px;line-height:20px;text-align:center;font-size:12px;font-weight:700;color:#ffffff;background:#c83e2b;border-radius:10px;margin-right:8px;\"\u003e1\u003c/span\u003e\u003cstrong style=\"font-weight:700;color:#1f2328;\"\u003e只写结构清晰的 Markdown 初稿\u003c/strong\u003e：用 \u003ccode style=\"font-family:Menlo,Consolas,Monaco,monospace;font-size:13.5px;background:#f8f8f7;color:#c83e2b;padding:2px 6px;border-radius:4px;border:1px solid #e5e7eb;word-break:break-all;\"\u003e##\u003c/code\u003e 分大节，每段控制在 3 到 4 行，核心结论放进引用块或列表里。\u003c/li\u003e\u003cli style=\"margin:0 0 9px 0;font-size:15px;line-height:1.8;color:#1f2328;\"\u003e\u003cspan style=\"display:inline-block;min-width:20px;height:20px;line-height:20px;text-align:center;font-size:12px;font-weight:700;color:#ffffff;background:#c83e2b;border-radius:10px;margin-right:8px;\"\u003e2\u003c/span\u003e\u003cstrong style=\"font-weight:700;color:#1f2328;\"\u003e一键生成本地离线工作台\u003c/strong\u003e：把草稿送进本地脚本，同时拿到极简杂志白、温暖书摘米、商务深蓝灰 3 套公众号 Inline-CSS 主题。\u003c/li\u003e\u003cli style=\"margin:0 0 9px 0;font-size:15px;line-height:1.8;color:#1f2328;\"\u003e\u003cspan style=\"display:inline-block;min-width:20px;height:20px;line-height:20px;text-align:center;font-size:12px;font-weight:700;color:#ffffff;background:#c83e2b;border-radius:10px;margin-right:8px;\"\u003e3\u003c/span\u003e\u003cstrong style=\"font-weight:700;color:#1f2328;\"\u003e先体检再发稿\u003c/strong\u003e：发文前扫一遍广告法极限词和 AI 套话，把容易限流的表达替换成自然人话，再复制正文、导出 1080×1440 无损图卡直接上传。\u003c/li\u003e\u003c/ol\u003e\u003csection style=\"margin:20px 0;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;background:#f6f8fa;\"\u003e\u003csection style=\"padding:7px 12px;background:#eceff3;border-bottom:1px solid #e5e7eb;font-size:11.5px;color:#656d76;font-family:Menlo,Consolas,monospace;\"\u003e\u003cspan style=\"display:inline-block;width:8px;height:8px;border-radius:50%;background:#ef4444;margin-right:5px;\"\u003e\u003c/span\u003e\u003cspan style=\"display:inline-block;width:8px;height:8px;border-radius:50%;background:#f59e0b;margin-right:5px;\"\u003e\u003c/span\u003e\u003cspan style=\"display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;margin-right:10px;\"\u003e\u003c/span\u003eBASH\u003c/section\u003e\u003cpre style=\"margin:0;padding:14px;overflow-x:auto;font-family:Menlo,Consolas,Monaco,monospace;font-size:13px;line-height:1.65;color:#1f2328;white-space:pre;\"\u003e\u003ccode\u003e# 本地单命令直出公众号 HTML + 小红书无损卡片工坊 + 发布文案\nnode scripts/cli.mjs --input \u0026quot;draft.md\u0026quot; --out-dir \u0026quot;./out\u0026quot; --theme minimal\u003c/code\u003e\u003c/pre\u003e\u003c/section\u003e\u003csection style=\"margin:26px 0;text-align:center;\"\u003e\u003cspan style=\"display:inline-block;width:36px;height:2px;background:#e5e7eb;vertical-align:middle;\"\u003e\u003c/span\u003e\u003cspan style=\"display:inline-block;margin:0 10px;font-size:12px;color:#c83e2b;vertical-align:middle;\"\u003e✦\u003c/span\u003e\u003cspan style=\"display:inline-block;width:36px;height:2px;background:#e5e7eb;vertical-align:middle;\"\u003e\u003c/span\u003e\u003c/section\u003e\u003csection style=\"margin:30px 0 14px 0;padding:4px 0 4px 12px;border-left:4px solid #c83e2b;\"\u003e\u003cp style=\"margin:0 0 2px 0;font-size:11px;font-weight:700;letter-spacing:1.4px;color:#c83e2b;\"\u003ePART 04\u003c/p\u003e\u003ch2 style=\"margin:0;font-family:-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", sans-serif;font-size:18px;line-height:1.45;font-weight:700;color:#1f2328;\"\u003e发文前最容易踩雷的表达示范（用于体检演示）\u003c/h2\u003e\u003c/section\u003e\u003cp style=\"margin:0 0 16px 0;font-size:15.5px;line-height:1.85;letter-spacing:0.4px;color:#1f2328;text-align:justify;word-break:break-word;\"\u003e下面这段刻意保留了自媒体新手常犯的高危词和 AI 腔，方便你在工作台「第 3 栏」直观看到红黄体检效果：\u003c/p\u003e\u003cp style=\"margin:0 0 16px 0;font-size:15.5px;line-height:1.85;letter-spacing:0.4px;color:#1f2328;text-align:justify;word-break:break-word;\"\u003e这套方法绝对是全网第一、最好用的顶级神器，100% 零风险帮你赋能内容闭环，甚至有人夸它能实现躺赚暴富。综上所述，想要领取完整模板的同学欢迎直接加V或者私聊发链接，错过真的不买后悔！\u003c/p\u003e\u003csection style=\"margin:20px 0;padding:14px 16px;background:#fef6e7;border:1px solid #e5e7eb;border-left:4px solid #b45309;border-radius:6px;\"\u003e\u003cp style=\"margin:0 0 8px 0;font-size:13px;font-weight:700;letter-spacing:0.6px;color:#b45309;\"\u003e◆ 避坑提醒\u003c/p\u003e\u003cp style=\"margin:0;font-size:14.5px;line-height:1.78;color:#1f2328;\"\u003e以上演示段故意埋入了多处《广告法》极限用语、站外导流违禁词以及高频 AI 套话。正式发布前，请打开工作台第 3 栏按红黄清单逐条改成客观实测细节和合规引导。\u003c/p\u003e\u003c/section\u003e\u003csection style=\"margin:28px 0 0 0;padding:14px 0 0 0;border-top:1px solid #e5e7eb;text-align:center;\"\u003e\u003cp style=\"margin:0;font-size:12.5px;line-height:1.7;color:#656d76;\"\u003e— END · 如果这篇实操笔记对你有帮助，欢迎点赞、在看或转发给需要的朋友 —\u003c/p\u003e\u003c/section\u003e\u003c/section\u003e"},{"id":"warm","name":"温暖书摘米","tagline":"纸书质感 · 叙事专栏","accent":"#b85a35","html":"\u003csection style=\"max-width:677px;margin:0 auto;padding:22px 18px;background:#fffdf9;font-family:\"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", -apple-system, BlinkMacSystemFont, sans-serif;color:#2d2621;box-sizing:border-box;\"\u003e\u003csection style=\"margin:0 0 24px 0;padding:0 0 18px 0;border-bottom:1px solid #e7dccd;\"\u003e\u003cp style=\"margin:0 0 10px 0;font-size:12px;letter-spacing:1.6px;color:#b85a35;font-weight:700;\"\u003e自媒体提效 · 实操复盘\u003c/p\u003e\u003ch1 style=\"margin:0 0 12px 0;font-family:\"Songti SC\", \"STSong\", \"Noto Serif CJK SC\", \"SimSun\", Georgia, serif;font-size:23px;line-height:1.42;font-weight:700;color:#2d2621;letter-spacing:0.3px;\"\u003e写完文章还要花2小时排版？这套一稿多发本地工作流帮我省下80%时间\u003c/h1\u003e\u003cp style=\"margin:0;font-size:13px;line-height:1.6;color:#7a6b5d;\"\u003e林栖内容笔记 · 全文约 959 字 · 预计阅读 3 分钟\u003c/p\u003e\u003c/section\u003e\u003cp style=\"margin:0 0 16px 0;font-size:15.5px;line-height:1.85;letter-spacing:0.4px;color:#2d2621;text-align:justify;word-break:break-word;\"\u003e在当今快速发展的自媒体时代，很多创作者都有同样的崩溃瞬间：花 1 小时写完一篇干货，结果去公众号编辑器调字号行距花了 40 分钟，再打开设计软件一张张拼小红书 3:4 封面和配图又磨掉 1 小时。值得注意的是，真正消耗精力的往往不是写作本身，而是重复搬运和跨端格式错乱。\u003c/p\u003e\u003csection style=\"margin:20px 0;padding:14px 16px;background:#eef8f3;border:1px solid #e7dccd;border-left:4px solid #1b7a53;border-radius:6px;\"\u003e\u003cp style=\"margin:0 0 8px 0;font-size:13px;font-weight:700;letter-spacing:0.6px;color:#1b7a53;\"\u003e◆ 实操建议\u003c/p\u003e\u003cp style=\"margin:0;font-size:14.5px;line-height:1.78;color:#2d2621;\"\u003e如果你每周至少发 2 篇公众号或小红书，先统一用纯文本 Markdown 写初稿，再把排版、切卡和合规检查全部自动化，单篇平均可以省出 45 到 60 分钟。\u003c/p\u003e\u003c/section\u003e\u003csection style=\"margin:30px 0 16px 0;border-bottom:1px solid #e7dccd;padding-bottom:8px;\"\u003e\u003ch2 style=\"margin:0;font-family:\"Songti SC\", \"STSong\", \"Noto Serif CJK SC\", \"SimSun\", Georgia, serif;font-size:18px;line-height:1.45;font-weight:700;color:#2d2621;\"\u003e\u003cspan style=\"color:#b85a35;margin-right:8px;\"\u003e01\u003c/span\u003e为什么传统编辑器越用越累\u003c/h2\u003e\u003c/section\u003e\u003cp style=\"margin:0 0 16px 0;font-size:15.5px;line-height:1.85;letter-spacing:0.4px;color:#2d2621;text-align:justify;word-break:break-word;\"\u003e不可否认，市面上很多在线排版工具提供了上百套花哨模板，但真正高频日更之后，很快会踩进三个坑：\u003c/p\u003e\u003cul style=\"margin:0 0 18px 0;padding:0 0 0 4px;list-style:none;\"\u003e\u003cli style=\"margin:0 0 8px 0;font-size:15px;line-height:1.8;color:#2d2621;\"\u003e\u003cspan style=\"color:#b85a35;font-weight:700;margin-right:6px;\"\u003e•\u003c/span\u003e\u003cstrong style=\"font-weight:700;color:#2d2621;\"\u003e样式撞车严重\u003c/strong\u003e：大家都在用同款免费模板，读者划两屏就审美疲劳，很难建立个人视觉辨识度。\u003c/li\u003e\u003cli style=\"margin:0 0 8px 0;font-size:15px;line-height:1.8;color:#2d2621;\"\u003e\u003cspan style=\"color:#b85a35;font-weight:700;margin-right:6px;\"\u003e•\u003c/span\u003e\u003cstrong style=\"font-weight:700;color:#2d2621;\"\u003e跨端格式翻车\u003c/strong\u003e：从云文档直接复制到公众号后台，代码块丢背景、表格被挤变形、引用块缩进全部乱套。\u003c/li\u003e\u003cli style=\"margin:0 0 8px 0;font-size:15px;line-height:1.8;color:#2d2621;\"\u003e\u003cspan style=\"color:#b85a35;font-weight:700;margin-right:6px;\"\u003e•\u003c/span\u003e\u003cstrong style=\"font-weight:700;color:#2d2621;\"\u003e发小红书要重做一遍\u003c/strong\u003e：公众号长文发不了小红书，必须重新删字、找字体、导出 PNG，一拖延就干脆停更。\u003c/li\u003e\u003c/ul\u003e\u003cblockquote style=\"margin:18px 0;padding:14px 16px;background:#f7f1e7;border-left:3px solid #b85a35;border-radius:0 6px 6px 0;\"\u003e\u003cp style=\"margin:0;font-size:14.5px;line-height:1.8;color:#7a6b5d;\"\u003e好的排版从来不是堆砌花哨贴纸，而是让手机屏幕上的读者一眼抓住层次，顺畅读完最后一行。\u003c/p\u003e\u003c/blockquote\u003e\u003csection style=\"margin:30px 0 16px 0;border-bottom:1px solid #e7dccd;padding-bottom:8px;\"\u003e\u003ch2 style=\"margin:0;font-family:\"Songti SC\", \"STSong\", \"Noto Serif CJK SC\", \"SimSun\", Georgia, serif;font-size:18px;line-height:1.45;font-weight:700;color:#2d2621;\"\u003e\u003cspan style=\"color:#b85a35;margin-right:8px;\"\u003e02\u003c/span\u003e实战对照：手工搬运 vs 离线工坊\u003c/h2\u003e\u003c/section\u003e\u003cp style=\"margin:0 0 16px 0;font-size:15.5px;line-height:1.85;letter-spacing:0.4px;color:#2d2621;text-align:justify;word-break:break-word;\"\u003e下面是我连续实测两周后记录的耗时对比，单看每篇省下的时间就很直观：\u003c/p\u003e\u003csection style=\"margin:20px 0;overflow-x:auto;\"\u003e\u003ctable style=\"width:100%;border-collapse:collapse;border-spacing:0;table-layout:auto;\"\u003e\u003cthead\u003e\u003ctr\u003e\u003cth style=\"padding:10px 10px;text-align:left;font-size:13.5px;font-weight:700;color:#2d2621;background:#f7f1e7;border:1px solid #e7dccd;\"\u003e环节\u003c/th\u003e\u003cth style=\"padding:10px 10px;text-align:left;font-size:13.5px;font-weight:700;color:#2d2621;background:#f7f1e7;border:1px solid #e7dccd;\"\u003e传统手工流程\u003c/th\u003e\u003cth style=\"padding:10px 10px;text-align:left;font-size:13.5px;font-weight:700;color:#2d2621;background:#f7f1e7;border:1px solid #e7dccd;\"\u003e本地离线工坊\u003c/th\u003e\u003cth style=\"padding:10px 10px;text-align:center;font-size:13.5px;font-weight:700;color:#2d2621;background:#f7f1e7;border:1px solid #e7dccd;\"\u003e耗时变化\u003c/th\u003e\u003c/tr\u003e\u003c/thead\u003e\u003ctbody\u003e\u003ctr style=\"background:#fffdf9;\"\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#2d2621;border:1px solid #e7dccd;\"\u003e公众号排版调样式\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#2d2621;border:1px solid #e7dccd;\"\u003e约 35 分钟\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#2d2621;border:1px solid #e7dccd;\"\u003e一键编译 + 富文本复制（10秒）\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:center;font-size:13.5px;line-height:1.65;color:#2d2621;border:1px solid #e7dccd;\"\u003e节省 95%\u003c/td\u003e\u003c/tr\u003e\u003ctr style=\"background:#f7f1e7;\"\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#2d2621;border:1px solid #e7dccd;\"\u003e小红书 6 张 3:4 图卡\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#2d2621;border:1px solid #e7dccd;\"\u003e约 50 分钟\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#2d2621;border:1px solid #e7dccd;\"\u003e自动分页 + 批量导出 PNG（30秒）\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:center;font-size:13.5px;line-height:1.65;color:#2d2621;border:1px solid #e7dccd;\"\u003e节省 98%\u003c/td\u003e\u003c/tr\u003e\u003ctr style=\"background:#fffdf9;\"\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#2d2621;border:1px solid #e7dccd;\"\u003e违禁词与 AI 腔自查\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#2d2621;border:1px solid #e7dccd;\"\u003e靠肉眼翻查容易漏\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#2d2621;border:1px solid #e7dccd;\"\u003e红黄绿逐行标出 + 替换建议\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:center;font-size:13.5px;line-height:1.65;color:#2d2621;border:1px solid #e7dccd;\"\u003e零漏检\u003c/td\u003e\u003c/tr\u003e\u003c/tbody\u003e\u003c/table\u003e\u003c/section\u003e\u003csection style=\"margin:30px 0 16px 0;border-bottom:1px solid #e7dccd;padding-bottom:8px;\"\u003e\u003ch2 style=\"margin:0;font-family:\"Songti SC\", \"STSong\", \"Noto Serif CJK SC\", \"SimSun\", Georgia, serif;font-size:18px;line-height:1.45;font-weight:700;color:#2d2621;\"\u003e\u003cspan style=\"color:#b85a35;margin-right:8px;\"\u003e03\u003c/span\u003e三步跑通「一稿双发」标准动作\u003c/h2\u003e\u003c/section\u003e\u003col style=\"margin:0 0 18px 0;padding:0 0 0 2px;list-style:none;\"\u003e\u003cli style=\"margin:0 0 9px 0;font-size:15px;line-height:1.8;color:#2d2621;\"\u003e\u003cspan style=\"display:inline-block;min-width:20px;height:20px;line-height:20px;text-align:center;font-size:12px;font-weight:700;color:#ffffff;background:#b85a35;border-radius:10px;margin-right:8px;\"\u003e1\u003c/span\u003e\u003cstrong style=\"font-weight:700;color:#2d2621;\"\u003e只写结构清晰的 Markdown 初稿\u003c/strong\u003e：用 \u003ccode style=\"font-family:Menlo,Consolas,Monaco,monospace;font-size:13.5px;background:#f7f1e7;color:#b85a35;padding:2px 6px;border-radius:4px;border:1px solid #e7dccd;word-break:break-all;\"\u003e##\u003c/code\u003e 分大节，每段控制在 3 到 4 行，核心结论放进引用块或列表里。\u003c/li\u003e\u003cli style=\"margin:0 0 9px 0;font-size:15px;line-height:1.8;color:#2d2621;\"\u003e\u003cspan style=\"display:inline-block;min-width:20px;height:20px;line-height:20px;text-align:center;font-size:12px;font-weight:700;color:#ffffff;background:#b85a35;border-radius:10px;margin-right:8px;\"\u003e2\u003c/span\u003e\u003cstrong style=\"font-weight:700;color:#2d2621;\"\u003e一键生成本地离线工作台\u003c/strong\u003e：把草稿送进本地脚本，同时拿到极简杂志白、温暖书摘米、商务深蓝灰 3 套公众号 Inline-CSS 主题。\u003c/li\u003e\u003cli style=\"margin:0 0 9px 0;font-size:15px;line-height:1.8;color:#2d2621;\"\u003e\u003cspan style=\"display:inline-block;min-width:20px;height:20px;line-height:20px;text-align:center;font-size:12px;font-weight:700;color:#ffffff;background:#b85a35;border-radius:10px;margin-right:8px;\"\u003e3\u003c/span\u003e\u003cstrong style=\"font-weight:700;color:#2d2621;\"\u003e先体检再发稿\u003c/strong\u003e：发文前扫一遍广告法极限词和 AI 套话，把容易限流的表达替换成自然人话，再复制正文、导出 1080×1440 无损图卡直接上传。\u003c/li\u003e\u003c/ol\u003e\u003csection style=\"margin:20px 0;border:1px solid #e7dccd;border-radius:8px;overflow:hidden;background:#f6efe5;\"\u003e\u003csection style=\"padding:7px 12px;background:#ebe1d2;border-bottom:1px solid #e7dccd;font-size:11.5px;color:#7a6b5d;font-family:Menlo,Consolas,monospace;\"\u003e\u003cspan style=\"display:inline-block;width:8px;height:8px;border-radius:50%;background:#ef4444;margin-right:5px;\"\u003e\u003c/span\u003e\u003cspan style=\"display:inline-block;width:8px;height:8px;border-radius:50%;background:#f59e0b;margin-right:5px;\"\u003e\u003c/span\u003e\u003cspan style=\"display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;margin-right:10px;\"\u003e\u003c/span\u003eBASH\u003c/section\u003e\u003cpre style=\"margin:0;padding:14px;overflow-x:auto;font-family:Menlo,Consolas,Monaco,monospace;font-size:13px;line-height:1.65;color:#3b2f26;white-space:pre;\"\u003e\u003ccode\u003e# 本地单命令直出公众号 HTML + 小红书无损卡片工坊 + 发布文案\nnode scripts/cli.mjs --input \u0026quot;draft.md\u0026quot; --out-dir \u0026quot;./out\u0026quot; --theme minimal\u003c/code\u003e\u003c/pre\u003e\u003c/section\u003e\u003csection style=\"margin:26px 0;text-align:center;\"\u003e\u003cspan style=\"display:inline-block;width:36px;height:2px;background:#e7dccd;vertical-align:middle;\"\u003e\u003c/span\u003e\u003cspan style=\"display:inline-block;margin:0 10px;font-size:12px;color:#b85a35;vertical-align:middle;\"\u003e✦\u003c/span\u003e\u003cspan style=\"display:inline-block;width:36px;height:2px;background:#e7dccd;vertical-align:middle;\"\u003e\u003c/span\u003e\u003c/section\u003e\u003csection style=\"margin:30px 0 16px 0;border-bottom:1px solid #e7dccd;padding-bottom:8px;\"\u003e\u003ch2 style=\"margin:0;font-family:\"Songti SC\", \"STSong\", \"Noto Serif CJK SC\", \"SimSun\", Georgia, serif;font-size:18px;line-height:1.45;font-weight:700;color:#2d2621;\"\u003e\u003cspan style=\"color:#b85a35;margin-right:8px;\"\u003e04\u003c/span\u003e发文前最容易踩雷的表达示范（用于体检演示）\u003c/h2\u003e\u003c/section\u003e\u003cp style=\"margin:0 0 16px 0;font-size:15.5px;line-height:1.85;letter-spacing:0.4px;color:#2d2621;text-align:justify;word-break:break-word;\"\u003e下面这段刻意保留了自媒体新手常犯的高危词和 AI 腔，方便你在工作台「第 3 栏」直观看到红黄体检效果：\u003c/p\u003e\u003cp style=\"margin:0 0 16px 0;font-size:15.5px;line-height:1.85;letter-spacing:0.4px;color:#2d2621;text-align:justify;word-break:break-word;\"\u003e这套方法绝对是全网第一、最好用的顶级神器，100% 零风险帮你赋能内容闭环，甚至有人夸它能实现躺赚暴富。综上所述，想要领取完整模板的同学欢迎直接加V或者私聊发链接，错过真的不买后悔！\u003c/p\u003e\u003csection style=\"margin:20px 0;padding:14px 16px;background:#fef6e7;border:1px solid #e7dccd;border-left:4px solid #b45309;border-radius:6px;\"\u003e\u003cp style=\"margin:0 0 8px 0;font-size:13px;font-weight:700;letter-spacing:0.6px;color:#b45309;\"\u003e◆ 避坑提醒\u003c/p\u003e\u003cp style=\"margin:0;font-size:14.5px;line-height:1.78;color:#2d2621;\"\u003e以上演示段故意埋入了多处《广告法》极限用语、站外导流违禁词以及高频 AI 套话。正式发布前，请打开工作台第 3 栏按红黄清单逐条改成客观实测细节和合规引导。\u003c/p\u003e\u003c/section\u003e\u003csection style=\"margin:28px 0 0 0;padding:14px 0 0 0;border-top:1px solid #e7dccd;text-align:center;\"\u003e\u003cp style=\"margin:0;font-size:12.5px;line-height:1.7;color:#7a6b5d;\"\u003e— END · 如果这篇实操笔记对你有帮助，欢迎点赞、在看或转发给需要的朋友 —\u003c/p\u003e\u003c/section\u003e\u003c/section\u003e"},{"id":"business","name":"商务深蓝灰","tagline":"研报结构 · 专业清晰","accent":"#1a569b","html":"\u003csection style=\"max-width:677px;margin:0 auto;padding:22px 18px;background:#ffffff;font-family:-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", \"Helvetica Neue\", Arial, sans-serif;color:#162436;box-sizing:border-box;\"\u003e\u003csection style=\"margin:0 0 24px 0;padding:0 0 18px 0;border-bottom:1px solid #d6e0eb;\"\u003e\u003cp style=\"margin:0 0 10px 0;font-size:12px;letter-spacing:1.6px;color:#1a569b;font-weight:700;\"\u003e自媒体提效 · 实操复盘\u003c/p\u003e\u003ch1 style=\"margin:0 0 12px 0;font-family:-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", sans-serif;font-size:23px;line-height:1.42;font-weight:700;color:#162436;letter-spacing:0.3px;\"\u003e写完文章还要花2小时排版？这套一稿多发本地工作流帮我省下80%时间\u003c/h1\u003e\u003cp style=\"margin:0;font-size:13px;line-height:1.6;color:#526478;\"\u003e林栖内容笔记 · 全文约 959 字 · 预计阅读 3 分钟\u003c/p\u003e\u003c/section\u003e\u003cp style=\"margin:0 0 16px 0;font-size:15.5px;line-height:1.85;letter-spacing:0.4px;color:#162436;text-align:justify;word-break:break-word;\"\u003e在当今快速发展的自媒体时代，很多创作者都有同样的崩溃瞬间：花 1 小时写完一篇干货，结果去公众号编辑器调字号行距花了 40 分钟，再打开设计软件一张张拼小红书 3:4 封面和配图又磨掉 1 小时。值得注意的是，真正消耗精力的往往不是写作本身，而是重复搬运和跨端格式错乱。\u003c/p\u003e\u003csection style=\"margin:20px 0;padding:14px 16px;background:#eef8f3;border:1px solid #d6e0eb;border-left:4px solid #1b7a53;border-radius:6px;\"\u003e\u003cp style=\"margin:0 0 8px 0;font-size:13px;font-weight:700;letter-spacing:0.6px;color:#1b7a53;\"\u003e◆ 实操建议\u003c/p\u003e\u003cp style=\"margin:0;font-size:14.5px;line-height:1.78;color:#162436;\"\u003e如果你每周至少发 2 篇公众号或小红书，先统一用纯文本 Markdown 写初稿，再把排版、切卡和合规检查全部自动化，单篇平均可以省出 45 到 60 分钟。\u003c/p\u003e\u003c/section\u003e\u003csection style=\"margin:30px 0 14px 0;padding:10px 14px;background:#f3f6fa;border-radius:6px;border-left:4px solid #1a569b;\"\u003e\u003ch2 style=\"margin:0;font-family:-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", sans-serif;font-size:17.5px;line-height:1.45;font-weight:700;color:#162436;\"\u003e\u003cspan style=\"display:inline-block;background:#1a569b;color:#ffffff;font-size:12px;padding:1px 7px;border-radius:3px;margin-right:8px;vertical-align:middle;\"\u003e01\u003c/span\u003e\u003cspan style=\"vertical-align:middle;\"\u003e为什么传统编辑器越用越累\u003c/span\u003e\u003c/h2\u003e\u003c/section\u003e\u003cp style=\"margin:0 0 16px 0;font-size:15.5px;line-height:1.85;letter-spacing:0.4px;color:#162436;text-align:justify;word-break:break-word;\"\u003e不可否认，市面上很多在线排版工具提供了上百套花哨模板，但真正高频日更之后，很快会踩进三个坑：\u003c/p\u003e\u003cul style=\"margin:0 0 18px 0;padding:0 0 0 4px;list-style:none;\"\u003e\u003cli style=\"margin:0 0 8px 0;font-size:15px;line-height:1.8;color:#162436;\"\u003e\u003cspan style=\"color:#1a569b;font-weight:700;margin-right:6px;\"\u003e•\u003c/span\u003e\u003cstrong style=\"font-weight:700;color:#162436;\"\u003e样式撞车严重\u003c/strong\u003e：大家都在用同款免费模板，读者划两屏就审美疲劳，很难建立个人视觉辨识度。\u003c/li\u003e\u003cli style=\"margin:0 0 8px 0;font-size:15px;line-height:1.8;color:#162436;\"\u003e\u003cspan style=\"color:#1a569b;font-weight:700;margin-right:6px;\"\u003e•\u003c/span\u003e\u003cstrong style=\"font-weight:700;color:#162436;\"\u003e跨端格式翻车\u003c/strong\u003e：从云文档直接复制到公众号后台，代码块丢背景、表格被挤变形、引用块缩进全部乱套。\u003c/li\u003e\u003cli style=\"margin:0 0 8px 0;font-size:15px;line-height:1.8;color:#162436;\"\u003e\u003cspan style=\"color:#1a569b;font-weight:700;margin-right:6px;\"\u003e•\u003c/span\u003e\u003cstrong style=\"font-weight:700;color:#162436;\"\u003e发小红书要重做一遍\u003c/strong\u003e：公众号长文发不了小红书，必须重新删字、找字体、导出 PNG，一拖延就干脆停更。\u003c/li\u003e\u003c/ul\u003e\u003cblockquote style=\"margin:18px 0;padding:14px 16px;background:#f3f6fa;border-left:3px solid #1a569b;border-radius:0 6px 6px 0;\"\u003e\u003cp style=\"margin:0;font-size:14.5px;line-height:1.8;color:#526478;\"\u003e好的排版从来不是堆砌花哨贴纸，而是让手机屏幕上的读者一眼抓住层次，顺畅读完最后一行。\u003c/p\u003e\u003c/blockquote\u003e\u003csection style=\"margin:30px 0 14px 0;padding:10px 14px;background:#f3f6fa;border-radius:6px;border-left:4px solid #1a569b;\"\u003e\u003ch2 style=\"margin:0;font-family:-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", sans-serif;font-size:17.5px;line-height:1.45;font-weight:700;color:#162436;\"\u003e\u003cspan style=\"display:inline-block;background:#1a569b;color:#ffffff;font-size:12px;padding:1px 7px;border-radius:3px;margin-right:8px;vertical-align:middle;\"\u003e02\u003c/span\u003e\u003cspan style=\"vertical-align:middle;\"\u003e实战对照：手工搬运 vs 离线工坊\u003c/span\u003e\u003c/h2\u003e\u003c/section\u003e\u003cp style=\"margin:0 0 16px 0;font-size:15.5px;line-height:1.85;letter-spacing:0.4px;color:#162436;text-align:justify;word-break:break-word;\"\u003e下面是我连续实测两周后记录的耗时对比，单看每篇省下的时间就很直观：\u003c/p\u003e\u003csection style=\"margin:20px 0;overflow-x:auto;\"\u003e\u003ctable style=\"width:100%;border-collapse:collapse;border-spacing:0;table-layout:auto;\"\u003e\u003cthead\u003e\u003ctr\u003e\u003cth style=\"padding:10px 10px;text-align:left;font-size:13.5px;font-weight:700;color:#162436;background:#f3f6fa;border:1px solid #d6e0eb;\"\u003e环节\u003c/th\u003e\u003cth style=\"padding:10px 10px;text-align:left;font-size:13.5px;font-weight:700;color:#162436;background:#f3f6fa;border:1px solid #d6e0eb;\"\u003e传统手工流程\u003c/th\u003e\u003cth style=\"padding:10px 10px;text-align:left;font-size:13.5px;font-weight:700;color:#162436;background:#f3f6fa;border:1px solid #d6e0eb;\"\u003e本地离线工坊\u003c/th\u003e\u003cth style=\"padding:10px 10px;text-align:center;font-size:13.5px;font-weight:700;color:#162436;background:#f3f6fa;border:1px solid #d6e0eb;\"\u003e耗时变化\u003c/th\u003e\u003c/tr\u003e\u003c/thead\u003e\u003ctbody\u003e\u003ctr style=\"background:#ffffff;\"\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#162436;border:1px solid #d6e0eb;\"\u003e公众号排版调样式\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#162436;border:1px solid #d6e0eb;\"\u003e约 35 分钟\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#162436;border:1px solid #d6e0eb;\"\u003e一键编译 + 富文本复制（10秒）\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:center;font-size:13.5px;line-height:1.65;color:#162436;border:1px solid #d6e0eb;\"\u003e节省 95%\u003c/td\u003e\u003c/tr\u003e\u003ctr style=\"background:#f3f6fa;\"\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#162436;border:1px solid #d6e0eb;\"\u003e小红书 6 张 3:4 图卡\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#162436;border:1px solid #d6e0eb;\"\u003e约 50 分钟\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#162436;border:1px solid #d6e0eb;\"\u003e自动分页 + 批量导出 PNG（30秒）\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:center;font-size:13.5px;line-height:1.65;color:#162436;border:1px solid #d6e0eb;\"\u003e节省 98%\u003c/td\u003e\u003c/tr\u003e\u003ctr style=\"background:#ffffff;\"\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#162436;border:1px solid #d6e0eb;\"\u003e违禁词与 AI 腔自查\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#162436;border:1px solid #d6e0eb;\"\u003e靠肉眼翻查容易漏\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:left;font-size:13.5px;line-height:1.65;color:#162436;border:1px solid #d6e0eb;\"\u003e红黄绿逐行标出 + 替换建议\u003c/td\u003e\u003ctd style=\"padding:9px 10px;text-align:center;font-size:13.5px;line-height:1.65;color:#162436;border:1px solid #d6e0eb;\"\u003e零漏检\u003c/td\u003e\u003c/tr\u003e\u003c/tbody\u003e\u003c/table\u003e\u003c/section\u003e\u003csection style=\"margin:30px 0 14px 0;padding:10px 14px;background:#f3f6fa;border-radius:6px;border-left:4px solid #1a569b;\"\u003e\u003ch2 style=\"margin:0;font-family:-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", sans-serif;font-size:17.5px;line-height:1.45;font-weight:700;color:#162436;\"\u003e\u003cspan style=\"display:inline-block;background:#1a569b;color:#ffffff;font-size:12px;padding:1px 7px;border-radius:3px;margin-right:8px;vertical-align:middle;\"\u003e03\u003c/span\u003e\u003cspan style=\"vertical-align:middle;\"\u003e三步跑通「一稿双发」标准动作\u003c/span\u003e\u003c/h2\u003e\u003c/section\u003e\u003col style=\"margin:0 0 18px 0;padding:0 0 0 2px;list-style:none;\"\u003e\u003cli style=\"margin:0 0 9px 0;font-size:15px;line-height:1.8;color:#162436;\"\u003e\u003cspan style=\"display:inline-block;min-width:20px;height:20px;line-height:20px;text-align:center;font-size:12px;font-weight:700;color:#ffffff;background:#1a569b;border-radius:10px;margin-right:8px;\"\u003e1\u003c/span\u003e\u003cstrong style=\"font-weight:700;color:#162436;\"\u003e只写结构清晰的 Markdown 初稿\u003c/strong\u003e：用 \u003ccode style=\"font-family:Menlo,Consolas,Monaco,monospace;font-size:13.5px;background:#f3f6fa;color:#1a569b;padding:2px 6px;border-radius:4px;border:1px solid #d6e0eb;word-break:break-all;\"\u003e##\u003c/code\u003e 分大节，每段控制在 3 到 4 行，核心结论放进引用块或列表里。\u003c/li\u003e\u003cli style=\"margin:0 0 9px 0;font-size:15px;line-height:1.8;color:#162436;\"\u003e\u003cspan style=\"display:inline-block;min-width:20px;height:20px;line-height:20px;text-align:center;font-size:12px;font-weight:700;color:#ffffff;background:#1a569b;border-radius:10px;margin-right:8px;\"\u003e2\u003c/span\u003e\u003cstrong style=\"font-weight:700;color:#162436;\"\u003e一键生成本地离线工作台\u003c/strong\u003e：把草稿送进本地脚本，同时拿到极简杂志白、温暖书摘米、商务深蓝灰 3 套公众号 Inline-CSS 主题。\u003c/li\u003e\u003cli style=\"margin:0 0 9px 0;font-size:15px;line-height:1.8;color:#162436;\"\u003e\u003cspan style=\"display:inline-block;min-width:20px;height:20px;line-height:20px;text-align:center;font-size:12px;font-weight:700;color:#ffffff;background:#1a569b;border-radius:10px;margin-right:8px;\"\u003e3\u003c/span\u003e\u003cstrong style=\"font-weight:700;color:#162436;\"\u003e先体检再发稿\u003c/strong\u003e：发文前扫一遍广告法极限词和 AI 套话，把容易限流的表达替换成自然人话，再复制正文、导出 1080×1440 无损图卡直接上传。\u003c/li\u003e\u003c/ol\u003e\u003csection style=\"margin:20px 0;border:1px solid #d6e0eb;border-radius:8px;overflow:hidden;background:#f1f5f9;\"\u003e\u003csection style=\"padding:7px 12px;background:#e2e8f0;border-bottom:1px solid #d6e0eb;font-size:11.5px;color:#526478;font-family:Menlo,Consolas,monospace;\"\u003e\u003cspan style=\"display:inline-block;width:8px;height:8px;border-radius:50%;background:#ef4444;margin-right:5px;\"\u003e\u003c/span\u003e\u003cspan style=\"display:inline-block;width:8px;height:8px;border-radius:50%;background:#f59e0b;margin-right:5px;\"\u003e\u003c/span\u003e\u003cspan style=\"display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;margin-right:10px;\"\u003e\u003c/span\u003eBASH\u003c/section\u003e\u003cpre style=\"margin:0;padding:14px;overflow-x:auto;font-family:Menlo,Consolas,Monaco,monospace;font-size:13px;line-height:1.65;color:#0f172a;white-space:pre;\"\u003e\u003ccode\u003e# 本地单命令直出公众号 HTML + 小红书无损卡片工坊 + 发布文案\nnode scripts/cli.mjs --input \u0026quot;draft.md\u0026quot; --out-dir \u0026quot;./out\u0026quot; --theme minimal\u003c/code\u003e\u003c/pre\u003e\u003c/section\u003e\u003csection style=\"margin:26px 0;text-align:center;\"\u003e\u003cspan style=\"display:inline-block;width:36px;height:2px;background:#d6e0eb;vertical-align:middle;\"\u003e\u003c/span\u003e\u003cspan style=\"display:inline-block;margin:0 10px;font-size:12px;color:#1a569b;vertical-align:middle;\"\u003e✦\u003c/span\u003e\u003cspan style=\"display:inline-block;width:36px;height:2px;background:#d6e0eb;vertical-align:middle;\"\u003e\u003c/span\u003e\u003c/section\u003e\u003csection style=\"margin:30px 0 14px 0;padding:10px 14px;background:#f3f6fa;border-radius:6px;border-left:4px solid #1a569b;\"\u003e\u003ch2 style=\"margin:0;font-family:-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", sans-serif;font-size:17.5px;line-height:1.45;font-weight:700;color:#162436;\"\u003e\u003cspan style=\"display:inline-block;background:#1a569b;color:#ffffff;font-size:12px;padding:1px 7px;border-radius:3px;margin-right:8px;vertical-align:middle;\"\u003e04\u003c/span\u003e\u003cspan style=\"vertical-align:middle;\"\u003e发文前最容易踩雷的表达示范（用于体检演示）\u003c/span\u003e\u003c/h2\u003e\u003c/section\u003e\u003cp style=\"margin:0 0 16px 0;font-size:15.5px;line-height:1.85;letter-spacing:0.4px;color:#162436;text-align:justify;word-break:break-word;\"\u003e下面这段刻意保留了自媒体新手常犯的高危词和 AI 腔，方便你在工作台「第 3 栏」直观看到红黄体检效果：\u003c/p\u003e\u003cp style=\"margin:0 0 16px 0;font-size:15.5px;line-height:1.85;letter-spacing:0.4px;color:#162436;text-align:justify;word-break:break-word;\"\u003e这套方法绝对是全网第一、最好用的顶级神器，100% 零风险帮你赋能内容闭环，甚至有人夸它能实现躺赚暴富。综上所述，想要领取完整模板的同学欢迎直接加V或者私聊发链接，错过真的不买后悔！\u003c/p\u003e\u003csection style=\"margin:20px 0;padding:14px 16px;background:#fef6e7;border:1px solid #d6e0eb;border-left:4px solid #b45309;border-radius:6px;\"\u003e\u003cp style=\"margin:0 0 8px 0;font-size:13px;font-weight:700;letter-spacing:0.6px;color:#b45309;\"\u003e◆ 避坑提醒\u003c/p\u003e\u003cp style=\"margin:0;font-size:14.5px;line-height:1.78;color:#162436;\"\u003e以上演示段故意埋入了多处《广告法》极限用语、站外导流违禁词以及高频 AI 套话。正式发布前，请打开工作台第 3 栏按红黄清单逐条改成客观实测细节和合规引导。\u003c/p\u003e\u003c/section\u003e\u003csection style=\"margin:28px 0 0 0;padding:14px 0 0 0;border-top:1px solid #d6e0eb;text-align:center;\"\u003e\u003cp style=\"margin:0;font-size:12.5px;line-height:1.7;color:#526478;\"\u003e— END · 如果这篇实操笔记对你有帮助，欢迎点赞、在看或转发给需要的朋友 —\u003c/p\u003e\u003c/section\u003e\u003c/section\u003e"}],"xhsCards":[{"type":"cover","kicker":"自媒体提效 · 实操复盘","title":"写完文章还要花2小时排版？这套一稿多发本地工作流帮我省下80%时间","subtitle":"一篇 Markdown 同时直出公众号 Inline-CSS 排版、小红书 3:4 无损图文卡片和发布前违…","teasers":["为什么传统编辑器越用越累","实战对照：手工搬运 vs 离线工坊","三步跑通「一稿双发」标准动作","发文前最容易踩雷的表达示范（用于体检演示）"],"author":"林栖内容笔记","page":1,"total":8},{"type":"content","sectionNo":1,"heading":"核心痛点与结论","items":[{"kind":"para","text":"在当今快速发展的自媒体时代，很多创作者都有同样的崩溃瞬间：花 1 小时写完一篇干货，结果去公众号编辑器调字号行距花了 40 分钟，再打开设计软件一张张拼小红书 3:4 封面和配图又磨掉 1 小时。值得注意的是，真正消耗精力的往往不是写作本…"},{"kind":"quote","text":"如果你每周至少发 2 篇公众号或小红书，先统一用纯文本 Markdown 写初稿，再把排版、切卡和合规检查全部自动化，单篇平均可以省出 45 到 60 分钟。"}],"page":2,"total":8},{"type":"content","sectionNo":2,"heading":"为什么传统编辑器越用越累","items":[{"kind":"para","text":"不可否认，市面上很多在线排版工具提供了上百套花哨模板，但真正高频日更之后，很快会踩进三个坑："},{"kind":"bullet","text":"样式撞车严重：大家都在用同款免费模板，读者划两屏就审美疲劳，很难建立个人视觉辨识度。"},{"kind":"bullet","text":"跨端格式翻车：从云文档直接复制到公众号后台，代码块丢背景、表格被挤变形、引用块缩进全部乱套。"},{"kind":"bullet","text":"发小红书要重做一遍：公众号长文发不了小红书，必须重新删字、找字体、导出 PNG，一拖延就干脆停更。"}],"page":3,"total":8},{"type":"content","sectionNo":3,"heading":"为什么传统编辑器越用越累（续）","items":[{"kind":"quote","text":"好的排版从来不是堆砌花哨贴纸，而是让手机屏幕上的读者一眼抓住层次，顺畅读完最后一行。"}],"page":4,"total":8},{"type":"content","sectionNo":4,"heading":"实战对照：手工搬运 vs 离线工坊","items":[{"kind":"para","text":"下面是我连续实测两周后记录的耗时对比，单看每篇省下的时间就很直观："},{"kind":"bullet","text":"环节: 公众号排版调样式 ｜ 传统手工流程: 约 35 分钟 ｜ 本地离线工坊: 一键编译 + 富文本复制（10秒）"},{"kind":"bullet","text":"环节: 小红书 6 张 3:4 图卡 ｜ 传统手工流程: 约 50 分钟 ｜ 本地离线工坊: 自动分页 + 批量导出 PNG（30秒）"},{"kind":"bullet","text":"环节: 违禁词与 AI 腔自查 ｜ 传统手工流程: 靠肉眼翻查容易漏 ｜ 本地离线工坊: 红黄绿逐行标出 + 替换建议"}],"page":5,"total":8},{"type":"content","sectionNo":5,"heading":"三步跑通「一稿双发」标准动作","items":[{"kind":"bullet","text":"只写结构清晰的 Markdown 初稿：用 ## 分大节，每段控制在 3 到 4 行，核心结论放进引用块或列表里。"},{"kind":"bullet","text":"一键生成本地离线工作台：把草稿送进本地脚本，同时拿到极简杂志白、温暖书摘米、商务深蓝灰 3 套公众号 Inline-CSS 主题。"},{"kind":"bullet","text":"先体检再发稿：发文前扫一遍广告法极限词和 AI 套话，把容易限流的表达替换成自然人话，再复制正文、导出 1080×1440 无损图卡直接上传。"}],"page":6,"total":8},{"type":"content","sectionNo":6,"heading":"三步跑通「一稿双发」标准动作（续）","items":[{"kind":"code","text":"# 本地单命令直出公众号 HTML + 小红书无损卡片工坊 + 发布文案\nnode scripts/cli.mjs --input \"draft.md\" --out-dir \"./out\" --theme minimal"}],"page":7,"total":8},{"type":"summary","heading":"一页复盘 · 行动清单","points":["1. 为什么传统编辑器越用越累","2. 实战对照：手工搬运 vs 离线工坊","3. 三步跑通「一稿双发」标准动作","4. 发文前最容易踩雷的表达示范（用于体检演示）"],"cta":"觉得有用欢迎点赞收藏，评论区交流你的实操经验","complianceNote":"体检提示：原文检出 11 处高危词，发文前请按体检表替换","author":"林栖内容笔记","page":8,"total":8}],"xhsCopy":{"titleVariants":[{"style":"痛点反差型","title":"别再踩坑！一稿多发本地工作流复盘"},{"style":"数字干货型","title":"8张图讲透：一稿多发本地工作流"},{"style":"效率共鸣型","title":"亲测省心！一稿多发本地工作流清单"}],"bodyText":"整理了一份可以直接照抄落地的「写完文章还要花2小时排版？这套一稿多发本地…」图文卡片，建议先收藏慢慢看 👇\n\n📌 这组卡片里你直接能抄走的重点：\n1️⃣ 核心痛点与结论：在当今快速发展的自媒体时代，很多创作者都有同样的崩溃瞬间：花 1 小时写完…\n2️⃣ 为什么传统编辑器越用越累：不可否认，市面上很多在线排版工具提供了上百套花哨模板，但真正高频日更之后，…\n3️⃣ 实战对照：手工搬运 vs 离线工坊：下面是我连续实测两周后记录的耗时对比，单看每篇省下的时间就很直观：\n4️⃣ 三步跑通「一稿双发」标准动作：只写结构清晰的 Markdown 初稿：用 ## 分大节，每段控制在 3 …\n\n💡 建议搭配卡片最后一页的行动清单逐条核对，少走弯路。\n你平时做这一步最卡哪个环节？评论区聊聊，大家一起避坑～\n\n#公众号排版 #小红书运营 #内容创作 #自媒体运营 #干货分享 #效率工具 #个人成长","hashtags":["#公众号排版","#小红书运营","#内容创作","#自媒体运营","#干货分享","#效率工具","#个人成长"]},"audit":{"healthScore":27,"aiScore":66,"highCount":11,"mediumCount":6,"longParagraphs":[],"grade":{"level":"red","label":"红灯存在违禁/限流词，请先替换"},"findings":[{"severity":"medium","severityLabel":"AI 腔/黑话提醒","word":"值得注意的是","category":"AI 连接套话","reason":"高频 AI 过渡语，信息密度为零，读者一眼看出机器生成","suggestion":"直接删掉，把后面的核心事实放到句首","line":3,"context":"和配图又磨掉 1 小时。值得注意的是，真正消耗精力的往往不是写作"},{"severity":"medium","severityLabel":"AI 腔/黑话提醒","word":"在当今快速发展的","category":"AI 翻译腔句式","reason":"大模型标志性开篇/承接句式，前 3 秒极易流失读者","suggestion":"直接用真实痛点、反常识结论或具体数字开场","line":3,"context":"在当今快速发展的自媒体时代，很多创作者都有同"},{"severity":"medium","severityLabel":"AI 腔/黑话提醒","word":"不可否认","category":"AI 连接套话","reason":"典型翻译腔垫话，削弱观点锐度","suggestion":"直接删掉，或改用“客观来说”/直接陈述事实","line":10,"context":"不可否认，市面上很多在线排版工具提供"},{"severity":"high","severityLabel":"高危违禁/限流","word":"最好","category":"广告法极限词","reason":"《广告法》第九条限制使用绝对化/最高级用语，易触发审核驳回或投诉风险","suggestion":"体验很稳妥","line":45,"context":"这套方法绝对是全网第一、最好用的顶级神器，100% 零风"},{"severity":"high","severityLabel":"高危违禁/限流","word":"全网第一","category":"广告法极限词","reason":"无权威公开数据背书的“第一/唯一”类表述属于高危绝对化宣称","suggestion":"改为具体事实、样本范围或“实测排在前列”","line":45,"context":"这套方法绝对是全网第一、最好用的顶级神器，100%"},{"severity":"high","severityLabel":"高危违禁/限流","word":"顶级","category":"广告法极限词","reason":"“国家级/顶级/极致”在推广、种草与图文带货中高频触发限流或违规","suggestion":"高标准 / 细致打磨","line":45,"context":"绝对是全网第一、最好用的顶级神器，100% 零风险帮你赋"},{"severity":"high","severityLabel":"高危违禁/限流","word":"绝对","category":"广告法承诺/功效违规","reason":"绝对化效果承诺或医疗功效暗示，极易被公众号与小红书风控拦截","suggestion":"大概率 / 在明确前提下","line":45,"context":"这套方法绝对是全网第一、最好用的顶级神器"},{"severity":"high","severityLabel":"高危违禁/限流","word":"100%","category":"广告法承诺/功效违规","reason":"绝对化效果承诺或医疗功效暗示，极易被公众号与小红书风控拦截","suggestion":"多数常规场景下 / 实测覆盖率高","line":45,"context":"第一、最好用的顶级神器，100% 零风险帮你赋能内容闭环，甚"},{"severity":"high","severityLabel":"高危违禁/限流","word":"零风险","category":"广告法承诺/功效违规","reason":"绝对化效果承诺或医疗功效暗示，极易被公众号与小红书风控拦截","suggestion":"显著降低常见风险","line":45,"context":"用的顶级神器，100% 零风险帮你赋能内容闭环，甚至有人夸"},{"severity":"high","severityLabel":"高危违禁/限流","word":"躺赚","category":"夸张收益/诱导词","reason":"收益承诺与过度诱导表达易触发平台降权或广告违规判定","suggestion":"去掉夸张收益词，改为具体耗时、成本与真实案例区间","line":45,"context":"闭环，甚至有人夸它能实现躺赚暴富。综上所述，想要领取完整"},{"severity":"high","severityLabel":"高危违禁/限流","word":"暴富","category":"夸张收益/诱导词","reason":"收益承诺与过度诱导表达易触发平台降权或广告违规判定","suggestion":"去掉夸张收益词，改为具体耗时、成本与真实案例区间","line":45,"context":"，甚至有人夸它能实现躺赚暴富。综上所述，想要领取完整模板"},{"severity":"high","severityLabel":"高危违禁/限流","word":"不买后悔","category":"夸张收益/诱导词","reason":"收益承诺与过度诱导表达易触发平台降权或广告违规判定","suggestion":"去掉夸张收益词，改为具体耗时、成本与真实案例区间","line":45,"context":"或者私聊发链接，错过真的不买后悔！"},{"severity":"high","severityLabel":"高危违禁/限流","word":"加V","category":"跨端引流违禁词","reason":"站外导流/诱导互动词在小红书与公众号极易触发静默限流甚至禁言","suggestion":"去掉站外导流字样，把公开步骤或合规入口自然说明","line":45,"context":"取完整模板的同学欢迎直接加V或者私聊发链接，错过真的不买"},{"severity":"high","severityLabel":"高危违禁/限流","word":"私聊发链接","category":"跨端引流违禁词","reason":"站外导流/诱导互动词在小红书与公众号极易触发静默限流甚至禁言","suggestion":"去掉站外导流字样，把公开步骤或合规入口自然说明","line":45,"context":"板的同学欢迎直接加V或者私聊发链接，错过真的不买后悔！"},{"severity":"medium","severityLabel":"AI 腔/黑话提醒","word":"综上所述","category":"AI 总结套话","reason":"模板化收尾词，缺乏真实作者口吻","suggestion":"改为“说白了”、“最后给你 3 条直接能用的做法”或直接列结论","line":45,"context":"有人夸它能实现躺赚暴富。综上所述，想要领取完整模板的同学欢迎"},{"severity":"medium","severityLabel":"AI 腔/黑话提醒","word":"赋能","category":"空心黑话","reason":"互联网空洞术语，读者反感度高且不利于小红书口语传播","suggestion":"帮……省下时间 / 直接提升……效率","line":45,"context":"器，100% 零风险帮你赋能内容闭环，甚至有人夸它能实现"},{"severity":"medium","severityLabel":"AI 腔/黑话提醒","word":"闭环","category":"空心黑话","reason":"互联网空洞术语，读者反感度高且不利于小红书口语传播","suggestion":"从头到尾跑通流程","line":45,"context":"0% 零风险帮你赋能内容闭环，甚至有人夸它能实现躺赚暴富"}]},"rawBody":"# 写完文章还要花2小时排版？这套一稿多发本地工作流帮我省下80%时间\n\n在当今快速发展的自媒体时代，很多创作者都有同样的崩溃瞬间：花 1 小时写完一篇干货，结果去公众号编辑器调字号行距花了 40 分钟，再打开设计软件一张张拼小红书 3:4 封面和配图又磨掉 1 小时。值得注意的是，真正消耗精力的往往不是写作本身，而是重复搬运和跨端格式错乱。\n\n\u003e [!TIP]\n\u003e 如果你每周至少发 2 篇公众号或小红书，先统一用纯文本 Markdown 写初稿，再把排版、切卡和合规检查全部自动化，单篇平均可以省出 45 到 60 分钟。\n\n## 为什么传统编辑器越用越累\n\n不可否认，市面上很多在线排版工具提供了上百套花哨模板，但真正高频日更之后，很快会踩进三个坑：\n\n- **样式撞车严重**：大家都在用同款免费模板，读者划两屏就审美疲劳，很难建立个人视觉辨识度。\n- **跨端格式翻车**：从云文档直接复制到公众号后台，代码块丢背景、表格被挤变形、引用块缩进全部乱套。\n- **发小红书要重做一遍**：公众号长文发不了小红书，必须重新删字、找字体、导出 PNG，一拖延就干脆停更。\n\n\u003e 好的排版从来不是堆砌花哨贴纸，而是让手机屏幕上的读者一眼抓住层次，顺畅读完最后一行。\n\n## 实战对照：手工搬运 vs 离线工坊\n\n下面是我连续实测两周后记录的耗时对比，单看每篇省下的时间就很直观：\n\n| 环节 | 传统手工流程 | 本地离线工坊 | 耗时变化 |\n| :--- | :--- | :--- | :---: |\n| 公众号排版调样式 | 约 35 分钟 | 一键编译 + 富文本复制（10秒） | 节省 95% |\n| 小红书 6 张 3:4 图卡 | 约 50 分钟 | 自动分页 + 批量导出 PNG（30秒） | 节省 98% |\n| 违禁词与 AI 腔自查 | 靠肉眼翻查容易漏 | 红黄绿逐行标出 + 替换建议 | 零漏检 |\n\n## 三步跑通「一稿双发」标准动作\n\n1. **只写结构清晰的 Markdown 初稿**：用 `##` 分大节，每段控制在 3 到 4 行，核心结论放进引用块或列表里。\n2. **一键生成本地离线工作台**：把草稿送进本地脚本，同时拿到极简杂志白、温暖书摘米、商务深蓝灰 3 套公众号 Inline-CSS 主题。\n3. **先体检再发稿**：发文前扫一遍广告法极限词和 AI 套话，把容易限流的表达替换成自然人话，再复制正文、导出 1080×1440 无损图卡直接上传。\n\n```bash\n# 本地单命令直出公众号 HTML + 小红书无损卡片工坊 + 发布文案\nnode scripts/cli.mjs --input \"draft.md\" --out-dir \"./out\" --theme minimal\n```\n\n---\n\n## 发文前最容易踩雷的表达示范（用于体检演示）\n\n下面这段刻意保留了自媒体新手常犯的高危词和 AI 腔，方便你在工作台「第 3 栏」直观看到红黄体检效果：\n\n这套方法绝对是全网第一、最好用的顶级神器，100% 零风险帮你赋能内容闭环，甚至有人夸它能实现躺赚暴富。综上所述，想要领取完整模板的同学欢迎直接加V或者私聊发链接，错过真的不买后悔！\n\n\u003e [!WARNING]\n\u003e 以上演示段故意埋入了多处《广告法》极限用语、站外导流违禁词以及高频 AI 套话。正式发布前，请打开工作台第 3 栏按红黄清单逐条改成客观实测细节和合规引导。"}</script>
+<script>
+(function () {
+  const DATA = JSON.parse(document.getElementById('studio-data').textContent);
+
+  const CARD_THEMES = {
+    cream: {
+      id: 'cream',
+      name: '奶油手账',
+      bg: '#FBF8F3',
+      frame: '#E9DFD1',
+      cardBox: '#FFFFFF',
+      ink: '#2A231E',
+      muted: '#78695B',
+      accent: '#C85A32',
+      accentSoft: '#F8EAE2',
+      badgeText: '#FFFFFF',
+      quoteBg: '#F4ECE1',
+      fontHeading: '"Songti SC", "STSong", "PingFang SC", "Microsoft YaHei", serif',
+      fontBody: '"PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif',
+    },
+    swiss: {
+      id: 'swiss',
+      name: '极简瑞士白',
+      bg: '#FFFFFF',
+      frame: '#E5E7EB',
+      cardBox: '#F7F7F5',
+      ink: '#111827',
+      muted: '#64748B',
+      accent: '#D9432B',
+      accentSoft: '#FDEEEB',
+      badgeText: '#FFFFFF',
+      quoteBg: '#F3F4F6',
+      fontHeading: '"PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif',
+      fontBody: '"PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif',
+    },
+    ink: {
+      id: 'ink',
+      name: '深邃墨韵',
+      bg: '#131923',
+      frame: '#273244',
+      cardBox: '#1C2432',
+      ink: '#F3F5F8',
+      muted: '#9AA7BA',
+      accent: '#E5B567',
+      accentSoft: '#2A2820',
+      badgeText: '#131923',
+      quoteBg: '#1F2A3A',
+      fontHeading: '"PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif',
+      fontBody: '"PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif',
+    },
+    mint: {
+      id: 'mint',
+      name: '清新薄荷',
+      bg: '#F2F7F4',
+      frame: '#D5E5DC',
+      cardBox: '#FFFFFF',
+      ink: '#163024',
+      muted: '#557063',
+      accent: '#1E7A56',
+      accentSoft: '#E3F3EC',
+      badgeText: '#FFFFFF',
+      quoteBg: '#EBF5F0',
+      fontHeading: '"PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif',
+      fontBody: '"PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif',
+    },
+  };
+
+  let currentWechatTheme = DATA.meta.defaultTheme || 'minimal';
+  let currentCardTheme = DATA.meta.defaultCardTheme || 'cream';
+  let currentAuthor = DATA.meta.author || '原创笔记';
+
+  const toastEl = document.getElementById('toast');
+  let toastTimer = null;
+  function showToast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () {
+      toastEl.classList.remove('show');
+    }, 2800);
+  }
+
+  // ---- Tabs ----
+  document.querySelectorAll('.tab-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const target = btn.getAttribute('data-tab');
+      document.querySelectorAll('.tab-btn').forEach(function (b) { b.classList.remove('active'); });
+      document.querySelectorAll('.panel').forEach(function (p) { p.classList.remove('active'); });
+      btn.classList.add('active');
+      document.getElementById('panel-' + target).classList.add('active');
+      if (target === 'xhs') renderAllCards();
+    });
+  });
+
+  // ---- Tab 1: WeChat Theme Switch & Rich Copy ----
+  const wechatMount = document.getElementById('wechat-preview-mount');
+  const wechatThemeGroup = document.getElementById('wechat-theme-group');
+  const wechatCaption = document.getElementById('wechat-theme-caption');
+
+  function getActiveWechatTheme() {
+    return DATA.wechatThemes.find(function (t) { return t.id === currentWechatTheme; }) || DATA.wechatThemes[0];
+  }
+
+  function renderWechatPreview() {
+    const active = getActiveWechatTheme();
+    wechatMount.innerHTML = active.html;
+    wechatCaption.textContent = '主题：' + active.name + '（' + active.tagline + ' · 100% Inline-CSS）';
+    wechatThemeGroup.querySelectorAll('button').forEach(function (b) {
+      b.classList.toggle('active', b.getAttribute('data-tid') === active.id);
+    });
+  }
+
+  DATA.wechatThemes.forEach(function (theme) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'btn';
+    btn.setAttribute('data-tid', theme.id);
+    btn.textContent = theme.name;
+    btn.addEventListener('click', function () {
+      currentWechatTheme = theme.id;
+      renderWechatPreview();
+    });
+    wechatThemeGroup.appendChild(btn);
+  });
+
+  document.getElementById('view-desktop').addEventListener('click', function () {
+    document.getElementById('wechat-frame').classList.remove('mobile');
+    this.classList.add('active');
+    document.getElementById('view-mobile').classList.remove('active');
+  });
+  document.getElementById('view-mobile').addEventListener('click', function () {
+    document.getElementById('wechat-frame').classList.add('mobile');
+    this.classList.add('active');
+    document.getElementById('view-desktop').classList.remove('active');
+  });
+
+  function copyPlainText(text, successMsg) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        showToast(successMsg);
+      }).catch(function () {
+        fallbackPlainCopy(text, successMsg);
+      });
+    } else {
+      fallbackPlainCopy(text, successMsg);
+    }
+  }
+
+  function fallbackPlainCopy(text, successMsg) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      showToast(successMsg);
+    } catch (e) {
+      showToast('复制受浏览器限制，请手动全选复制');
+    }
+    document.body.removeChild(ta);
+  }
+
+  function fallbackRichHtmlCopy(html) {
+    const holder = document.createElement('div');
+    holder.setAttribute('contenteditable', 'true');
+    holder.style.position = 'fixed';
+    holder.style.left = '-9999px';
+    holder.style.top = '0';
+    holder.innerHTML = html;
+    document.body.appendChild(holder);
+    const range = document.createRange();
+    range.selectNodeContents(holder);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    let ok = false;
+    try {
+      ok = document.execCommand('copy');
+    } catch (e) {
+      ok = false;
+    }
+    sel.removeAllRanges();
+    document.body.removeChild(holder);
+    return ok;
+  }
+
+  document.getElementById('btn-copy-wechat').addEventListener('click', function () {
+    const active = getActiveWechatTheme();
+    const html = active.html;
+    const plain = wechatMount.innerText || '';
+    if (navigator.clipboard && navigator.clipboard.write && typeof ClipboardItem !== 'undefined') {
+      try {
+        const item = new ClipboardItem({
+          'text/html': new Blob([html], { type: 'text/html' }),
+          'text/plain': new Blob([plain], { type: 'text/plain' }),
+        });
+        navigator.clipboard.write([item]).then(function () {
+          showToast('已复制公众号富文本！去 mp.weixin.qq.com 直接 Ctrl+V 即可');
+        }).catch(function () {
+          const ok = fallbackRichHtmlCopy(html);
+          showToast(ok ? '已复制公众号富文本（兼容模式）！直接去公众号后台粘贴' : '请直接框选下方预览区按 Ctrl+C 复制');
+        });
+        return;
+      } catch (e) {
+        // fallback below
+      }
+    }
+    const ok = fallbackRichHtmlCopy(html);
+    showToast(ok ? '已复制公众号富文本！直接去 mp.weixin.qq.com 粘贴' : '请直接框选下方预览区按 Ctrl+C 复制');
+  });
+
+  document.getElementById('btn-copy-source').addEventListener('click', function () {
+    copyPlainText(getActiveWechatTheme().html, '已复制纯 Inline-CSS HTML 源码');
+  });
+
+  document.getElementById('btn-dl-wechat').addEventListener('click', function () {
+    const active = getActiveWechatTheme();
+    const blob = new Blob([active.html], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'wechat_inline_' + active.id + '.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    showToast('已下载 wechat_inline_' + active.id + '.html');
+  });
+
+  // ---- Tab 2: Pure Offline HTML5 Canvas 2D 1080x1440 Renderer ----
+  const cardThemeGroup = document.getElementById('card-theme-group');
+  Object.values(CARD_THEMES).forEach(function (ct) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'btn';
+    btn.setAttribute('data-cid', ct.id);
+    btn.textContent = ct.name;
+    btn.addEventListener('click', function () {
+      currentCardTheme = ct.id;
+      syncCardThemeButtons();
+      renderAllCards();
+    });
+    cardThemeGroup.appendChild(btn);
+  });
+
+  function syncCardThemeButtons() {
+    cardThemeGroup.querySelectorAll('button').forEach(function (b) {
+      b.classList.toggle('active', b.getAttribute('data-cid') === currentCardTheme);
+    });
+  }
+
+  document.getElementById('author-input').addEventListener('input', function (e) {
+    currentAuthor = e.target.value.trim() || '原创笔记';
+    renderAllCards();
+  });
+
+  function drawRoundRect(ctx, x, y, w, h, r) {
+    const rad = Math.min(r, w / 2, h / 2);
+    ctx.beginPath();
+    ctx.moveTo(x + rad, y);
+    ctx.arcTo(x + w, y, x + w, y + h, rad);
+    ctx.arcTo(x + w, y + h, x, y + h, rad);
+    ctx.arcTo(x, y + h, x, y, rad);
+    ctx.arcTo(x, y, x + w, y, rad);
+    ctx.closePath();
+  }
+
+  const NO_START_PUNCT = '，。！？：；、）》】」』”’.,!?;:)]}';
+
+  function wrapLines(ctx, text, maxWidth) {
+    const paragraphs = String(text || '').split('\n');
+    const allLines = [];
+    for (let p = 0; p < paragraphs.length; p += 1) {
+      const chars = Array.from(paragraphs[p]);
+      let line = '';
+      for (let i = 0; i < chars.length; i += 1) {
+        const ch = chars[i];
+        const test = line + ch;
+        if (ctx.measureText(test).width > maxWidth && line.length > 0) {
+          if (NO_START_PUNCT.indexOf(ch) !== -1) {
+            allLines.push(test);
+            line = '';
+          } else {
+            allLines.push(line);
+            line = ch;
+          }
+        } else {
+          line = test;
+        }
+      }
+      if (line) allLines.push(line);
+    }
+    return allLines;
+  }
+
+  function renderCardToCanvas(canvas, card, theme) {
+    const W = 1080;
+    const H = 1440;
+    canvas.width = W;
+    canvas.height = H;
+    const ctx = canvas.getContext('2d');
+
+    // Background fill
+    ctx.fillStyle = theme.bg;
+    ctx.fillRect(0, 0, W, H);
+
+    // Subtle editorial outer frame
+    ctx.strokeStyle = theme.frame;
+    ctx.lineWidth = 3;
+    drawRoundRect(ctx, 44, 44, W - 88, H - 88, 28);
+    ctx.stroke();
+
+    // Top accent bar
+    ctx.fillStyle = theme.accent;
+    drawRoundRect(ctx, 88, 92, 72, 10, 5);
+    ctx.fill();
+
+    // Top-right page index
+    const pageStr = String(card.page).padStart(2, '0') + ' / ' + String(card.total).padStart(2, '0');
+    ctx.fillStyle = theme.muted;
+    ctx.font = '600 28px ' + theme.fontBody;
+    ctx.textAlign = 'right';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(pageStr, W - 88, 98);
+    ctx.textAlign = 'left';
+
+    const contentX = 88;
+    const contentW = W - 176;
+    const footerY = H - 110;
+
+    if (card.type === 'cover') {
+      // Kicker pill
+      ctx.font = '700 30px ' + theme.fontBody;
+      const kickerText = card.kicker || '深度干货 · 实操笔记';
+      const kickerW = Math.min(contentW, ctx.measureText(kickerText).width + 48);
+      ctx.fillStyle = theme.accentSoft;
+      drawRoundRect(ctx, contentX, 168, kickerW, 60, 30);
+      ctx.fill();
+      ctx.fillStyle = theme.accent;
+      ctx.textBaseline = 'middle';
+      ctx.fillText(kickerText, contentX + 24, 198);
+
+      // Cover giant title
+      ctx.fillStyle = theme.ink;
+      ctx.font = '800 76px ' + theme.fontHeading;
+      const titleLines = wrapLines(ctx, card.title, contentW).slice(0, 4);
+      let y = 310;
+      titleLines.forEach(function (ln, idx) {
+        if (idx === titleLines.length - 1) {
+          const tw = Math.min(contentW, ctx.measureText(ln).width + 12);
+          ctx.fillStyle = theme.accentSoft;
+          drawRoundRect(ctx, contentX - 6, y + 18, tw, 30, 8);
+          ctx.fill();
+        }
+        ctx.fillStyle = theme.ink;
+        ctx.fillText(ln, contentX, y);
+        y += 104;
+      });
+
+      // Subtitle
+      y += 18;
+      ctx.fillStyle = theme.muted;
+      ctx.font = '500 36px ' + theme.fontBody;
+      const subLines = wrapLines(ctx, card.subtitle, contentW).slice(0, 3);
+      subLines.forEach(function (ln) {
+        ctx.fillText(ln, contentX, y);
+        y += 56;
+      });
+
+      // Teaser checklist box
+      const boxY = Math.max(y + 42, 790);
+      const teasers = (card.teasers || []).slice(0, 4);
+      const boxH = Math.min(footerY - boxY - 46, 92 + teasers.length * 74);
+      ctx.fillStyle = theme.cardBox;
+      ctx.strokeStyle = theme.frame;
+      ctx.lineWidth = 2;
+      drawRoundRect(ctx, contentX, boxY, contentW, boxH, 24);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = theme.accent;
+      ctx.font = '700 28px ' + theme.fontBody;
+      ctx.fillText('本期卡片速览', contentX + 36, boxY + 48);
+
+      let ty = boxY + 108;
+      ctx.font = '600 32px ' + theme.fontBody;
+      teasers.forEach(function (item, idx) {
+        if (ty > boxY + boxH - 30) return;
+        ctx.fillStyle = theme.accent;
+        drawRoundRect(ctx, contentX + 36, ty - 20, 40, 40, 12);
+        ctx.fill();
+        ctx.fillStyle = theme.badgeText;
+        ctx.font = '700 24px ' + theme.fontBody;
+        ctx.textAlign = 'center';
+        ctx.fillText(String(idx + 1), contentX + 56, ty + 1);
+        ctx.textAlign = 'left';
+
+        ctx.fillStyle = theme.ink;
+        ctx.font = '600 32px ' + theme.fontBody;
+        const tLine = wrapLines(ctx, item, contentW - 130)[0] || item;
+        ctx.fillText(tLine, contentX + 94, ty);
+        ty += 70;
+      });
+    } else if (card.type === 'content') {
+      // Section badge + Heading
+      const secTag = 'PART ' + String(card.sectionNo || card.page - 1).padStart(2, '0');
+      ctx.fillStyle = theme.accent;
+      ctx.font = '800 28px ' + theme.fontBody;
+      ctx.textBaseline = 'middle';
+      ctx.fillText(secTag, contentX, 168);
+
+      ctx.fillStyle = theme.ink;
+      ctx.font = '800 54px ' + theme.fontHeading;
+      const hLines = wrapLines(ctx, card.heading, contentW).slice(0, 2);
+      let y = 236;
+      hLines.forEach(function (ln) {
+        ctx.fillText(ln, contentX, y);
+        y += 74;
+      });
+
+      // Divider rule
+      ctx.strokeStyle = theme.frame;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(contentX, y + 6);
+      ctx.lineTo(contentX + contentW, y + 6);
+      ctx.stroke();
+      y += 48;
+
+      // Dynamic vertical fit check
+      const maxY = footerY - 38;
+      const items = card.items || [];
+      let fontSize = items.length >= 4 ? 33 : 36;
+      let lineHeight = items.length >= 4 ? 52 : 58;
+      let gap = items.length >= 4 ? 26 : 34;
+
+      // Measure total height; tighten slightly if needed to guarantee zero overflow
+      function measureItems(fs, lh, g) {
+        ctx.font = '500 ' + fs + 'px ' + theme.fontBody;
+        let totalH = 0;
+        items.forEach(function (it) {
+          const padW = it.kind === 'quote' || it.kind === 'code' ? 68 : it.kind === 'bullet' ? 46 : 0;
+          const lines = wrapLines(ctx, it.text, contentW - padW);
+          const blockH = lines.length * lh + (it.kind === 'quote' || it.kind === 'code' ? 44 : 0);
+          totalH += blockH + g;
+        });
+        return totalH;
+      }
+
+      while (measureItems(fontSize, lineHeight, gap) > maxY - y && fontSize > 26) {
+        fontSize -= 2;
+        lineHeight -= 4;
+        gap = Math.max(16, gap - 4);
+      }
+
+      items.forEach(function (it) {
+        if (y > maxY - 40) return;
+        if (it.kind === 'quote' || it.kind === 'code') {
+          ctx.font = (it.kind === 'code' ? '500 ' + (fontSize - 4) + 'px Menlo,Consolas,monospace' : '600 ' + fontSize + 'px ' + theme.fontBody);
+          const lines = wrapLines(ctx, it.text, contentW - 72);
+          const boxH = lines.length * lineHeight + 44;
+          const drawH = Math.min(boxH, maxY - y);
+          ctx.fillStyle = theme.quoteBg;
+          drawRoundRect(ctx, contentX, y, contentW, drawH, 18);
+          ctx.fill();
+          ctx.fillStyle = theme.accent;
+          drawRoundRect(ctx, contentX, y, 10, drawH, 5);
+          ctx.fill();
+
+          ctx.fillStyle = theme.ink;
+          let qy = y + 36;
+          lines.forEach(function (ln) {
+            if (qy < y + drawH - 12) {
+              ctx.fillText(ln, contentX + 36, qy);
+              qy += lineHeight;
+            }
+          });
+          y += drawH + gap;
+        } else if (it.kind === 'bullet') {
+          ctx.font = '500 ' + fontSize + 'px ' + theme.fontBody;
+          const lines = wrapLines(ctx, it.text, contentW - 48);
+          ctx.fillStyle = theme.accent;
+          ctx.beginPath();
+          ctx.arc(contentX + 14, y + 4, 8, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = theme.ink;
+          lines.forEach(function (ln) {
+            if (y < maxY) {
+              ctx.fillText(ln, contentX + 42, y + 6);
+              y += lineHeight;
+            }
+          });
+          y += Math.max(14, gap - 6);
+        } else {
+          ctx.font = '500 ' + fontSize + 'px ' + theme.fontBody;
+          const lines = wrapLines(ctx, it.text, contentW);
+          ctx.fillStyle = theme.ink;
+          lines.forEach(function (ln) {
+            if (y < maxY) {
+              ctx.fillText(ln, contentX, y + 6);
+              y += lineHeight;
+            }
+          });
+          y += gap;
+        }
+      });
+    } else {
+      // Summary / Checklist Card
+      ctx.fillStyle = theme.accent;
+      ctx.font = '800 28px ' + theme.fontBody;
+      ctx.textBaseline = 'middle';
+      ctx.fillText('SUMMARY · 收藏对照', contentX, 168);
+
+      ctx.fillStyle = theme.ink;
+      ctx.font = '800 58px ' + theme.fontHeading;
+      ctx.fillText(card.heading || '一页复盘 · 行动清单', contentX, 244);
+
+      let y = 340;
+      const pts = (card.points || []).slice(0, 5);
+      pts.forEach(function (pt) {
+        ctx.fillStyle = theme.cardBox;
+        ctx.strokeStyle = theme.frame;
+        ctx.lineWidth = 2;
+        ctx.font = '600 34px ' + theme.fontBody;
+        const lines = wrapLines(ctx, pt, contentW - 84).slice(0, 2);
+        const h = lines.length * 52 + 44;
+        if (y + h > footerY - 220) return;
+        drawRoundRect(ctx, contentX, y, contentW, h, 20);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = theme.ink;
+        let py = y + 44;
+        lines.forEach(function (ln) {
+          ctx.fillText(ln, contentX + 36, py);
+          py += 52;
+        });
+        y += h + 22;
+      });
+
+      // CTA callout box at bottom
+      const ctaY = Math.max(y + 16, footerY - 200);
+      ctx.fillStyle = theme.accentSoft;
+      drawRoundRect(ctx, contentX, ctaY, contentW, 134, 22);
+      ctx.fill();
+
+      ctx.fillStyle = theme.accent;
+      ctx.font = '700 32px ' + theme.fontBody;
+      const ctaLines = wrapLines(ctx, card.cta || '欢迎点赞收藏，评论区交流你的做法', contentW - 64).slice(0, 2);
+      ctaLines.forEach(function (ln, idx) {
+        ctx.fillText(ln, contentX + 32, ctaY + 48 + idx * 46);
+      });
+    }
+
+    // Bottom editorial footer
+    ctx.strokeStyle = theme.frame;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(contentX, footerY - 28);
+    ctx.lineTo(contentX + contentW, footerY - 28);
+    ctx.stroke();
+
+    ctx.fillStyle = theme.muted;
+    ctx.font = '600 26px ' + theme.fontBody;
+    ctx.textBaseline = 'middle';
+    ctx.fillText('@' + currentAuthor, contentX, footerY + 12);
+
+    ctx.textAlign = 'right';
+    ctx.fillText(card.type === 'cover' ? '左滑看重点 →' : '3:4 无损直出 · ' + pageStr, W - 88, footerY + 12);
+    ctx.textAlign = 'left';
+  }
+
+  const cardsGrid = document.getElementById('cards-grid');
+  const renderedCanvases = [];
+
+  function downloadSingleCanvas(canvas, filename) {
+    if (canvas.toBlob) {
+      canvas.toBlob(function (blob) {
+        if (!blob) return;
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(url); }, 1200);
+      }, 'image/png');
+    } else {
+      const a = document.createElement('a');
+      a.href = canvas.toDataURL('image/png');
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  }
+
+  function renderAllCards() {
+    const theme = CARD_THEMES[currentCardTheme] || CARD_THEMES.cream;
+    cardsGrid.innerHTML = '';
+    renderedCanvases.length = 0;
+
+    DATA.xhsCards.forEach(function (card) {
+      const wrap = document.createElement('div');
+      wrap.className = 'card-item';
+
+      const canvasWrap = document.createElement('div');
+      canvasWrap.className = 'card-canvas-wrap';
+      const canvas = document.createElement('canvas');
+      renderCardToCanvas(canvas, card, theme);
+      canvasWrap.appendChild(canvas);
+
+      const fname = 'xhs_' + String(card.page).padStart(2, '0') + '_' + card.type + '.png';
+      renderedCanvases.push({ canvas: canvas, filename: fname });
+
+      const foot = document.createElement('div');
+      foot.className = 'card-foot';
+
+      const label = document.createElement('span');
+      label.className = 'card-label';
+      label.textContent = 'P' + card.page + ' · ' + (card.type === 'cover' ? '封面' : card.heading || '总结');
+
+      const dlBtn = document.createElement('button');
+      dlBtn.type = 'button';
+      dlBtn.className = 'btn';
+      dlBtn.style.padding = '5px 10px';
+      dlBtn.style.fontSize = '12px';
+      dlBtn.textContent = '下载 PNG';
+      dlBtn.addEventListener('click', function () {
+        downloadSingleCanvas(canvas, fname);
+        showToast('已导出 ' + fname + ' (1080×1440)');
+      });
+
+      foot.appendChild(label);
+      foot.appendChild(dlBtn);
+      wrap.appendChild(canvasWrap);
+      wrap.appendChild(foot);
+      cardsGrid.appendChild(wrap);
+    });
+  }
+
+  document.getElementById('btn-export-all').addEventListener('click', function () {
+    if (renderedCanvases.length === 0) renderAllCards();
+    const btn = this;
+    btn.disabled = true;
+    renderedCanvases.forEach(function (entry, idx) {
+      setTimeout(function () {
+        downloadSingleCanvas(entry.canvas, entry.filename);
+        btn.textContent = '正在导出 ' + (idx + 1) + ' / ' + renderedCanvases.length + ' 张...';
+        if (idx === renderedCanvases.length - 1) {
+          setTimeout(function () {
+            btn.disabled = false;
+            btn.textContent = '一键批量导出全部无损 PNG (1080×1440)';
+            showToast('已完成 ' + renderedCanvases.length + ' 张 1080×1440 无损 PNG 导出！');
+          }, 300);
+        }
+      }, idx * 240);
+    });
+  });
+
+  // Render XHS Copy sidebar
+  const hooksList = document.getElementById('xhs-hooks-list');
+  DATA.xhsCopy.titleVariants.forEach(function (v) {
+    const div = document.createElement('div');
+    div.className = 'hook-card';
+    const meta = document.createElement('div');
+    meta.className = 'hook-meta';
+    const tag = document.createElement('span');
+    tag.textContent = v.style + ' · ' + Array.from(v.title).length + '字';
+    const cp = document.createElement('button');
+    cp.type = 'button';
+    cp.className = 'btn';
+    cp.style.padding = '2px 8px';
+    cp.style.fontSize = '11.5px';
+    cp.textContent = '复制';
+    cp.addEventListener('click', function () {
+      copyPlainText(v.title, '已复制标题：' + v.title);
+    });
+    meta.appendChild(tag);
+    meta.appendChild(cp);
+
+    const txt = document.createElement('div');
+    txt.className = 'hook-text';
+    txt.textContent = v.title;
+    div.appendChild(meta);
+    div.appendChild(txt);
+    hooksList.appendChild(div);
+  });
+
+  const xhsBodyEl = document.getElementById('xhs-body-text');
+  xhsBodyEl.value = DATA.xhsCopy.bodyText;
+  document.getElementById('btn-copy-xhs-body').addEventListener('click', function () {
+    copyPlainText(xhsBodyEl.value, '已复制小红书正文与话题标签');
+  });
+
+  // ---- Tab 3: Compliance Findings & Annotated Preview ----
+  const findingsList = document.getElementById('audit-findings-list');
+  if (DATA.audit.findings.length === 0) {
+    const empty = document.createElement('p');
+    empty.style.color = 'var(--green)';
+    empty.style.fontWeight = '600';
+    empty.textContent = '✅ 恭喜！未检出广告法极限词、引流违禁词或高频 AI 腔表达。';
+    findingsList.appendChild(empty);
+  } else {
+    DATA.audit.findings.forEach(function (f) {
+      const item = document.createElement('div');
+      item.className = 'finding-item ' + f.severity;
+
+      const top = document.createElement('div');
+      top.className = 'finding-top';
+      const word = document.createElement('span');
+      word.className = 'finding-word';
+      word.textContent = (f.severity === 'high' ? '🔴 ' : '🟡 ') + '“' + f.word + '” · ' + f.category;
+      const lineBadge = document.createElement('span');
+      lineBadge.className = 'pill-badge ' + (f.severity === 'high' ? 'red' : 'amber');
+      lineBadge.textContent = '第 ' + f.line + ' 行';
+      top.appendChild(word);
+      top.appendChild(lineBadge);
+
+      const reason = document.createElement('div');
+      reason.className = 'finding-reason';
+      reason.textContent = f.reason + '（上下文：' + f.context + '）';
+
+      const fix = document.createElement('div');
+      fix.className = 'finding-fix';
+      fix.textContent = '建议替换：' + f.suggestion;
+
+      item.appendChild(top);
+      item.appendChild(reason);
+      item.appendChild(fix);
+      findingsList.appendChild(item);
+    });
+  }
+
+  if (DATA.audit.longParagraphs.length > 0) {
+    const lp = document.createElement('div');
+    lp.className = 'finding-item medium';
+    lp.innerHTML =
+      '<div class="finding-top"><span class="finding-word">📏 移动端长段落呼吸感提醒</span><span class="pill-badge amber">' +
+      DATA.audit.longParagraphs.length +
+      ' 处</span></div>' +
+      '<div class="finding-reason">以下行超过 180 字，手机端阅读压迫感较强，建议拆分为 2-3 行短段：' +
+      DATA.audit.longParagraphs.map(function (p) { return 'L' + p.line + '(' + p.length + '字)'; }).join('、') +
+      '</div>';
+    findingsList.appendChild(lp);
+  }
+
+  // Highlight annotated text in one single pass (never mutates already-injected tags)
+  function escapeText(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  const hitByEscapedWord = Object.create(null);
+  const uniqueEscapedWords = [];
+  DATA.audit.findings.forEach(function (f) {
+    const ew = escapeText(f.word);
+    if (!hitByEscapedWord[ew]) {
+      hitByEscapedWord[ew] = { word: f.word, severity: f.severity, suggestion: f.suggestion };
+      uniqueEscapedWords.push(ew);
+    }
+  });
+  uniqueEscapedWords.sort(function (a, b) { return b.length - a.length; });
+
+  let annotatedHtml = escapeText(DATA.rawBody);
+  if (uniqueEscapedWords.length > 0) {
+    const unionPattern = uniqueEscapedWords
+      .map(function (w) { return w.replace(/[.*+?^$()|[\]\\{}]/g, '\\$&'); })
+      .join('|');
+    annotatedHtml = annotatedHtml.replace(new RegExp(unionPattern, 'g'), function (matched) {
+      const hit = hitByEscapedWord[matched];
+      if (!hit) return matched;
+      const cls = hit.severity === 'high' ? 'hl-high' : 'hl-medium';
+      const tip = escapeText('建议替换：' + hit.suggestion).replace(/"/g, '&quot;');
+      return '<span class="' + cls + '" title="' + tip + '">' + matched + '</span>';
+    });
+  }
+  document.getElementById('annotated-text').innerHTML = annotatedHtml;
+
+  document.getElementById('btn-copy-audit').addEventListener('click', function () {
+    const lines = DATA.audit.findings.map(function (f, i) {
+      return (i + 1) + '. [' + f.severityLabel + '] L' + f.line + ' “' + f.word + '” -> ' + f.suggestion;
+    });
+    copyPlainText(lines.length ? lines.join('\n') : '未检出违禁词与 AI 腔问题', '已复制违禁词与去AI味修改清单');
+  });
+
+  // Initial render
+  renderWechatPreview();
+  syncCardThemeButtons();
+  renderAllCards();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>合同防坑体检报告 · sample_rent_contract.txt</title>
+<style>
+  :root {
+    --bg: #F8FAFC;
+    --surface: #FFFFFF;
+    --border: #E2E8F0;
+    --border-strong: #CBD5E1;
+    --ink: #0F172A;
+    --ink-2: #334155;
+    --muted: #64748B;
+    --brand: #1E3A5F;
+    --red: #DC2626;
+    --red-bg: #FEF2F2;
+    --red-bd: #FECACA;
+    --amber: #D97706;
+    --amber-bg: #FFFBEB;
+    --amber-bd: #FDE68A;
+    --green: #059669;
+    --green-bg: #ECFDF5;
+    --green-bd: #A7F3D0;
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page {
+    max-width: 1020px;
+    margin: 0 auto;
+    padding: 28px 20px 64px;
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+  .brand-mark {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: var(--brand);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: -0.5px;
+  }
+  .brand-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .brand-sub {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .top-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    color: var(--ink);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .btn:hover { background: #F1F5F9; }
+  .btn-primary {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: #FFFFFF;
+  }
+  .btn-primary:hover { background: #162D4A; }
+
+  .disclaimer-bar {
+    background: #FFFFFF;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--brand);
+    border-radius: 8px;
+    padding: 11px 15px;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    margin-bottom: 18px;
+  }
+  .disclaimer-bar strong { color: var(--ink); }
+
+  .hero-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 26px;
+    display: grid;
+    grid-template-columns: 156px 1fr;
+    gap: 24px;
+    align-items: center;
+    margin-bottom: 18px;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  }
+  .gauge-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .gauge-svg {
+    width: 136px;
+    height: 136px;
+  }
+  .gauge-track {
+    fill: none;
+    stroke: #E2E8F0;
+    stroke-width: 10;
+  }
+  .gauge-fill {
+    fill: none;
+    stroke: #DC2626;
+    stroke-width: 10;
+    stroke-linecap: round;
+    transform: rotate(-90deg);
+    transform-origin: 68px 68px;
+  }
+  .gauge-score {
+    font-size: 32px;
+    font-weight: 800;
+    fill: #DC2626;
+  }
+  .gauge-cap {
+    font-size: 11px;
+    fill: #64748B;
+  }
+  .hero-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .meta-pill {
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #F1F5F9;
+    color: var(--ink-2);
+    font-weight: 600;
+  }
+  .grade-badge {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 700;
+    color: #DC2626;
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    padding: 4px 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  .hero-summary {
+    margin: 0 0 16px;
+    font-size: 14px;
+    color: var(--ink-2);
+  }
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .kpi-box {
+    border-radius: 10px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    background: #F8FAFC;
+  }
+  .kpi-box.kpi-high { background: var(--red-bg); border-color: var(--red-bd); }
+  .kpi-box.kpi-med { background: var(--amber-bg); border-color: var(--amber-bd); }
+  .kpi-box.kpi-pass { background: var(--green-bg); border-color: var(--green-bd); }
+  .kpi-num {
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+  .kpi-high .kpi-num { color: var(--red); }
+  .kpi-med .kpi-num { color: var(--amber); }
+  .kpi-pass .kpi-num { color: var(--green); }
+  .kpi-label {
+    font-size: 12px;
+    color: var(--ink-2);
+    margin-top: 2px;
+  }
+
+  .section-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 24px 0 14px;
+  }
+  .section-heading {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .filter-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .filter-pill {
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    color: var(--ink-2);
+    border-radius: 999px;
+    padding: 5px 13px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .filter-pill.active {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: #FFFFFF;
+  }
+
+  .risk-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--border-strong);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+  }
+  .risk-card.sev-high { border-left-color: var(--red); }
+  .risk-card.sev-medium { border-left-color: var(--amber); }
+  .risk-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .risk-head-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .sev-badge {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 6px;
+  }
+  .sev-badge.sev-high { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-bd); }
+  .sev-badge.sev-medium { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-bd); }
+  .rule-id {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12px;
+    color: var(--muted);
+    background: #F1F5F9;
+    padding: 2px 7px;
+    border-radius: 5px;
+  }
+  .dim-pill {
+    font-size: 12px;
+    color: var(--brand);
+    background: #EFF6FF;
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-weight: 600;
+  }
+  .loc-pill {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .risk-title {
+    margin: 0 0 12px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .block-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+    margin-bottom: 5px;
+  }
+  .block-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .quote-box {
+    background: #F8FAFC;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+  }
+  .quote-box.quote-omission {
+    background: #FFF7ED;
+    border-color: #FED7AA;
+  }
+  .quote-text {
+    margin: 0;
+    font-size: 13.5px;
+    color: var(--ink);
+    word-break: break-word;
+  }
+  .clause-mark {
+    background: #FEE2E2;
+    color: #991B1B;
+    padding: 1px 4px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .numeric-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 13px;
+    color: #991B1B;
+    margin-bottom: 12px;
+  }
+  .numeric-tag {
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 700;
+    background: #DC2626;
+    color: #fff;
+    padding: 1px 7px;
+    border-radius: 4px;
+    margin-top: 2px;
+  }
+  .analysis-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .analysis-block {
+    background: #FFFFFF;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .replacement-block {
+    background: #F0FDF4;
+    border-color: #BBF7D0;
+  }
+  .law-chip {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--brand);
+    background: #E2E8F0;
+    padding: 2px 8px;
+    border-radius: 5px;
+    margin-bottom: 6px;
+  }
+  .risk-summary, .replacement-text {
+    margin: 0;
+    font-size: 13.5px;
+    color: var(--ink-2);
+  }
+  .replacement-text { color: #14532D; }
+  .mini-copy-btn {
+    border: 1px solid #86EFAC;
+    background: #FFFFFF;
+    color: #166534;
+    border-radius: 6px;
+    padding: 3px 9px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .mini-copy-btn:hover { background: #DCFCE7; }
+
+  .wechat-box {
+    background: #F8FAFC;
+    border: 1px solid #CBD5E1;
+    border-radius: 9px;
+    padding: 12px 14px;
+  }
+  .wechat-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .wechat-title-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .tone-switch {
+    display: inline-flex;
+    background: #E2E8F0;
+    border-radius: 7px;
+    padding: 2px;
+  }
+  .tone-btn {
+    border: none;
+    background: transparent;
+    color: var(--ink-2);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .tone-btn.active {
+    background: #FFFFFF;
+    color: var(--ink);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  }
+  .copy-wechat-btn {
+    border: none;
+    background: #07C160;
+    color: #FFFFFF;
+    border-radius: 7px;
+    padding: 6px 12px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .copy-wechat-btn:hover { background: #06AD56; }
+  .wechat-text {
+    margin: 0;
+    font-size: 13.5px;
+    color: var(--ink);
+    background: #FFFFFF;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 10px 12px;
+    white-space: pre-wrap;
+  }
+
+  .summary-wechat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    margin-top: 22px;
+  }
+  .summary-script-pre {
+    margin: 10px 0 0;
+    padding: 14px 16px;
+    background: #F8FAFC;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13.5px;
+    color: var(--ink);
+    white-space: pre-wrap;
+    line-height: 1.7;
+  }
+
+  .passed-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    margin-top: 22px;
+  }
+  .passed-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid #F1F5F9;
+  }
+  .passed-item:last-child { border-bottom: none; }
+  .pass-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--green);
+    flex-shrink: 0;
+  }
+  .passed-body { flex: 1; }
+  .passed-title { font-size: 13.5px; color: var(--ink); }
+  .passed-meta { font-size: 12px; color: var(--muted); }
+  .pass-badge {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--green);
+    background: var(--green-bg);
+    border: 1px solid var(--green-bd);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  .empty-safe {
+    background: var(--green-bg);
+    border: 1px solid var(--green-bd);
+    border-radius: var(--radius);
+    padding: 22px;
+    color: #065F46;
+  }
+  .empty-safe-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+
+  .fallback-drawer {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: min(420px, calc(100vw - 32px));
+    background: #FFFFFF;
+    border: 1px solid var(--brand);
+    border-radius: 10px;
+    padding: 14px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.16);
+    z-index: 999;
+  }
+  .fallback-drawer textarea {
+    width: 100%;
+    height: 110px;
+    margin-top: 8px;
+    padding: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+  }
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 26px;
+    transform: translateX(-50%);
+    background: #0F172A;
+    color: #FFFFFF;
+    padding: 9px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 1000;
+  }
+  .toast.show { opacity: 1; }
+  .hidden { display: none !important; }
+  .footer {
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  @media (max-width: 760px) {
+    .hero-card { grid-template-columns: 1fr; text-align: center; }
+    .hero-meta-row { justify-content: center; }
+    .analysis-grid { grid-template-columns: 1fr; }
+    .kpi-row { grid-template-columns: 1fr; }
+  }
+
+  @media print {
+    body { background: #FFFFFF; }
+    .page { max-width: 100%; padding: 0; }
+    .top-actions, .filter-group, .tone-switch, .copy-wechat-btn, .mini-copy-btn, .toast, .fallback-drawer {
+      display: none !important;
+    }
+    .risk-card, .hero-card, .summary-wechat-card, .passed-card {
+      box-shadow: none;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .wechat-text.hidden { display: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="topbar">
+    <div class="brand-mark">
+      <div class="brand-icon">盾</div>
+      <div>
+        <div class="brand-title">合同防坑体检报告 · CN Contract Guard</div>
+        <div class="brand-sub">100% 本地离线核验 · 数据零上传 · 依据中国现行法律法规与高频实务坑点</div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button type="button" class="btn" id="btn-copy-summary">复制完整微信协商清单</button>
+      <button type="button" class="btn btn-primary" id="btn-print-pdf">打印 / 导出 A4 PDF</button>
+    </div>
+  </header>
+
+  <div class="disclaimer-bar">
+    <strong>重要边界提示：</strong>本规则库依据中国现行公开法律法规与常见合同实务风险整理，仅供签约前自查与沟通参考，不构成正式法律意见或律师代理服务；重大交易或争议请咨询执业律师。
+  </div>
+
+  <section class="hero-card">
+    <div class="gauge-wrap">
+      <svg class="gauge-svg" viewBox="0 0 136 136" role="img" aria-label="合同安全评分 13 分">
+        <circle class="gauge-track" cx="68" cy="68" r="52" />
+        <circle class="gauge-fill" cx="68" cy="68" r="52" stroke-dasharray="326.73" stroke-dashoffset="284.26" />
+        <text class="gauge-score" x="68" y="74" text-anchor="middle">13</text>
+        <text class="gauge-cap" x="68" y="94" text-anchor="middle">安全分 / 100</text>
+      </svg>
+    </div>
+    <div>
+      <div class="hero-meta-row">
+        <span class="meta-pill">类型：房屋租赁合同</span>
+        <span class="meta-pill">文件：sample_rent_contract.txt</span>
+        <span class="meta-pill">字数：892 字 · 22 段</span>
+        <span class="meta-pill">核验规则：12 条</span>
+      </div>
+      <div class="grade-badge">高危警戒 · 暂缓签字，务必逐条修改</div>
+      <p class="hero-summary">检出 7 项红灯高危条款与 3 项黄灯协商条款，存在较大资金或维权风险，建议先发微信话术沟通修改后再签署。</p>
+      <div class="kpi-row">
+        <div class="kpi-box kpi-high">
+          <div class="kpi-num">7</div>
+          <div class="kpi-label">红灯 · 高危必改项</div>
+        </div>
+        <div class="kpi-box kpi-med">
+          <div class="kpi-num">3</div>
+          <div class="kpi-label">黄灯 · 建议协商项</div>
+        </div>
+        <div class="kpi-box kpi-pass">
+          <div class="kpi-num">2</div>
+          <div class="kpi-label">绿灯 · 已核验通过项</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-bar">
+    <h2 class="section-heading">逐条风险体检与修改方案</h2>
+    <div class="filter-group" id="filter-group">
+      <button type="button" class="filter-pill active" data-filter="all">全部风险 (10)</button>
+      <button type="button" class="filter-pill" data-filter="high">仅看红灯 (7)</button>
+      <button type="button" class="filter-pill" data-filter="medium">仅看黄灯 (3)</button>
+      <button type="button" class="filter-pill" data-filter="passed">绿灯核验 (2)</button>
+    </div>
+  </div>
+
+  <section id="findings-list">
+    <article class="risk-card sev-high" data-severity="high">
+              <div class="risk-card-head">
+                <div class="risk-head-left">
+                  <span class="sev-badge sev-high">红灯 · 高危必改</span>
+                  <span class="rule-id">RENT-01</span>
+                  <span class="dim-pill">押金安全</span>
+                </div>
+                <span class="loc-pill">原文第 9 段</span>
+              </div>
+
+              <h3 class="risk-title">1. 押金退还无明确期限或允许房东任意克扣</h3>
+
+              <div class="quote-box ">
+                <div class="block-label">合同原文摘录与风险定位</div>
+                <p class="quote-text">2. 乙方签约时须支付<mark class="clause-mark">押金 4,500 元。退房时，押金由甲方视房屋状况酌情决定扣除及退还时间，退还</mark>时间另行通知。</p>
+              </div>
+
+              
+
+              <div class="analysis-grid">
+                <div class="analysis-block">
+                  <div class="block-label">法律依据与风险拆解</div>
+                  <div class="law-chip">《中华人民共和国民法典》第四百九十七条、第五百零九条</div>
+                  <p class="risk-summary">未约定明确退押金时限或赋予房东主观扣款权，退房时极易被以“墙面发黄、保洁不达标”等理由无限拖延甚至克扣全部押金。</p>
+                </div>
+
+                <div class="analysis-block replacement-block">
+                  <div class="block-label-row">
+                    <span class="block-label">建议替换条款（可直接发给对方修改）</span>
+                    <button type="button" class="mini-copy-btn" data-copy-target="replace-0">复制替换条款</button>
+                  </div>
+                  <p class="replacement-text" id="replace-0">租赁期满或合法解除且乙方交还房屋、结清约定水电燃气费用后，甲方应于 3 个工作日内将押金全额无息原路退还乙方；如需扣款，甲方须提供对应维修/费用真实发票或双方书面确认单，严禁无凭据任意克扣。逾期退还的，每逾期一日按未退押金的千分之一支付滞纳金。</p>
+                </div>
+              </div>
+
+              <div class="wechat-box">
+                <div class="wechat-head">
+                  <div class="wechat-title-group">
+                    <span class="block-label">微信协商话术（发给房东/中介）</span>
+                    <div class="tone-switch" role="tablist">
+                      <button type="button" class="tone-btn active" data-card="0" data-tone="polite">温和商量版</button>
+                      <button type="button" class="tone-btn" data-card="0" data-tone="firm">坚守底线版</button>
+                    </div>
+                  </div>
+                  <button type="button" class="copy-wechat-btn" data-wechat-card="0">一键复制微信话术</button>
+                </div>
+                <p class="wechat-text" id="wechat-polite-0" data-card-pane="0" data-pane-tone="polite">房东您好，合同里押金这块我看没有写清具体退还时间，为了后面退房大家核对省心，咱们把押金条款补充一句“退房交接结清费用后 3 个工作日内无息退还，如有扣款需双方确认并凭票据结算”好吗？</p>
+                <p class="wechat-text hidden" id="wechat-firm-0" data-card-pane="0" data-pane-tone="firm">理解您这边是常用模板，但押金动辄几千上万，如果没有明确退还期限和扣款凭据约定，我这边确实不敢签字。只需加一句“结清费用后 3 个工作日内退还、扣款凭实际维修单据”，对您收房权益也没有任何影响，咱们加上就立刻签。</p>
+              </div>
+            </article>
+<article class="risk-card sev-high" data-severity="high">
+              <div class="risk-card-head">
+                <div class="risk-head-left">
+                  <span class="sev-badge sev-high">红灯 · 高危必改</span>
+                  <span class="rule-id">RENT-02</span>
+                  <span class="dim-pill">租期与租金稳定</span>
+                </div>
+                <span class="loc-pill">原文第 8 段</span>
+              </div>
+
+              <h3 class="risk-title">2. 出租人可单方涨租或无故提前收回房屋</h3>
+
+              <div class="quote-box ">
+                <div class="block-label">合同原文摘录与风险定位</div>
+                <p class="quote-text">1. 月租金为人民币 4,500 元，按“押一付三”方式支付。租赁期间，<mark class="clause-mark">甲方有权根据市场行情单方上调租金</mark>，或仅需提前 7 日通知乙方即可提前收回房屋且无需赔偿任何损失。</p>
+              </div>
+
+              
+
+              <div class="analysis-grid">
+                <div class="analysis-block">
+                  <div class="block-label">法律依据与风险拆解</div>
+                  <div class="law-chip">《中华人民共和国民法典》第五百零九条、第五百七十七条、第七百二十五条</div>
+                  <p class="risk-summary">租期内房东单方涨租或随意收房且免除违约责任，会让你随时面临被迫高价续租或临时仓促搬家的重大损失。</p>
+                </div>
+
+                <div class="analysis-block replacement-block">
+                  <div class="block-label-row">
+                    <span class="block-label">建议替换条款（可直接发给对方修改）</span>
+                    <button type="button" class="mini-copy-btn" data-copy-target="replace-1">复制替换条款</button>
+                  </div>
+                  <p class="replacement-text" id="replace-1">租赁期限内租金保持固定不变，甲方不得单方涨租，亦不得无故提前收回房屋。若甲方因自身原因确需提前解约，须至少提前 30 日书面通知乙方，除全额退还押金及剩余未住租金外，还应向乙方支付相当于 1 个月租金的违约金并承担合理搬家费。</p>
+                </div>
+              </div>
+
+              <div class="wechat-box">
+                <div class="wechat-head">
+                  <div class="wechat-title-group">
+                    <span class="block-label">微信协商话术（发给房东/中介）</span>
+                    <div class="tone-switch" role="tablist">
+                      <button type="button" class="tone-btn active" data-card="1" data-tone="polite">温和商量版</button>
+                      <button type="button" class="tone-btn" data-card="1" data-tone="firm">坚守底线版</button>
+                    </div>
+                  </div>
+                  <button type="button" class="copy-wechat-btn" data-wechat-card="1">一键复制微信话术</button>
+                </div>
+                <p class="wechat-text" id="wechat-polite-1" data-card-pane="1" data-pane-tone="polite">房东您好，我打算长期稳定住下去，合同里提到租期内可以调整租金/提前收回房屋，我有点担心住着住着要突然搬家。咱们明确成“租期内租金不变，若任何一方提前解约均按同等 1 个月租金违约金执行”可以吗？</p>
+                <p class="wechat-text hidden" id="wechat-firm-1" data-card-pane="1" data-pane-tone="firm">租期内锁定租金和居住权是租房最基本的保障，如果甲方可以随时单方涨价或免责收房，这相当于只有我被合同绑住了。违约责任必须双方对等：甲方无故提前收房同样需赔付 1 个月租金违约金，不然我只能再看看别的房源了。</p>
+              </div>
+            </article>
+<article class="risk-card sev-high" data-severity="high">
+              <div class="risk-card-head">
+                <div class="risk-head-left">
+                  <span class="sev-badge sev-high">红灯 · 高危必改</span>
+                  <span class="rule-id">RENT-03</span>
+                  <span class="dim-pill">解约与违约金</span>
+                </div>
+                <span class="loc-pill">原文第 19 段</span>
+              </div>
+
+              <h3 class="risk-title">3. 提前退租没收全部押金且叠加高额违约金</h3>
+
+              <div class="quote-box ">
+                <div class="block-label">合同原文摘录与风险定位</div>
+                <p class="quote-text">1. 乙方若因个人或工作原因<mark class="clause-mark">提前退租或单方解除合同，甲方有权没收全部押金，且乙方还需另行支付 2 个月租金作为违约金</mark>。</p>
+              </div>
+
+              
+
+              <div class="analysis-grid">
+                <div class="analysis-block">
+                  <div class="block-label">法律依据与风险拆解</div>
+                  <div class="law-chip">《中华人民共和国民法典》第五百八十五条、第四百九十七条</div>
+                  <p class="risk-summary">提前退租既没收押金又叠加多个月违约金或索赔全部剩余租金，属于显著过高的惩罚性违约金，一旦工作变动换城会造成严重资金损失。</p>
+                </div>
+
+                <div class="analysis-block replacement-block">
+                  <div class="block-label-row">
+                    <span class="block-label">建议替换条款（可直接发给对方修改）</span>
+                    <button type="button" class="mini-copy-btn" data-copy-target="replace-2">复制替换条款</button>
+                  </div>
+                  <p class="replacement-text" id="replace-2">任一方无正当理由提前解除合同的，违约方应提前 30 日书面通知对方，并支付相当于 1 个月租金的违约金（不与没收押金重复叠加）；乙方提前退租时，剩余已付未居住天数的租金应按日折算退还。逾期支付租金超过 5 日的，每日按逾期金额的万分之五计算违约金。</p>
+                </div>
+              </div>
+
+              <div class="wechat-box">
+                <div class="wechat-head">
+                  <div class="wechat-title-group">
+                    <span class="block-label">微信协商话术（发给房东/中介）</span>
+                    <div class="tone-switch" role="tablist">
+                      <button type="button" class="tone-btn active" data-card="2" data-tone="polite">温和商量版</button>
+                      <button type="button" class="tone-btn" data-card="2" data-tone="firm">坚守底线版</button>
+                    </div>
+                  </div>
+                  <button type="button" class="copy-wechat-btn" data-wechat-card="2">一键复制微信话术</button>
+                </div>
+                <p class="wechat-text" id="wechat-polite-2" data-card-pane="2" data-pane-tone="polite">房东您好，我看违约条款写的是提前退租不仅不退押金还要另赔 2 个月/剩余租金，这个比例有点太高了。我肯定尽量住满，但如果万一公司外派调动，咱们按行业常规改成“提前30天告知，按 1 个月租金封顶赔付（不重复扣押金），未住天数租金退回”好不好？</p>
+                <p class="wechat-text hidden" id="wechat-firm-2" data-card-pane="2" data-pane-tone="firm">没收押金再叠加额外违约金属于重复处罚，而且远超正常空置期损失。行业通用标准就是提前退租以 1 个月租金（即押金抵扣）封顶，且剩余未住租金按天退还；如果这里不能封顶修改，风险太不可控了。</p>
+              </div>
+            </article>
+<article class="risk-card sev-high" data-severity="high">
+              <div class="risk-card-head">
+                <div class="risk-head-left">
+                  <span class="sev-badge sev-high">红灯 · 高危必改</span>
+                  <span class="rule-id">RENT-04</span>
+                  <span class="dim-pill">房源权属与二房东风险</span>
+                </div>
+                <span class="loc-pill">原文第 5 段</span>
+              </div>
+
+              <h3 class="risk-title">4. 未核验房产证或二房东转租缺少原房东书面授权</h3>
+
+              <div class="quote-box ">
+                <div class="block-label">合同原文摘录与风险定位</div>
+                <p class="quote-text">1. 甲方将位于上海市浦东新区某小区3栋602室（一室一厅）出租给乙方居住使用。甲方声明有权出租但无需出示原房东授权委托书及房产证，若<mark class="clause-mark">与原房东发生任何纠纷与甲方无关</mark>。</p>
+              </div>
+
+              
+
+              <div class="analysis-grid">
+                <div class="analysis-block">
+                  <div class="block-label">法律依据与风险拆解</div>
+                  <div class="law-chip">《中华人民共和国民法典》第七百一十六条、《商品房屋租赁管理办法》第六条</div>
+                  <p class="risk-summary">未查验不动产权证或二房东未经原房东书面同意擅自转租，原房东可随时依法解除合同清退租客，导致你交了押金和半年租金却无家可归。</p>
+                </div>
+
+                <div class="analysis-block replacement-block">
+                  <div class="block-label-row">
+                    <span class="block-label">建议替换条款（可直接发给对方修改）</span>
+                    <button type="button" class="mini-copy-btn" data-copy-target="replace-3">复制替换条款</button>
+                  </div>
+                  <p class="replacement-text" id="replace-3">甲方保证为房屋合法产权人（或已取得原产权人签字的《书面转租授权委托书》），签约时须向乙方出示不动产权证及身份证/授权书原件并留存复印件作为合同附件。若因产权瑕疵或无权转租导致乙方无法继续居住，甲方须全额退还押金与剩余租金，并赔偿 2 个月租金的违约金及搬家损失。</p>
+                </div>
+              </div>
+
+              <div class="wechat-box">
+                <div class="wechat-head">
+                  <div class="wechat-title-group">
+                    <span class="block-label">微信协商话术（发给房东/中介）</span>
+                    <div class="tone-switch" role="tablist">
+                      <button type="button" class="tone-btn active" data-card="3" data-tone="polite">温和商量版</button>
+                      <button type="button" class="tone-btn" data-card="3" data-tone="firm">坚守底线版</button>
+                    </div>
+                  </div>
+                  <button type="button" class="copy-wechat-btn" data-wechat-card="3">一键复制微信话术</button>
+                </div>
+                <p class="wechat-text" id="wechat-polite-3" data-card-pane="3" data-pane-tone="polite">您好，为了咱们双方签约都踏实规范，签约时麻烦出示一下房屋不动产权证和身份证核对一下（如果是托管/转租麻烦附一份原房东书面授权书），咱们也在合同里补一句权属保证条款，您看方便吗？</p>
+                <p class="wechat-text hidden" id="wechat-firm-3" data-card-pane="3" data-pane-tone="firm">核验房产证和原房东转租授权是租房最底线的防骗步骤，如果既不提供产权/授权证明、合同里又不写明无权出租的赔付责任，后续一旦被原房东清退我没有任何保障，这块必须核验并写入附件才能打款。</p>
+              </div>
+            </article>
+<article class="risk-card sev-high" data-severity="high">
+              <div class="risk-card-head">
+                <div class="risk-head-left">
+                  <span class="sev-badge sev-high">红灯 · 高危必改</span>
+                  <span class="rule-id">RENT-05</span>
+                  <span class="dim-pill">自然损耗责任</span>
+                </div>
+                <span class="loc-pill">原文第 13 段</span>
+              </div>
+
+              <h3 class="risk-title">5. 房屋及家具家电自然损耗转嫁给租客承担</h3>
+
+              <div class="quote-box ">
+                <div class="block-label">合同原文摘录与风险定位</div>
+                <p class="quote-text">2. 房屋及家具家电在租赁期间产生的一切<mark class="clause-mark">自然损耗、老化磨损均由乙方负责维修</mark>或从押金中扣除；退房时须恢复至交房全新状态，并强制收取 600 元深度保洁费。</p>
+              </div>
+
+              
+
+              <div class="analysis-grid">
+                <div class="analysis-block">
+                  <div class="block-label">法律依据与风险拆解</div>
+                  <div class="law-chip">《中华人民共和国民法典》第七百一十条</div>
+                  <p class="risk-summary">《民法典》明确规定正常使用产生的自然损耗租客不赔。把自然老化、折旧转嫁给租客，退房时墙面轻微发黄、老旧冰箱坏掉都会变成克扣押金的借口。</p>
+                </div>
+
+                <div class="analysis-block replacement-block">
+                  <div class="block-label-row">
+                    <span class="block-label">建议替换条款（可直接发给对方修改）</span>
+                    <button type="button" class="mini-copy-btn" data-copy-target="replace-4">复制替换条款</button>
+                  </div>
+                  <p class="replacement-text" id="replace-4">乙方按房屋及设施正常用途使用所致之自然损耗、折旧及老化（包括但不限于墙面正常使用痕迹、老旧家电自然故障），乙方不承担维修或赔偿责任；仅因乙方故意或重大过失造成的人为损坏，方由乙方按实际折旧价值负责修复或赔偿。</p>
+                </div>
+              </div>
+
+              <div class="wechat-box">
+                <div class="wechat-head">
+                  <div class="wechat-title-group">
+                    <span class="block-label">微信协商话术（发给房东/中介）</span>
+                    <div class="tone-switch" role="tablist">
+                      <button type="button" class="tone-btn active" data-card="4" data-tone="polite">温和商量版</button>
+                      <button type="button" class="tone-btn" data-card="4" data-tone="firm">坚守底线版</button>
+                    </div>
+                  </div>
+                  <button type="button" class="copy-wechat-btn" data-wechat-card="4">一键复制微信话术</button>
+                </div>
+                <p class="wechat-text" id="wechat-polite-4" data-card-pane="4" data-pane-tone="polite">房东您好，合同里写着交房时各类损耗折旧都由乙方承担，按民法典正常居住产生的自然老化磨损本来是不需要租客赔的。咱们改写成“人为故意或重大过失损坏由乙方负责，正常使用造成的自然损耗乙方免责”好不好？</p>
+                <p class="wechat-text hidden" id="wechat-firm-4" data-card-pane="4" data-pane-tone="firm">《民法典》第710条明确规定了正常使用产生的自然损耗承租人不承担赔偿责任。房子住一年不可能像全新毛坯一样毫无痕迹，如果把自然损耗也算到租客头上，退房时很容易扯皮，这条必须按法律规定写清“自然损耗除外”。</p>
+              </div>
+            </article>
+<article class="risk-card sev-high" data-severity="high">
+              <div class="risk-card-head">
+                <div class="risk-head-left">
+                  <span class="sev-badge sev-high">红灯 · 高危必改</span>
+                  <span class="rule-id">RENT-06</span>
+                  <span class="dim-pill">维修义务分配</span>
+                </div>
+                <span class="loc-pill">原文第 12 段</span>
+              </div>
+
+              <h3 class="risk-title">6. 房屋主体及大件家电维修责任全部推给租客</h3>
+
+              <div class="quote-box ">
+                <div class="block-label">合同原文摘录与风险定位</div>
+                <p class="quote-text">1. 租赁期内，房屋、水电管道及空调、洗衣机、热水器等<mark class="clause-mark">一切设备的维修费用与责任均由乙方自行承担，甲方不承担</mark>任何维修义务。</p>
+              </div>
+
+              
+
+              <div class="analysis-grid">
+                <div class="analysis-block">
+                  <div class="block-label">法律依据与风险拆解</div>
+                  <div class="law-chip">《中华人民共和国民法典》第七百一十二条、第七百一十三条</div>
+                  <p class="risk-summary">法定原则下出租人负有维修义务。若合同把空调、热水器、漏水、管道老化等非人为故障维修全推给租客，花大价钱帮房东修老家电还无处报销。</p>
+                </div>
+
+                <div class="analysis-block replacement-block">
+                  <div class="block-label-row">
+                    <span class="block-label">建议替换条款（可直接发给对方修改）</span>
+                    <button type="button" class="mini-copy-btn" data-copy-target="replace-5">复制替换条款</button>
+                  </div>
+                  <p class="replacement-text" id="replace-5">房屋主体结构、水电暖气主管道及甲方提供的原有大型家电家具（空调、冰箱、洗衣机、热水器等）因自然老化或非人为原因发生故障的，由甲方负责维修并承担费用；甲方接到通知后 3 日内未维修的，乙方可自行找人维修，费用凭票从下期租金中抵扣。仅灯泡、电池等低值易耗品或乙方人为损坏由乙方自理。</p>
+                </div>
+              </div>
+
+              <div class="wechat-box">
+                <div class="wechat-head">
+                  <div class="wechat-title-group">
+                    <span class="block-label">微信协商话术（发给房东/中介）</span>
+                    <div class="tone-switch" role="tablist">
+                      <button type="button" class="tone-btn active" data-card="5" data-tone="polite">温和商量版</button>
+                      <button type="button" class="tone-btn" data-card="5" data-tone="firm">坚守底线版</button>
+                    </div>
+                  </div>
+                  <button type="button" class="copy-wechat-btn" data-wechat-card="5">一键复制微信话术</button>
+                </div>
+                <p class="wechat-text" id="wechat-polite-5" data-card-pane="5" data-pane-tone="polite">房东您好，合同里写租期内所有维修都由我承担，如果到时候热水器、空调或者管道自然老化坏了，这个责任确实不该算在我头上。咱们区分一下：小耗材和人为损坏我来修，房屋主体和原有大件家电自然故障您负责，这样更合理吧？</p>
+                <p class="wechat-text hidden" id="wechat-firm-5" data-card-pane="5" data-pane-tone="firm">老旧家电自然故障、漏水渗水这类大修动辄几百上千元，按照《民法典》第712条本来就属于房东维修义务。我只能承担人为损坏和日常小耗材更换，主体和大件家电非人为故障必须写明由房东承担且超时未修可从房租抵扣。</p>
+              </div>
+            </article>
+<article class="risk-card sev-high" data-severity="high">
+              <div class="risk-card-head">
+                <div class="risk-head-left">
+                  <span class="sev-badge sev-high">红灯 · 高危必改</span>
+                  <span class="rule-id">RENT-07</span>
+                  <span class="dim-pill">水电隐性加价</span>
+                </div>
+                <span class="loc-pill">原文第 10 段</span>
+              </div>
+
+              <h3 class="risk-title">7. 水电燃气按商用/高价加收或捆绑隐形服务费</h3>
+
+              <div class="quote-box ">
+                <div class="block-label">合同原文摘录与风险定位</div>
+                <p class="quote-text">3. 租赁期内水电按商业标准结算：<mark class="clause-mark">电费 1.5</mark> 元/度，水费 8 元/吨，且每月另收 180 元综合服务费及公摊损耗费。物业费、取暖费、宽带费及其他一切费用均由乙方自行缴纳。</p>
+              </div>
+
+              <div class="numeric-alert">
+                    <span class="numeric-tag">法定数值精算</span>
+                    <span>合同约定电费 1.5 元/度，显著高于全国常见民用电价（约 0.50–0.65 元/度），按夏季月耗 350 度测算，每月多缴约 322 元。；合同约定水费 8 元/吨，显著高于常见居民自来水阶梯均价（约 3.0–5.0 元/吨），存在转供加价风险。</span>
+                  </div>
+
+              <div class="analysis-grid">
+                <div class="analysis-block">
+                  <div class="block-label">法律依据与风险拆解</div>
+                  <div class="law-chip">《中华人民共和国电力法》第四十四条、《中华人民共和国价格法》第十二条</div>
+                  <p class="risk-summary">部分二房东/公寓将0.5元/度的民用电加价至1.2-1.5元/度，或水费收到8元/吨外加“管理服务费”，夏天开空调每月能多坑你300-800元。</p>
+                </div>
+
+                <div class="analysis-block replacement-block">
+                  <div class="block-label-row">
+                    <span class="block-label">建议替换条款（可直接发给对方修改）</span>
+                    <button type="button" class="mini-copy-btn" data-copy-target="replace-6">复制替换条款</button>
+                  </div>
+                  <p class="replacement-text" id="replace-6">水费、电费、燃气费严格按照当地市政供电/供水/燃气公司官方账单及民用居民标准据实结算（乙方可直接通过官方 App 缴费或凭官方账单转账），甲方不得以任何名义加价或加收额外管理费、服务费、公摊损耗费。</p>
+                </div>
+              </div>
+
+              <div class="wechat-box">
+                <div class="wechat-head">
+                  <div class="wechat-title-group">
+                    <span class="block-label">微信协商话术（发给房东/中介）</span>
+                    <div class="tone-switch" role="tablist">
+                      <button type="button" class="tone-btn active" data-card="6" data-tone="polite">温和商量版</button>
+                      <button type="button" class="tone-btn" data-card="6" data-tone="firm">坚守底线版</button>
+                    </div>
+                  </div>
+                  <button type="button" class="copy-wechat-btn" data-wechat-card="6">一键复制微信话术</button>
+                </div>
+                <p class="wechat-text" id="wechat-polite-6" data-card-pane="6" data-pane-tone="polite">房东您好，看合同里水电单价写得比市政居民标准高了不少，还多了一项服务费/管理费。现在政策查转供电加价很严，咱们改成“按市政供电供水公司官方账单实报实销，我自己在网上直接缴”可以吗？</p>
+                <p class="wechat-text hidden" id="wechat-firm-6" data-card-pane="6" data-pane-tone="firm">《电力法》规定禁止任何单位和个人在电费中加收其他费用。如果电费收到 1 块多一度还收管理费，算下来一年要多花好几千冤枉钱，水电必须按市政官方账单实缴，否则这房子综合租金太高了我没法接受。</p>
+              </div>
+            </article>
+<article class="risk-card sev-medium" data-severity="medium">
+              <div class="risk-card-head">
+                <div class="risk-head-left">
+                  <span class="sev-badge sev-medium">黄灯 · 建议协商</span>
+                  <span class="rule-id">RENT-08</span>
+                  <span class="dim-pill">杂费归属清晰度</span>
+                </div>
+                <span class="loc-pill">原文第 10 段</span>
+              </div>
+
+              <h3 class="risk-title">8. 物业费、取暖费、宽带费等杂费归属模糊或全推租客</h3>
+
+              <div class="quote-box ">
+                <div class="block-label">合同原文摘录与风险定位</div>
+                <p class="quote-text">3. 租赁期内水电按商业标准结算：电费 1.5 元/度，水费 8 元/吨，且每月另收 180 元综合服务费及公摊损耗费。<mark class="clause-mark">物业费、取暖费、宽带费及其他一切费用均由乙方自行缴纳</mark>。</p>
+              </div>
+
+              
+
+              <div class="analysis-grid">
+                <div class="analysis-block">
+                  <div class="block-label">法律依据与风险拆解</div>
+                  <div class="law-chip">《中华人民共和国民法典》第四百九十六条、第五百一十条</div>
+                  <p class="risk-summary">高档小区物业费和北方冬季取暖费每年合计可达数千元，若合同用“一切相关费用由乙方承担”一笔带过，入住后会被突然要求补缴大额账单。</p>
+                </div>
+
+                <div class="analysis-block replacement-block">
+                  <div class="block-label-row">
+                    <span class="block-label">建议替换条款（可直接发给对方修改）</span>
+                    <button type="button" class="mini-copy-btn" data-copy-target="replace-7">复制替换条款</button>
+                  </div>
+                  <p class="replacement-text" id="replace-7">租赁期内，房屋物业管理费、集中供暖/取暖费及房屋出租相关税费由甲方承担；乙方仅承担实际居住产生的水费、电费、燃气费及自主开通的宽带费。交房前产生的所有历史欠费均由甲方结清。</p>
+                </div>
+              </div>
+
+              <div class="wechat-box">
+                <div class="wechat-head">
+                  <div class="wechat-title-group">
+                    <span class="block-label">微信协商话术（发给房东/中介）</span>
+                    <div class="tone-switch" role="tablist">
+                      <button type="button" class="tone-btn active" data-card="7" data-tone="polite">温和商量版</button>
+                      <button type="button" class="tone-btn" data-card="7" data-tone="firm">坚守底线版</button>
+                    </div>
+                  </div>
+                  <button type="button" class="copy-wechat-btn" data-wechat-card="7">一键复制微信话术</button>
+                </div>
+                <p class="wechat-text" id="wechat-polite-7" data-card-pane="7" data-pane-tone="polite">房东您好，合同里物业费和取暖费（以及“其他一切费用”）写着由乙方承担，咱之前口头聊房租的时候好像没算这块成本。按常规这两项基础产权配套费一般房东承担，咱们在合同里逐项列清归属好吗？</p>
+                <p class="wechat-text hidden" id="wechat-firm-7" data-card-pane="7" data-pane-tone="firm">“租赁期间产生的一切费用由乙方承担”表述太宽泛了，物业费、取暖费以及交房前的欠费必须白纸黑字分清楚。如果物业/取暖需要我出，那就相当于变相涨租，咱们得明确写清具体金额或由甲方承担。</p>
+              </div>
+            </article>
+<article class="risk-card sev-medium" data-severity="medium">
+              <div class="risk-card-head">
+                <div class="risk-head-left">
+                  <span class="sev-badge sev-medium">黄灯 · 建议协商</span>
+                  <span class="rule-id">RENT-09</span>
+                  <span class="dim-pill">转租权与灵活性</span>
+                </div>
+                <span class="loc-pill">原文第 17 段</span>
+              </div>
+
+              <h3 class="risk-title">9. 绝对禁止转租或约定过高的转租手续费</h3>
+
+              <div class="quote-box ">
+                <div class="block-label">合同原文摘录与风险定位</div>
+                <p class="quote-text">2. 租赁期内<mark class="clause-mark">严禁乙方以任何形式转租，一经发现甲方有权立即解除合同</mark>并没收全部押金。</p>
+              </div>
+
+              
+
+              <div class="analysis-grid">
+                <div class="analysis-block">
+                  <div class="block-label">法律依据与风险拆解</div>
+                  <div class="law-chip">《中华人民共和国民法典》第七百一十六条</div>
+                  <p class="risk-summary">工作调动需提前离城时，转租是租客止损的常见方式。若合同绝对封死转租通道或收取半个月以上天价转租费，会导致你进退两难。</p>
+                </div>
+
+                <div class="analysis-block replacement-block">
+                  <div class="block-label-row">
+                    <span class="block-label">建议替换条款（可直接发给对方修改）</span>
+                    <button type="button" class="mini-copy-btn" data-copy-target="replace-8">复制替换条款</button>
+                  </div>
+                  <p class="replacement-text" id="replace-8">如乙方因工作变动等正当理由需提前退租，经甲方书面同意后乙方可自行寻找符合条件的新承租人承接剩余租期，甲方无正当理由不得拒绝，且换签新合同不收取额外转租手续费（或仅收取不超过 200 元的实际合同办理工本费）。</p>
+                </div>
+              </div>
+
+              <div class="wechat-box">
+                <div class="wechat-head">
+                  <div class="wechat-title-group">
+                    <span class="block-label">微信协商话术（发给房东/中介）</span>
+                    <div class="tone-switch" role="tablist">
+                      <button type="button" class="tone-btn active" data-card="8" data-tone="polite">温和商量版</button>
+                      <button type="button" class="tone-btn" data-card="8" data-tone="firm">坚守底线版</button>
+                    </div>
+                  </div>
+                  <button type="button" class="copy-wechat-btn" data-wechat-card="8">一键复制微信话术</button>
+                </div>
+                <p class="wechat-text" id="wechat-polite-8" data-card-pane="8" data-pane-tone="polite">房东您好，我肯定不会拿去当二房东做生意，但万一未来工作有突发变动，能不能保留一个“经您同意后我可以帮您找靠谱新租客无缝衔接，不额外收高额转租费”的余地？这样您房子也不空置，我也少点顾虑。</p>
+                <p class="wechat-text hidden" id="wechat-firm-8" data-card-pane="8" data-pane-tone="firm">如果是恶意私下转租肯定不行，但正当提前离职找下家无缝衔接能帮您省去空置期。请补充“经甲方审核同意可免费或低成本办理换签转租”，既保证租客素质也给我留条合规退路。</p>
+              </div>
+            </article>
+<article class="risk-card sev-medium" data-severity="medium">
+              <div class="risk-card-head">
+                <div class="risk-head-left">
+                  <span class="sev-badge sev-medium">黄灯 · 建议协商</span>
+                  <span class="rule-id">RENT-12</span>
+                  <span class="dim-pill">退房隐形收费与租金贷</span>
+                </div>
+                <span class="loc-pill">原文第 13 段</span>
+              </div>
+
+              <h3 class="risk-title">10. 强制绑定租金贷分期或约定天价保洁/折旧费</h3>
+
+              <div class="quote-box ">
+                <div class="block-label">合同原文摘录与风险定位</div>
+                <p class="quote-text">2. 房屋及家具家电在租赁期间产生的一切自然损耗、老化磨损均由乙方负责维修或从押金中扣除；<mark class="clause-mark">退房时须恢复至交房全新状态，并强制收取 600 元深度保洁费</mark>。</p>
+              </div>
+
+              
+
+              <div class="analysis-grid">
+                <div class="analysis-block">
+                  <div class="block-label">法律依据与风险拆解</div>
+                  <div class="law-chip">《中华人民共和国民法典》第四百九十六条、第四百九十七条</div>
+                  <p class="risk-summary">“租金贷”一旦长租公寓暴雷，你不仅会被原房东赶出，还要继续背负金融机构贷款与征信风险；天价退房保洁费则是变相克扣押金。</p>
+                </div>
+
+                <div class="analysis-block replacement-block">
+                  <div class="block-label-row">
+                    <span class="block-label">建议替换条款（可直接发给对方修改）</span>
+                    <button type="button" class="mini-copy-btn" data-copy-target="replace-9">复制替换条款</button>
+                  </div>
+                  <p class="replacement-text" id="replace-9">租金由乙方按约定周期直接支付至甲方指定账户，不绑定任何第三方消费贷款或租金分期金融产品。退房时乙方将房屋清扫整洁、恢复基本卫生即可，不收取额外保洁费或折旧费；如确需委托第三方保洁，费用上限不超过 200 元并凭真实订单凭证结算。</p>
+                </div>
+              </div>
+
+              <div class="wechat-box">
+                <div class="wechat-head">
+                  <div class="wechat-title-group">
+                    <span class="block-label">微信协商话术（发给房东/中介）</span>
+                    <div class="tone-switch" role="tablist">
+                      <button type="button" class="tone-btn active" data-card="9" data-tone="polite">温和商量版</button>
+                      <button type="button" class="tone-btn" data-card="9" data-tone="firm">坚守底线版</button>
+                    </div>
+                  </div>
+                  <button type="button" class="copy-wechat-btn" data-wechat-card="9">一键复制微信话术</button>
+                </div>
+                <p class="wechat-text" id="wechat-polite-9" data-card-pane="9" data-pane-tone="polite">您好，合同里提到需要通过第三方金融分期付租/退房统一扣高额保洁费，我个人绝对不办任何租金贷，退房前我也会自己把屋子打扫干干净净，咱们把这两项删掉改成直接付租和自清免保洁费好吗？</p>
+                <p class="wechat-text hidden" id="wechat-firm-9" data-card-pane="9" data-pane-tone="firm">我绝不签署任何绑定第三方贷款或征信的租金分期协议，这是绝对底线；退房只要我打扫干净就不应再扣几百上千的所谓深度保洁费。请删去租金贷和强制保洁条款，否则没法签约。</p>
+              </div>
+            </article>
+  </section>
+
+  <section class="summary-wechat-card" id="summary-wechat-section">
+    <div class="wechat-head">
+      <div class="wechat-title-group">
+        <h2 class="section-heading" style="font-size:16px;">给房东/中介的一键汇总微信消息</h2>
+        <div class="tone-switch">
+          <button type="button" class="tone-btn active" data-summary-tone="polite">温和商量版</button>
+          <button type="button" class="tone-btn" data-summary-tone="firm">坚守底线版</button>
+        </div>
+      </div>
+      <button type="button" class="copy-wechat-btn" id="btn-copy-summary-inline">一键复制整段微信话术</button>
+    </div>
+    <pre class="summary-script-pre" id="summary-script-polite">房东您好，合同我逐条仔细看完了，非常期待顺利合作签约！有几个细节为了后面大家省心、避免误解，麻烦一起微调确认一下：
+
+1. 【重点】押金安全：合同里押金这块我看没有写清具体退还时间，为了后面退房大家核对省心，咱们把押金条款补充一句“退房交接结清费用后 3 个工作日内无息退还，如有扣款需双方确认并凭票据结算”好吗？
+2. 【重点】租期与租金稳定：我打算长期稳定住下去，合同里提到租期内可以调整租金/提前收回房屋，我有点担心住着住着要突然搬家。咱们明确成“租期内租金不变，若任何一方提前解约均按同等 1 个月租金违约金执行”可以吗？
+3. 【重点】解约与违约金：我看违约条款写的是提前退租不仅不退押金还要另赔 2 个月/剩余租金，这个比例有点太高了。我肯定尽量住满，但如果万一公司外派调动，咱们按行业常规改成“提前30天告知，按 1 个月租金封顶赔付（不重复扣押金），未住天数租金退回”好不好？
+4. 【重点】房源权属与二房东风险：为了咱们双方签约都踏实规范，签约时麻烦出示一下房屋不动产权证和身份证核对一下（如果是托管/转租麻烦附一份原房东书面授权书），咱们也在合同里补一句权属保证条款，您看方便吗？
+5. 【重点】自然损耗责任：合同里写着交房时各类损耗折旧都由乙方承担，按民法典正常居住产生的自然老化磨损本来是不需要租客赔的。咱们改写成“人为故意或重大过失损坏由乙方负责，正常使用造成的自然损耗乙方免责”好不好？
+6. 【重点】维修义务分配：合同里写租期内所有维修都由我承担，如果到时候热水器、空调或者管道自然老化坏了，这个责任确实不该算在我头上。咱们区分一下：小耗材和人为损坏我来修，房屋主体和原有大件家电自然故障您负责，这样更合理吧？
+7. 【重点】水电隐性加价：看合同里水电单价写得比市政居民标准高了不少，还多了一项服务费/管理费。现在政策查转供电加价很严，咱们改成“按市政供电供水公司官方账单实报实销，我自己在网上直接缴”可以吗？
+8. 【确认】杂费归属清晰度：合同里物业费和取暖费（以及“其他一切费用”）写着由乙方承担，咱之前口头聊房租的时候好像没算这块成本。按常规这两项基础产权配套费一般房东承担，咱们在合同里逐项列清归属好吗？
+9. 【确认】转租权与灵活性：我肯定不会拿去当二房东做生意，但万一未来工作有突发变动，能不能保留一个“经您同意后我可以帮您找靠谱新租客无缝衔接，不额外收高额转租费”的余地？这样您房子也不空置，我也少点顾虑。
+10. 【确认】退房隐形收费与租金贷：合同里提到需要通过第三方金融分期付租/退房统一扣高额保洁费，我个人绝对不办任何租金贷，退房前我也会自己把屋子打扫干干净净，咱们把这两项删掉改成直接付租和自清免保洁费好吗？
+
+以上这 10 处都是常见规范条款，改好后我这边立刻配合签字，辛苦您看看~</pre>
+    <pre class="summary-script-pre hidden" id="summary-script-firm">房东您好，我认真逐条审阅了合同正文，以下几项涉及核心权益和法律底线，需要双方明确修改写入正文后我才能正式签署：
+
+1. 【重点】押金安全：理解您这边是常用模板，但押金动辄几千上万，如果没有明确退还期限和扣款凭据约定，我这边确实不敢签字。只需加一句“结清费用后 3 个工作日内退还、扣款凭实际维修单据”，对您收房权益也没有任何影响，咱们加上就立刻签。
+2. 【重点】租期与租金稳定：租期内锁定租金和居住权是租房最基本的保障，如果甲方可以随时单方涨价或免责收房，这相当于只有我被合同绑住了。违约责任必须双方对等：甲方无故提前收房同样需赔付 1 个月租金违约金，不然我只能再看看别的房源了。
+3. 【重点】解约与违约金：没收押金再叠加额外违约金属于重复处罚，而且远超正常空置期损失。行业通用标准就是提前退租以 1 个月租金（即押金抵扣）封顶，且剩余未住租金按天退还；如果这里不能封顶修改，风险太不可控了。
+4. 【重点】房源权属与二房东风险：核验房产证和原房东转租授权是租房最底线的防骗步骤，如果既不提供产权/授权证明、合同里又不写明无权出租的赔付责任，后续一旦被原房东清退我没有任何保障，这块必须核验并写入附件才能打款。
+5. 【重点】自然损耗责任：《民法典》第710条明确规定了正常使用产生的自然损耗承租人不承担赔偿责任。房子住一年不可能像全新毛坯一样毫无痕迹，如果把自然损耗也算到租客头上，退房时很容易扯皮，这条必须按法律规定写清“自然损耗除外”。
+6. 【重点】维修义务分配：老旧家电自然故障、漏水渗水这类大修动辄几百上千元，按照《民法典》第712条本来就属于房东维修义务。我只能承担人为损坏和日常小耗材更换，主体和大件家电非人为故障必须写明由房东承担且超时未修可从房租抵扣。
+7. 【重点】水电隐性加价：《电力法》规定禁止任何单位和个人在电费中加收其他费用。如果电费收到 1 块多一度还收管理费，算下来一年要多花好几千冤枉钱，水电必须按市政官方账单实缴，否则这房子综合租金太高了我没法接受。
+8. 【确认】杂费归属清晰度：“租赁期间产生的一切费用由乙方承担”表述太宽泛了，物业费、取暖费以及交房前的欠费必须白纸黑字分清楚。如果物业/取暖需要我出，那就相当于变相涨租，咱们得明确写清具体金额或由甲方承担。
+9. 【确认】转租权与灵活性：如果是恶意私下转租肯定不行，但正当提前离职找下家无缝衔接能帮您省去空置期。请补充“经甲方审核同意可免费或低成本办理换签转租”，既保证租客素质也给我留条合规退路。
+10. 【确认】退房隐形收费与租金贷：我绝不签署任何绑定第三方贷款或征信的租金分期协议，这是绝对底线；退房只要我打扫干净就不应再扣几百上千的所谓深度保洁费。请删去租金贷和强制保洁条款，否则没法签约。
+
+以上 10 点修改均为行业常规对等标准，不损害贵方正当权益。麻烦更新合同版本发我复核，确认无误立刻签署。</pre>
+  </section>
+
+  <section class="passed-card" id="passed-section">
+    <h2 class="section-heading" style="margin-bottom:10px;font-size:16px;">绿灯 · 未触发的高频坑点核验清单（2 项）</h2>
+    <div class="passed-item">
+        <span class="pass-dot" aria-hidden="true"></span>
+        <div class="passed-body">
+          <div class="passed-title"><strong>隐私与住宅安宁权</strong> · 房东或中介可随时无通知擅自进入房屋</div>
+          <div class="passed-meta">RENT-10 · 《中华人民共和国民法典》第一千零三十二条、第一千零三十三条（自然人住宅安宁权与隐私权）</div>
+        </div>
+        <span class="pass-badge">未检出陷阱</span>
+      </div>
+<div class="passed-item">
+        <span class="pass-dot" aria-hidden="true"></span>
+        <div class="passed-body">
+          <div class="passed-title"><strong>居住安全与甲醛隐患</strong> · 房屋甲醛超标、危及健康或重大隐蔽缺陷免责</div>
+          <div class="passed-meta">RENT-11 · 《中华人民共和国民法典》第七百三十一条</div>
+        </div>
+        <span class="pass-badge">未检出陷阱</span>
+      </div>
+  </section>
+
+  <footer class="footer">
+    <span>生成时间：2026-11-26 04:22:28 UTC</span>
+    <span>CN Contract Guard · 纯本地离线计算，不向任何第三方服务器传输合同文本</span>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite">已复制到剪贴板</div>
+<div class="fallback-drawer hidden" id="fallback-drawer">
+  <div class="block-label-row">
+    <span class="block-label" style="margin:0;">已为您自动选中全文，请按 Ctrl+C / ⌘+C 复制</span>
+    <button type="button" class="btn" style="padding:3px 9px;font-size:12px;" id="fallback-close">关闭</button>
+  </div>
+  <textarea id="fallback-textarea" readonly></textarea>
+</div>
+
+<script>
+(function () {
+  var toastEl = document.getElementById('toast');
+  var fallbackDrawer = document.getElementById('fallback-drawer');
+  var fallbackArea = document.getElementById('fallback-textarea');
+  var fallbackClose = document.getElementById('fallback-close');
+  var activeSummaryTone = 'polite';
+  var toastTimer = null;
+
+  function showToast(msg) {
+    if (!toastEl) return;
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () {
+      toastEl.classList.remove('show');
+    }, 2200);
+  }
+
+  function showFallbackCopy(text) {
+    if (!fallbackDrawer || !fallbackArea) return;
+    fallbackArea.value = text;
+    fallbackDrawer.classList.remove('hidden');
+    fallbackArea.focus();
+    fallbackArea.select();
+    showToast('已选中文本，请按 Ctrl+C / ⌘+C 复制');
+  }
+
+  function copyText(text, successMsg) {
+    if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+      navigator.clipboard.writeText(text).then(function () {
+        showToast(successMsg || '已复制到剪贴板');
+      }).catch(function () {
+        showFallbackCopy(text);
+      });
+    } else {
+      showFallbackCopy(text);
+    }
+  }
+
+  if (fallbackClose) {
+    fallbackClose.addEventListener('click', function () {
+      fallbackDrawer.classList.add('hidden');
+    });
+  }
+
+  // Filter buttons
+  var filterButtons = document.querySelectorAll('#filter-group .filter-pill');
+  var riskCards = document.querySelectorAll('.risk-card');
+  var passedSection = document.getElementById('passed-section');
+  var findingsList = document.getElementById('findings-list');
+
+  filterButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      filterButtons.forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      var filter = btn.getAttribute('data-filter');
+      if (filter === 'passed') {
+        if (findingsList) findingsList.classList.add('hidden');
+        if (passedSection) passedSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+      if (findingsList) findingsList.classList.remove('hidden');
+      riskCards.forEach(function (card) {
+        var sev = card.getAttribute('data-severity');
+        if (filter === 'all' || sev === filter) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
+
+  // Per-card tone switching
+  document.querySelectorAll('.tone-btn[data-card]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var cardId = btn.getAttribute('data-card');
+      var tone = btn.getAttribute('data-tone');
+      document.querySelectorAll('.tone-btn[data-card="' + cardId + '"]').forEach(function (b) {
+        b.classList.toggle('active', b === btn);
+      });
+      document.querySelectorAll('[data-card-pane="' + cardId + '"]').forEach(function (pane) {
+        pane.classList.toggle('hidden', pane.getAttribute('data-pane-tone') !== tone);
+      });
+    });
+  });
+
+  // Per-card copy WeChat script
+  document.querySelectorAll('.copy-wechat-btn[data-wechat-card]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var cardId = btn.getAttribute('data-wechat-card');
+      var activeToneBtn = document.querySelector('.tone-btn.active[data-card="' + cardId + '"]');
+      var tone = activeToneBtn ? activeToneBtn.getAttribute('data-tone') : 'polite';
+      var pane = document.getElementById('wechat-' + tone + '-' + cardId);
+      if (pane) {
+        copyText(pane.textContent.trim(), '已复制该条微信协商话术');
+      }
+    });
+  });
+
+  // Per-card copy replacement wording
+  document.querySelectorAll('.mini-copy-btn[data-copy-target]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var target = document.getElementById(btn.getAttribute('data-copy-target'));
+      if (target) {
+        copyText(target.textContent.trim(), '已复制建议替换条款');
+      }
+    });
+  });
+
+  // Summary WeChat tone toggle & copy
+  var sumPolite = document.getElementById('summary-script-polite');
+  var sumFirm = document.getElementById('summary-script-firm');
+  document.querySelectorAll('.tone-btn[data-summary-tone]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      activeSummaryTone = btn.getAttribute('data-summary-tone') || 'polite';
+      document.querySelectorAll('.tone-btn[data-summary-tone]').forEach(function (b) {
+        b.classList.toggle('active', b === btn);
+      });
+      if (sumPolite) sumPolite.classList.toggle('hidden', activeSummaryTone !== 'polite');
+      if (sumFirm) sumFirm.classList.toggle('hidden', activeSummaryTone !== 'firm');
+    });
+  });
+
+  function copyCombinedSummary() {
+    var el = activeSummaryTone === 'firm' ? sumFirm : sumPolite;
+    if (el) {
+      copyText(el.textContent.trim(), '已复制完整微信协商清单');
+    }
+  }
+
+  var topCopyBtn = document.getElementById('btn-copy-summary');
+  var inlineCopyBtn = document.getElementById('btn-copy-summary-inline');
+  if (topCopyBtn) topCopyBtn.addEventListener('click', copyCombinedSummary);
+  if (inlineCopyBtn) inlineCopyBtn.addEventListener('click', copyCombinedSummary);
+
+  var printBtn = document.getElementById('btn-print-pdf');
+  if (printBtn) {
+    printBtn.addEventListener('click', function () {
+      window.print();
+    });
+  }
+})();
+</script>
+</body>
+</html>

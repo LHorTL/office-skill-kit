@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>效率工坊 Office Skill Kit — 5款纯本地离线办公 AI Skill 成品预览</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --surface: #f7f8fa;
+      --ink: #18181b;
+      --ink-2: #52525b;
+      --ink-muted: #71717a;
+      --line: #e4e4e7;
+      --line-soft: #f0f1f4;
+      --accent: #0f3d6e;
+      --accent-soft: #f0f5fa;
+      --accent-border: #c7d9ec;
+      --ok: #047857;
+      --ok-bg: #ecfdf5;
+      --ok-border: #a7f3d0;
+      --sans: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .shell {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px 24px 72px;
+    }
+
+    /* Header */
+    .hero {
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 24px;
+    }
+
+    .hero-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand-lockup {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .brand-bar {
+      width: 4px;
+      height: 36px;
+      background: var(--accent);
+      border-radius: 2px;
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+
+    .hero-title {
+      margin: 0;
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+    }
+
+    .hero-sub {
+      margin: 6px 0 0;
+      font-size: 14px;
+      color: var(--ink-2);
+      max-width: 720px;
+    }
+
+    .trust-strip {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 4px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--ink-2);
+    }
+
+    .badge.agent {
+      background: var(--accent-soft);
+      border-color: var(--accent-border);
+      color: var(--accent);
+    }
+
+    .badge.privacy {
+      background: var(--ok-bg);
+      border-color: var(--ok-border);
+      color: var(--ok);
+    }
+
+    /* Filter Bar */
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .filter-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .filter-btn {
+      border: 1px solid var(--line);
+      background: var(--bg);
+      color: var(--ink-2);
+      padding: 6px 13px;
+      border-radius: 5px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: var(--sans);
+      cursor: pointer;
+    }
+
+    .filter-btn.active {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: #ffffff;
+    }
+
+    .filter-hint {
+      font-size: 12.5px;
+      color: var(--ink-muted);
+    }
+
+    /* SKU Grid */
+    .sku-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .sku-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .sku-preview {
+      position: relative;
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 12px 12px 0;
+    }
+
+    .sku-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      border: 1px solid #d4d4d8;
+      border-bottom: none;
+      border-radius: 5px 5px 0 0;
+      background: #ffffff;
+      display: block;
+    }
+
+    .sku-body {
+      padding: 18px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .sku-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .sku-cat {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--ink-2);
+      margin-bottom: 6px;
+    }
+
+    .sku-title {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--ink);
+    }
+
+    .sku-price {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .price-num {
+      font-family: var(--mono);
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.1;
+    }
+
+    .price-meta {
+      font-size: 11px;
+      color: var(--ink-muted);
+    }
+
+    .sku-tagline {
+      margin: 0 0 12px;
+      font-size: 13px;
+      color: var(--ink-2);
+    }
+
+    .sku-list {
+      margin: 0 0 12px;
+      padding-left: 17px;
+      font-size: 12.5px;
+      color: var(--ink);
+    }
+
+    .sku-list li {
+      margin-bottom: 4px;
+    }
+
+    .sku-boundary {
+      margin: auto 0 14px;
+      padding: 8px 10px;
+      font-size: 12px;
+      color: var(--ink-2);
+      background: var(--surface);
+      border: 1px solid var(--line-soft);
+      border-radius: 5px;
+    }
+
+    .sku-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 5px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: var(--sans);
+      cursor: pointer;
+      border: 1px solid var(--line);
+      background: #ffffff;
+      color: var(--ink);
+    }
+
+    .btn:hover {
+      background: var(--surface);
+    }
+
+    .btn-primary {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: #ffffff;
+      flex: 1;
+    }
+
+    .btn-primary:hover {
+      background: #27272a;
+    }
+
+    .btn-buy {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #ffffff;
+      flex: 1;
+    }
+
+    .btn-buy:hover {
+      background: #0b2e54;
+    }
+
+    .btn-pending {
+      background: var(--surface);
+      border-color: var(--line);
+      color: var(--ink-muted);
+      cursor: default;
+      flex: 1;
+    }
+
+    .install-row {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 6px 9px;
+      background: #fafafa;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      font-family: var(--mono);
+      font-size: 11.5px;
+      color: var(--ink-2);
+    }
+
+    /* Footer guide */
+    .guide-grid {
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .guide-box {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 16px;
+      background: var(--surface);
+    }
+
+    .guide-box h3 {
+      margin: 0 0 6px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .guide-box p {
+      margin: 0;
+      font-size: 12.5px;
+      color: var(--ink-2);
+    }
+
+    .site-footer {
+      margin-top: 28px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      font-size: 12px;
+      color: var(--ink-muted);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    @media (max-width: 860px) {
+      .sku-grid, .guide-grid {
+        grid-template-columns: 1fr;
+      }
+      .shell {
+        padding: 18px 14px 48px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="hero">
+      <div class="hero-top">
+        <div class="brand-lockup">
+          <div class="brand-bar" aria-hidden="true"></div>
+          <div>
+            <h1 class="hero-title">效率工坊 · Office Skill Kit</h1>
+            <p class="hero-sub">
+              5 款即装即用的中文办公与职场 AI Skill 实机成品预览。先在线点开完整演示看效果，觉得省时间再一次买断，零月卡订阅。
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="trust-strip">
+        <span class="badge agent">支持 WorkBuddy / 千问办公 / 豆包工作 / Cursor / Codex / Claude Code</span>
+        <span class="badge privacy">100% 本地离线运行 · 零联网零隐私上传</span>
+        <span class="badge">纯 Node.js 零依赖 · 支付宝 SkillPay 买断（¥4.9–¥6.9）</span>
+      </div>
+    </header>
+
+    <div class="filter-row">
+      <div class="filter-tabs" role="tablist" aria-label="按场景筛选">
+        <button type="button" class="filter-btn active" data-cat="all">全部 5 款</button>
+        <button type="button" class="filter-btn" data-cat="report">职场汇报</button>
+        <button type="button" class="filter-btn" data-cat="legal">签约风控</button>
+        <button type="button" class="filter-btn" data-cat="content">自媒体排版</button>
+        <button type="button" class="filter-btn" data-cat="career">求职简历</button>
+      </div>
+      <span class="filter-hint">点击任意卡片「在线打开成品演示」可直接交互体验真实输出</span>
+    </div>
+
+    <main class="sku-grid" id="sku-grid"></main>
+
+    <section class="guide-grid" aria-label="使用说明与边界">
+      <div class="guide-box">
+        <h3>1. 先看真实成品，所见即所得</h3>
+        <p>每款工具均提供完整可交互的真实生成演示（含 S 键提词器、合同红黄绿筛选、小红书无损 PNG 导出、A4 简历主题切换），拒绝概念效果图。</p>
+      </div>
+      <div class="guide-box">
+        <h3>2. 纯本地零上传，保护敏感文件</h3>
+        <p>所有解析与渲染均在本地完成，不发起任何外部网络请求。您的年终数据、租房/劳动合同、简历与会议纪要绝不离开本机。</p>
+      </div>
+      <div class="guide-box">
+        <h3>3. 诚实交付边界，买前一目了然</h3>
+        <p>每款卡片均已注明交付格式与适用边界（如 HTML→无水印 PDF 非 .pptx/.docx、合同工具供自查不替代执业律师），透明消费零套路。</p>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <span>Office Skill Kit · 全部 5 款 Skill 均通过离线安全与零外部依赖核验</span>
+      <span>支持本地浏览器无水印打印导出 PDF</span>
+    </footer>
+  </div>
+
+  <script>
+    // Single-source SKU config: plug live SkillPay buyUrl & installCmd here once review approves.
+    window.SKUS_CONFIG = [{"id": "year-end-ppt-pro", "productId": "P0806000214874764", "category": "report", "categoryLabel": "职场汇报", "title": "年终述职交互PPT+S键双屏提词器+无水印PDF", "shortTitle": "年终述职交互 PPT + 双屏提词器", "priceCny": 6.9, "tagline": "丢入杂乱周报/备忘录，10秒生成瑞士风16:9交互演示稿、SVG对比图、S键倒计时提词器与去空话体检报告。", "demoHref": "./demo-ppt.html", "previewImg": "./assets/01_ppt_slide.png", "accent": "#0f3d6e", "highlights": ["3套瑞士编辑风 16:9 主题（T键实时切换）+ 自动绘制 SVG 前后对比图", "按 S 键即开演讲者提词器 + 独立双屏弹窗 + 5/8/10 分钟实时倒计时", "40+ 职场空话/AI套话体检引擎，缺指标严格标 [待填] 绝不瞎编数字"], "boundary": "输出交互离线 HTML 演示稿 + 一键无水印 PDF + 口播讲稿 MD，不直接生成 .pptx。", "buyUrl": "", "installCmd": "", "statusLabel": "支付宝 SkillPay 审核中 · 即将开放买断"}, {"id": "cn-contract-guard", "productId": "P0806000214864939", "category": "legal", "categoryLabel": "签约风控", "title": "租房劳动外包防坑合同体检·附微信话术", "shortTitle": "租房 / 劳动 / 外包防坑合同体检", "priceCny": 6.9, "tagline": "签约前10秒本地防坑自查！内置36条中国高频霸王条款规则与法定数值精算，直读 .docx/.txt，输出红黄绿体检单与微信协商话术。", "demoHref": "./demo-contract.html", "previewImg": "./assets/02_contract_report.png", "accent": "#b91c1c", "highlights": ["覆盖租房（押金/水电/二房东）、劳动（试用期/80%薪资/竞业）、外包（背靠背/源码归属）", "原句高亮定位 + 现行《民法典》《劳动合同法》等公开法条对照", "每条高危风险附「温和商量版 / 坚守底线版」一键复制微信话术"], "boundary": "纯本地离线自查工具，供签约前风险排查参考，不替代执业律师正式法律意见。", "buyUrl": "", "installCmd": "", "statusLabel": "支付宝 SkillPay 审核中 · 即将开放买断"}, {"id": "gzh-xhs-studio", "productId": "P0806000214873607", "category": "content", "categoryLabel": "自媒体排版", "title": "公众号排版·小红书3:4无损卡片+违禁词工坊", "shortTitle": "公众号直贴 × 小红书3:4卡片工坊", "priceCny": 5.9, "tagline": "一稿三用！丢入任意 Markdown/文本草稿，一步生成公众号100%内联CSS排版、小红书1080×1440批量PNG卡片与广告法违禁词体检。", "demoHref": "./demo-gzh-xhs.html", "previewImg": "./assets/03_gzh_xhs_workbench.png", "accent": "#047857", "highlights": ["微信公众号 100% Inline-CSS 3套编辑部主题，一键富文本复制不丢格式", "小红书 3:4（1080×1440）离线 Canvas 工坊，自动分页 + 一键批量导出无损 PNG", "三端违禁词 + 去 AI 味红绿体检，附自然替换建议与 3 版≤20字爆款标题"], "boundary": "仅本地生成排版 HTML、文案与浏览器导出 PNG，不含平台账号自动代发功能。", "buyUrl": "", "installCmd": "", "statusLabel": "支付宝 SkillPay 审核中 · 即将开放买断"}, {"id": "resume-ats-pro", "productId": "P0806000214874766", "category": "career", "categoryLabel": "求职简历", "title": "简历ATS深度改写+无水印A4 PDF工坊", "shortTitle": "简历 ATS 改写 + 无水印 A4 PDF", "priceCny": 5.9, "tagline": "告别38元在线简历会员水印！本地生成单页印刷级矢量 A4 PDF（3套瑞士版式）、JD关键词逐项对账与 Boss直聘/猎聘/内推三套首句。", "demoHref": "./demo-resume.html", "previewImg": "./assets/04_resume_a4.png", "accent": "#18181b", "highlights": ["精确 @page A4 无水印打印排版，支持经典黑灰/互联网深蓝/极简排版 + 紧凑单页切换", "支持 Markdown 与 Boss/Word 纯文本粘贴，逐条揪出「负责/参与/了解」弱动词与缺失数字", "基于真实量化战绩拼装 160 字高回复 Boss直聘首句、猎聘与内推邮件"], "boundary": "输出 A4 打印级离线 HTML 转无水印矢量 PDF，非 Word (.docx)；绝不编造虚假数据。", "buyUrl": "", "installCmd": "", "statusLabel": "支付宝 SkillPay 审核中 · 即将开放买断"}, {"id": "meeting-to-action", "productId": "P0806000214873616", "category": "report", "categoryLabel": "职场汇报", "title": "会议纪要×催办表一键成品", "shortTitle": "会议长聊 → 纪要 + 催办表 + 群回执", "priceCny": 4.9, "tagline": "把混乱的腾讯会议/飞书转写稿或上百条微信工作群长聊，30秒整理为一页交互式纪要 HTML、Excel零乱码CSV催办表与 @责任人群回执。", "demoHref": "./demo-meeting.html", "previewImg": "./assets/05_meeting_minutes.png", "accent": "#0369a1", "highlights": ["自动过滤「收到 / +1 / 哈哈 / [表情]」水话，精准锁定拍板结论与阻塞风险", "自动标黄缺失责任人或缺失 DDL 的悬空漏项，防止会后无人认领", "导出带 UTF-8 BOM 的 7 列 Excel 零乱码催办表 + 群回执与一对一私聊话术"], "boundary": "处理会议文字转写稿或群聊文本，不直接对 mp3/m4a 音频做本地语音识别。", "buyUrl": "", "installCmd": "", "statusLabel": "支付宝 SkillPay 审核中 · 即将开放买断"}];
+
+    (function () {
+      var grid = document.getElementById("sku-grid");
+      var filterBtns = document.querySelectorAll(".filter-btn");
+      var activeCat = "all";
+
+      function esc(s) {
+        return String(s == null ? "" : s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function render() {
+        var list = window.SKUS_CONFIG.filter(function (item) {
+          return activeCat === "all" || item.category === activeCat;
+        });
+        grid.innerHTML = list
+          .map(function (sku) {
+            var buyControl = sku.buyUrl
+              ? '<a class="btn btn-buy" href="' +
+                esc(sku.buyUrl) +
+                '" target="_blank" rel="noopener noreferrer">支付宝 SkillPay 买断 ¥' +
+                esc(sku.priceCny.toFixed(1)) +
+                " →</a>"
+              : '<span class="btn btn-pending" title="SkillPay ID: ' +
+                esc(sku.productId) +
+                '">' +
+                esc(sku.statusLabel) +
+                "</span>";
+
+            var installBar = sku.installCmd
+              ? '<div class="install-row"><span>' +
+                esc(sku.installCmd) +
+                '</span><button type="button" class="btn" style="padding:2px 8px;font-size:11px;" data-copy="' +
+                esc(sku.installCmd) +
+                '">复制</button></div>'
+              : "";
+
+            return (
+              '<article class="sku-card" data-sku="' +
+              esc(sku.id) +
+              '">' +
+              '<a class="sku-preview" href="' +
+              esc(sku.demoHref) +
+              '" target="_blank" rel="noopener noreferrer" title="打开交互成品演示">' +
+              '<img src="' +
+              esc(sku.previewImg) +
+              '" alt="' +
+              esc(sku.shortTitle) +
+              '" loading="lazy" />' +
+              "</a>" +
+              '<div class="sku-body">' +
+              '<div class="sku-head">' +
+              "<div>" +
+              '<span class="sku-cat" style="color:' +
+              esc(sku.accent) +
+              ';">' +
+              esc(sku.categoryLabel) +
+              "</span>" +
+              '<h2 class="sku-title">' +
+              esc(sku.title) +
+              "</h2>" +
+              "</div>" +
+              '<div class="sku-price">' +
+              '<div class="price-num">¥' +
+              esc(sku.priceCny.toFixed(1)) +
+              "</div>" +
+              '<div class="price-meta">买断 · 无订阅</div>' +
+              "</div>" +
+              "</div>" +
+              '<p class="sku-tagline">' +
+              esc(sku.tagline) +
+              "</p>" +
+              '<ul class="sku-list">' +
+              sku.highlights
+                .map(function (h) {
+                  return "<li>" + esc(h) + "</li>";
+                })
+                .join("") +
+              "</ul>" +
+              '<div class="sku-boundary"><strong>边界说明：</strong>' +
+              esc(sku.boundary) +
+              "</div>" +
+              '<div class="sku-actions">' +
+              '<a class="btn btn-primary" href="' +
+              esc(sku.demoHref) +
+              '" target="_blank" rel="noopener noreferrer">在线打开成品演示 →</a>' +
+              buyControl +
+              "</div>" +
+              installBar +
+              "</div>" +
+              "</article>"
+            );
+          })
+          .join("");
+
+        grid.querySelectorAll("[data-copy]").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            var text = btn.getAttribute("data-copy") || "";
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(text).then(function () {
+                btn.textContent = "已复制";
+                setTimeout(function () {
+                  btn.textContent = "复制";
+                }, 1600);
+              });
+            }
+          });
+        });
+      }
+
+      filterBtns.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          activeCat = btn.getAttribute("data-cat") || "all";
+          filterBtns.forEach(function (b) {
+            b.classList.toggle("active", b === btn);
+          });
+          render();
+        });
+      });
+
+      render();
+    })();
+  </script>
+</body>
+</html>

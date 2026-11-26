@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Q4双十二大促上线前跨部门对齐会 — 一页纸会议纪要与行动项</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --ink: #0f172a;
+      --ink-sub: #475569;
+      --ink-muted: #64748b;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --accent: #0f766e;
+      --accent-soft: #f0fdfa;
+      --info: #1d4ed8;
+      --info-soft: #eff6ff;
+      --warn: #b45309;
+      --warn-soft: #fffbeb;
+      --danger: #b91c1c;
+      --danger-soft: #fef2f2;
+      --neutral-soft: #f1f5f9;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 24px 16px 48px;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
+      line-height: 1.55;
+      font-size: 14px;
+    }
+    .sheet {
+      max-width: 1020px;
+      margin: 0 auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 28px 32px 32px;
+    }
+    .doc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      padding-bottom: 18px;
+      border-bottom: 2px solid var(--ink);
+    }
+    .doc-kicker {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 22px;
+      line-height: 1.3;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      color: var(--ink-sub);
+      font-size: 13px;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .btn {
+      appearance: none;
+      border: 1px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--ink);
+      padding: 7px 12px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn:hover { background: var(--neutral-soft); }
+    .btn-primary {
+      background: var(--ink);
+      color: #ffffff;
+      border-color: var(--ink);
+    }
+    .btn-primary:hover { background: #1e293b; }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin: 18px 0;
+    }
+    .kpi-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      background: #fcfdfe;
+    }
+    .kpi-label {
+      font-size: 12px;
+      color: var(--ink-muted);
+      margin-bottom: 4px;
+    }
+    .kpi-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+    }
+    .kpi-value.danger { color: var(--danger); }
+    .kpi-value.accent { color: var(--accent); }
+    .kpi-value.warn { color: var(--warn); }
+    .audit-banner {
+      border: 1px solid #fcd34d;
+      background: var(--warn-soft);
+      color: #78350f;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+    .audit-banner.audit-clean {
+      border-color: #99f6e4;
+      background: var(--accent-soft);
+      color: #115e59;
+    }
+    .participants-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 20px;
+      font-size: 12.5px;
+    }
+    .bar-label {
+      font-weight: 600;
+      color: var(--ink-sub);
+      margin-right: 4px;
+    }
+    .person-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: var(--neutral-soft);
+      border: 1px solid var(--border);
+      color: var(--ink);
+      font-size: 12px;
+    }
+    .pill-count {
+      background: var(--ink);
+      color: #ffffff;
+      border-radius: 999px;
+      padding: 0 6px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+    .panel {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 18px;
+      background: var(--surface);
+    }
+    .panel-title {
+      margin: 0 0 12px;
+      font-size: 15px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+    .clean-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .decision-item, .risk-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .item-body { flex: 1; min-width: 0; }
+    .item-text { color: var(--ink); font-size: 13.5px; }
+    .item-meta { color: var(--ink-muted); font-size: 12px; margin-top: 2px; }
+    .badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 11.5px;
+      font-weight: 700;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .badge-ok { background: var(--accent-soft); color: var(--accent); border: 1px solid #99f6e4; }
+    .badge-info { background: var(--info-soft); color: var(--info); border: 1px solid #bfdbfe; }
+    .badge-warn { background: var(--warn-soft); color: var(--warn); border: 1px solid #fde68a; }
+    .badge-danger { background: var(--danger-soft); color: var(--danger); border: 1px solid #fecaca; }
+    .badge-neutral { background: var(--neutral-soft); color: var(--ink-sub); border: 1px solid var(--border); }
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 0 0 12px;
+    }
+    .section-head h2 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+    .filter-btn {
+      border: 1px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--ink-sub);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .filter-btn.active {
+      background: var(--ink);
+      color: #ffffff;
+      border-color: var(--ink);
+    }
+    .owner-select {
+      border: 1px solid var(--border-strong);
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 12px;
+      background: var(--surface);
+      color: var(--ink);
+    }
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+    thead th {
+      background: #f8fafc;
+      color: var(--ink-sub);
+      font-weight: 700;
+      text-align: left;
+      padding: 10px 10px;
+      border-bottom: 1px solid var(--border-strong);
+      white-space: nowrap;
+      font-size: 12.5px;
+    }
+    tbody td {
+      padding: 10px 10px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr.is-done { background: #f8fafc; opacity: 0.68; }
+    tbody tr.is-done .task-title { text-decoration: line-through; color: var(--ink-muted); }
+    .col-check { width: 34px; text-align: center; }
+    .col-id { width: 42px; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+    .task-title { font-weight: 600; color: var(--ink); }
+    .task-dep { font-size: 12px; color: var(--ink-muted); margin-top: 3px; }
+    .owner-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--info-soft);
+      color: var(--info);
+      font-weight: 600;
+      font-size: 12.5px;
+      white-space: nowrap;
+    }
+    .owner-missing, .ddl-missing {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--warn-soft);
+      color: var(--warn);
+      border: 1px solid #fcd34d;
+      font-weight: 700;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .ddl-tag {
+      font-weight: 600;
+      color: var(--ink);
+      white-space: nowrap;
+      font-size: 12.5px;
+    }
+    .status-pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--neutral-soft);
+      color: var(--ink-sub);
+      white-space: nowrap;
+    }
+    .status-pill.done {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+    .empty-row { color: var(--ink-muted); font-style: italic; padding: 14px 8px; }
+    .muted { color: var(--ink-muted); }
+    .doc-footer {
+      margin-top: 20px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--ink-muted);
+    }
+    .toast {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      background: var(--ink);
+      color: #ffffff;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .toast.show { opacity: 1; }
+    .copy-box {
+      display: none;
+      margin-top: 16px;
+      border: 1px solid var(--border-strong);
+      border-radius: 8px;
+      padding: 12px 14px;
+      background: #f8fafc;
+    }
+    .copy-box.open { display: block; }
+    .copy-box-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--ink-sub);
+    }
+    .copy-textarea {
+      width: 100%;
+      min-height: 150px;
+      border: 1px solid var(--border-strong);
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-family: inherit;
+      font-size: 12.5px;
+      color: var(--ink);
+      background: #ffffff;
+    }
+    @media (max-width: 780px) {
+      .sheet { padding: 18px 16px; }
+      .doc-header { flex-direction: column; }
+      .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .two-col { grid-template-columns: 1fr; }
+    }
+    @page { size: A4; margin: 12mm; }
+    @media print {
+      body { background: #ffffff; padding: 0; }
+      .sheet { border: none; padding: 0; max-width: 100%; }
+      .toolbar, .filters, .toast, .col-check, .copy-box { display: none !important; }
+      .two-col { grid-template-columns: 1fr 1fr; }
+      tr { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <main class="sheet">
+    <header class="doc-header">
+      <div>
+        <div class="doc-kicker">MEETING-TO-ACTION · 一页纸正式纪要与执行台账</div>
+        <h1>Q4双十二大促上线前跨部门对齐会</h1>
+        <div class="meta-row">
+          <span>日期：<strong>2026-11-26 14:00-14:45</strong></span>
+          <span>来源：会议转写</span>
+          <span>有效发言：13 条（已过滤水话 5 条）</span>
+        </div>
+      </div>
+      <div class="toolbar">
+        <button type="button" class="btn btn-primary" id="btnCopyRecap">复制群回执摘要</button>
+        <button type="button" class="btn" id="btnCopyPending">复制未完成催办</button>
+        <button type="button" class="btn" id="btnPrint">打印 / 导出 PDF</button>
+      </div>
+    </header>
+
+    <section class="kpi-grid" aria-label="核心统计">
+      <div class="kpi-card">
+        <div class="kpi-label">已拍板结论</div>
+        <div class="kpi-value accent">4</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">行动项总数</div>
+        <div class="kpi-value" id="kpiTotal">9</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">P0 紧急事项</div>
+        <div class="kpi-value danger">3</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">风险与阻塞</div>
+        <div class="kpi-value warn">4</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">已完成进度</div>
+        <div class="kpi-value accent" id="kpiProgress">0 / 9</div>
+      </div>
+    </section>
+
+    <div class="audit-banner">
+          <strong>漏项体检提示：</strong>发现 <strong>3</strong> 条行动项缺失明确责任人或截止时间（已在表格中标黄），建议发出群回执时优先推动补齐，防止会后悬空。
+        </div>
+
+    <div class="participants-bar">
+      <span class="bar-label">参会成员：</span>
+      <span class="person-pill">陈浩 · 后端开发<span class="pill-count">2项</span></span><span class="person-pill">孙悦 · 运营<span class="pill-count">2项</span></span><span class="person-pill">周雪 · 前端开发<span class="pill-count">1项</span></span><span class="person-pill">赵凯 · 测试<span class="pill-count">1项</span></span><span class="person-pill">林薇 · 产品负责人</span>
+    </div>
+
+    <section class="two-col">
+      <div class="panel">
+        <h2 class="panel-title"><span>一、已拍板结论</span><span class="muted">4 项</span></h2>
+        <ul class="clean-list">
+          <li class="decision-item">
+            <span class="badge badge-ok">结论 1</span>
+            <div class="item-body">
+              <div class="item-text">先说结论，经过刚才讨论，我们最终决定预热页统一按方案B走极简卡片流，取消弹窗领券，避免转化流失。</div>
+              <div class="item-meta">确认来源：林薇 · 00:01:12</div>
+            </div>
+          </li>
+          <li class="decision-item">
+            <span class="badge badge-ok">结论 2</span>
+            <div class="item-body">
+              <div class="item-text">一致同意先保证核心下单和核销主链路100%覆盖，非核心动效降级处理。</div>
+              <div class="item-meta">确认来源：林薇 · 00:07:05</div>
+            </div>
+          </li>
+          <li class="decision-item">
+            <span class="badge badge-ok">结论 3</span>
+            <div class="item-body">
+              <div class="item-text">最后确认两项拍板结论：1）最终确定11月30日20:00正式灰度切流10%，12月1日00:00全量放开；</div>
+              <div class="item-meta">确认来源：林薇 · 00:09:10</div>
+            </div>
+          </li>
+          <li class="decision-item">
+            <span class="badge badge-ok">结论 4</span>
+            <div class="item-body">
+              <div class="item-text">确定大促期间每天10:00和18:00在群里同步两次监控指标。</div>
+              <div class="item-meta">确认来源：林薇 · 00:09:10</div>
+            </div>
+          </li></ul>
+      </div>
+      <div class="panel">
+        <h2 class="panel-title"><span>二、风险与阻塞</span><span class="muted">4 项</span></h2>
+        <ul class="clean-list">
+          <li class="risk-item">
+            <span class="badge badge-danger">高风险 #1</span>
+            <div class="item-body">
+              <div class="item-text">我这边有一个高风险卡点要提前暴露：目前优惠券核销接口在压测时偶发超时，依赖支付中台的限流白名单审批，他们还没给答复，可能影响周日封版。</div>
+              <div class="item-meta">提出人：陈浩 · 00:02:18</div>
+            </div>
+          </li>
+          <li class="risk-item">
+            <span class="badge badge-danger">高风险 #2</span>
+            <div class="item-body">
+              <div class="item-text">前端这边预热页方案B的主页面已经联调80%了，但缺运营侧给的最终活动规则文案和三张主视觉Banner，现在卡在这里没法封静态资源。</div>
+              <div class="item-meta">提出人：周雪 · 00:04:30</div>
+            </div>
+          </li>
+          <li class="risk-item">
+            <span class="badge badge-warn">中风险 #3</span>
+            <div class="item-body">
+              <div class="item-text">测试这边有两个风险：一是苹果iOS老机型兼容性真机库里目前缺一台iOS 15测试机，可能会漏测样式；</div>
+              <div class="item-meta">提出人：赵凯 · 00:06:12</div>
+            </div>
+          </li>
+          <li class="risk-item">
+            <span class="badge badge-warn">中风险 #4</span>
+            <div class="item-body">
+              <div class="item-text">二是如果陈浩明天中午才提测，回归测试时间非常紧。</div>
+              <div class="item-meta">提出人：赵凯 · 00:06:12</div>
+            </div>
+          </li></ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>三、行动项追踪（责任人 × DDL）</h2>
+        <div class="filters">
+          <button type="button" class="filter-btn active" data-filter="all">全部</button>
+          <button type="button" class="filter-btn" data-filter="p0">仅看 P0</button>
+          <button type="button" class="filter-btn" data-filter="pending">待处理</button>
+          <button type="button" class="filter-btn" data-filter="done">已完成</button>
+          <select id="ownerFilter" class="owner-select" aria-label="按责任人筛选">
+            <option value="__ALL__">全部责任人</option>
+            <option value="陈浩">责任人：陈浩</option><option value="孙悦">责任人：孙悦</option><option value="周雪">责任人：周雪</option><option value="赵凯">责任人：赵凯</option><option value="待认领">责任人：待认领</option>
+          </select>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="col-check">✓</th>
+              <th class="col-id">#</th>
+              <th>任务项与依赖备注</th>
+              <th>责任人</th>
+              <th>截止时间</th>
+              <th>优先级</th>
+              <th>状态</th>
+            </tr>
+          </thead>
+          <tbody id="actionTbody">
+          <tr class="action-row" data-idx="0" data-prio="P0 紧急" data-owner="陈浩">
+            <td class="col-check">
+              <input type="checkbox" class="task-check" data-idx="0" aria-label="完成任务 1">
+            </td>
+            <td class="col-id">1</td>
+            <td class="col-task">
+              <div class="task-title">今天下班前联系支付中台李工拿到白名单审批并完成压测报告，同步在群里发结果。</div>
+              <div class="task-dep">需完成后群内同步交付物</div>
+            </td>
+            <td class="col-owner"><span class="owner-tag">陈浩</span></td>
+            <td class="col-ddl"><span class="ddl-tag">今天18:00前</span></td>
+            <td class="col-prio"><span class="badge badge-danger">P0 紧急</span></td>
+            <td class="col-status"><span class="status-pill" data-status-idx="0">待处理</span></td>
+          </tr>
+          <tr class="action-row" data-idx="1" data-prio="P0 紧急" data-owner="陈浩">
+            <td class="col-check">
+              <input type="checkbox" class="task-check" data-idx="1" aria-label="完成任务 2">
+            </td>
+            <td class="col-id">2</td>
+            <td class="col-task">
+              <div class="task-title">优惠券重试兜底逻辑我明天中午前修完提测。</div>
+              <div class="task-dep">按期交付</div>
+            </td>
+            <td class="col-owner"><span class="owner-tag">陈浩</span></td>
+            <td class="col-ddl"><span class="ddl-tag">明天中午前</span></td>
+            <td class="col-prio"><span class="badge badge-danger">P0 紧急</span></td>
+            <td class="col-status"><span class="status-pill" data-status-idx="1">待处理</span></td>
+          </tr>
+          <tr class="action-row" data-idx="2" data-prio="P0 紧急" data-owner="孙悦">
+            <td class="col-check">
+              <input type="checkbox" class="task-check" data-idx="2" aria-label="完成任务 3">
+            </td>
+            <td class="col-id">3</td>
+            <td class="col-task">
+              <div class="task-title">今晚20点前把终版活动规则文案和3张Banner图发给周雪。</div>
+              <div class="task-dep">需完成后群内同步交付物</div>
+            </td>
+            <td class="col-owner"><span class="owner-tag">孙悦</span></td>
+            <td class="col-ddl"><span class="ddl-tag">今晚20点前</span></td>
+            <td class="col-prio"><span class="badge badge-danger">P0 紧急</span></td>
+            <td class="col-status"><span class="status-pill" data-status-idx="2">待处理</span></td>
+          </tr>
+          <tr class="action-row" data-idx="3" data-prio="P1 高" data-owner="周雪">
+            <td class="col-check">
+              <input type="checkbox" class="task-check" data-idx="3" aria-label="完成任务 4">
+            </td>
+            <td class="col-id">4</td>
+            <td class="col-task">
+              <div class="task-title">本周五下班前完成方案B全部页面联调并部署到预发环境。</div>
+              <div class="task-dep">按期交付</div>
+            </td>
+            <td class="col-owner"><span class="owner-tag">周雪</span></td>
+            <td class="col-ddl"><span class="ddl-tag">本周五下班前</span></td>
+            <td class="col-prio"><span class="badge badge-info">P1 高</span></td>
+            <td class="col-status"><span class="status-pill" data-status-idx="3">待处理</span></td>
+          </tr>
+          <tr class="action-row" data-idx="4" data-prio="P1 高" data-owner="赵凯">
+            <td class="col-check">
+              <input type="checkbox" class="task-check" data-idx="4" aria-label="完成任务 5">
+            </td>
+            <td class="col-id">5</td>
+            <td class="col-task">
+              <div class="task-title">在11月28日18:00前输出全链路回归测试报告和上线准入结论。</div>
+              <div class="task-dep">按期交付</div>
+            </td>
+            <td class="col-owner"><span class="owner-tag">赵凯</span></td>
+            <td class="col-ddl"><span class="ddl-tag">11月28日18:00前</span></td>
+            <td class="col-prio"><span class="badge badge-info">P1 高</span></td>
+            <td class="col-status"><span class="status-pill" data-status-idx="4">待处理</span></td>
+          </tr>
+          <tr class="action-row" data-idx="5" data-prio="P1 高" data-owner="孙悦">
+            <td class="col-check">
+              <input type="checkbox" class="task-check" data-idx="5" aria-label="完成任务 6">
+            </td>
+            <td class="col-id">6</td>
+            <td class="col-task">
+              <div class="task-title">客服FAQ我来负责，11月29日中午前整理完发给客服主管。</div>
+              <div class="task-dep">需完成后群内同步交付物</div>
+            </td>
+            <td class="col-owner"><span class="owner-tag">孙悦</span></td>
+            <td class="col-ddl"><span class="ddl-tag">11月29日中午前</span></td>
+            <td class="col-prio"><span class="badge badge-info">P1 高</span></td>
+            <td class="col-status"><span class="status-pill" data-status-idx="5">待处理</span></td>
+          </tr>
+          <tr class="action-row" data-idx="6" data-prio="P2 常规" data-owner="待认领">
+            <td class="col-check">
+              <input type="checkbox" class="task-check" data-idx="6" aria-label="完成任务 7">
+            </td>
+            <td class="col-id">7</td>
+            <td class="col-task">
+              <div class="task-title">谁去借一下iOS 15测试机？</div>
+              <div class="task-dep">缺失责任人与截止时间</div>
+            </td>
+            <td class="col-owner"><span class="owner-missing">待认领</span></td>
+            <td class="col-ddl"><span class="ddl-missing">待确认</span></td>
+            <td class="col-prio"><span class="badge badge-neutral">P2 常规</span></td>
+            <td class="col-status"><span class="status-pill" data-status-idx="6">待处理</span></td>
+          </tr>
+          <tr class="action-row" data-idx="7" data-prio="P2 常规" data-owner="待认领">
+            <td class="col-check">
+              <input type="checkbox" class="task-check" data-idx="7" aria-label="完成任务 8">
+            </td>
+            <td class="col-id">8</td>
+            <td class="col-task">
+              <div class="task-title">还要安排人整理一份大促当晚值班排班表和客服FAQ，尽快发出来给客服团队培训。</div>
+              <div class="task-dep">缺失责任人与截止时间</div>
+            </td>
+            <td class="col-owner"><span class="owner-missing">待认领</span></td>
+            <td class="col-ddl"><span class="ddl-missing">待确认</span></td>
+            <td class="col-prio"><span class="badge badge-neutral">P2 常规</span></td>
+            <td class="col-status"><span class="status-pill" data-status-idx="7">待处理</span></td>
+          </tr>
+          <tr class="action-row" data-idx="8" data-prio="P2 常规" data-owner="待认领">
+            <td class="col-check">
+              <input type="checkbox" class="task-check" data-idx="8" aria-label="完成任务 9">
+            </td>
+            <td class="col-id">9</td>
+            <td class="col-task">
+              <div class="task-title">值班排班表我看谁有空认领一下。</div>
+              <div class="task-dep">缺失责任人与截止时间</div>
+            </td>
+            <td class="col-owner"><span class="owner-missing">待认领</span></td>
+            <td class="col-ddl"><span class="ddl-missing">待确认</span></td>
+            <td class="col-prio"><span class="badge badge-neutral">P2 常规</span></td>
+            <td class="col-status"><span class="status-pill" data-status-idx="8">待处理</span></td>
+          </tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="copy-box" id="copyBox" aria-label="手动复制区域">
+      <div class="copy-box-head">
+        <span>一键全选复制区（按 Ctrl+C / Cmd+C 复制）</span>
+        <button type="button" class="btn" id="btnCloseCopy">收起</button>
+      </div>
+      <textarea class="copy-textarea" id="copyTextarea" readonly></textarea>
+    </section>
+
+    <footer class="doc-footer">
+      <span>本地离线生成 · 无外链 · 支持 A4 打印导出无水印 PDF</span>
+      <span>台账编号：MTA-5ad02159</span>
+    </footer>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      var DATA = {"docId":"5ad02159","title":"Q4双十二大促上线前跨部门对齐会","groupRecap":"【会议纪要与待办确认】Q4双十二大促上线前跨部门对齐会\n时间：2026-11-26 14:00-14:45 | 来源：会议转写\n\n一、已拍板结论\n1. 先说结论，经过刚才讨论，我们最终决定预热页统一按方案B走极简卡片流，取消弹窗领券，避免转化流失。\n2. 一致同意先保证核心下单和核销主链路100%覆盖，非核心动效降级处理。\n3. 最后确认两项拍板结论：1）最终确定11月30日20:00正式灰度切流10%，12月1日00:00全量放开；\n4. 确定大促期间每天10:00和18:00在群里同步两次监控指标。\n\n二、行动项与责任人（请各位确认DDL）\n1. [P0 紧急] @陈浩 今天下班前联系支付中台李工拿到白名单审批并完成压测报告，同步在群里发结果。（截止：今天18:00前）\n2. [P0 紧急] @陈浩 优惠券重试兜底逻辑我明天中午前修完提测。（截止：明天中午前）\n3. [P0 紧急] @孙悦 今晚20点前把终版活动规则文案和3张Banner图发给周雪。（截止：今晚20点前）\n4. [P1 高] @周雪 本周五下班前完成方案B全部页面联调并部署到预发环境。（截止：本周五下班前）\n5. [P1 高] @赵凯 在11月28日18:00前输出全链路回归测试报告和上线准入结论。（截止：11月28日18:00前）\n6. [P1 高] @孙悦 客服FAQ我来负责，11月29日中午前整理完发给客服主管。（截止：11月29日中午前）\n7. [P2 常规] 【待认领】 谁去借一下iOS 15测试机？（【DDL待补充】）\n8. [P2 常规] 【待认领】 还要安排人整理一份大促当晚值班排班表和客服FAQ，尽快发出来给客服团队培训。（【DDL待补充】）\n9. [P2 常规] 【待认领】 值班排班表我看谁有空认领一下。（【DDL待补充】）\n\n三、重点风险与阻塞（需提前盯防）\n1. [高风险 · 陈浩提出] 我这边有一个高风险卡点要提前暴露：目前优惠券核销接口在压测时偶发超时，依赖支付中台的限流白名单审批，他们还没给答复，可能影响周日封版。\n2. [高风险 · 周雪提出] 前端这边预热页方案B的主页面已经联调80%了，但缺运营侧给的最终活动规则文案和三张主视觉Banner，现在卡在这里没法封静态资源。\n3. [中风险 · 赵凯提出] 测试这边有两个风险：一是苹果iOS老机型兼容性真机库里目前缺一台iOS 15测试机，可能会漏测样式；\n4. [中风险 · 赵凯提出] 二是如果陈浩明天中午才提测，回归测试时间非常紧。\n\n四、待补齐漏项提醒\n- 缺失责任人（3项）：请相关同学在群内认领。\n- 缺失截止时间（3项）：请责任人补充具体交付时间点。\n\n以上纪要如有遗漏或时间需调整，请今日内直接群里回复修正；未回复默认确认认领，感谢各位支持！","actions":[{"idx":1,"task":"今天下班前联系支付中台李工拿到白名单审批并完成压测报告，同步在群里发结果。","owner":"陈浩","deadline":"今天18:00前","priority":"P0 紧急","missingOwner":false,"missingDeadline":false},{"idx":2,"task":"优惠券重试兜底逻辑我明天中午前修完提测。","owner":"陈浩","deadline":"明天中午前","priority":"P0 紧急","missingOwner":false,"missingDeadline":false},{"idx":3,"task":"今晚20点前把终版活动规则文案和3张Banner图发给周雪。","owner":"孙悦","deadline":"今晚20点前","priority":"P0 紧急","missingOwner":false,"missingDeadline":false},{"idx":4,"task":"本周五下班前完成方案B全部页面联调并部署到预发环境。","owner":"周雪","deadline":"本周五下班前","priority":"P1 高","missingOwner":false,"missingDeadline":false},{"idx":5,"task":"在11月28日18:00前输出全链路回归测试报告和上线准入结论。","owner":"赵凯","deadline":"11月28日18:00前","priority":"P1 高","missingOwner":false,"missingDeadline":false},{"idx":6,"task":"客服FAQ我来负责，11月29日中午前整理完发给客服主管。","owner":"孙悦","deadline":"11月29日中午前","priority":"P1 高","missingOwner":false,"missingDeadline":false},{"idx":7,"task":"谁去借一下iOS 15测试机？","owner":"待认领","deadline":"待确认","priority":"P2 常规","missingOwner":true,"missingDeadline":true},{"idx":8,"task":"还要安排人整理一份大促当晚值班排班表和客服FAQ，尽快发出来给客服团队培训。","owner":"待认领","deadline":"待确认","priority":"P2 常规","missingOwner":true,"missingDeadline":true},{"idx":9,"task":"值班排班表我看谁有空认领一下。","owner":"待认领","deadline":"待确认","priority":"P2 常规","missingOwner":true,"missingDeadline":true}]};
+      var STORAGE_KEY = "mta_done_" + DATA.docId;
+      var doneMap = {};
+      try {
+        var saved = window.localStorage.getItem(STORAGE_KEY);
+        if (saved) doneMap = JSON.parse(saved) || {};
+      } catch (e) {
+        doneMap = {};
+      }
+
+      var currentFilter = "all";
+      var currentOwner = "__ALL__";
+
+      function showToast(msg) {
+        var el = document.getElementById("toast");
+        if (!el) return;
+        el.textContent = msg;
+        el.classList.add("show");
+        window.setTimeout(function () {
+          el.classList.remove("show");
+        }, 2200);
+      }
+
+      function copyText(text, successMsg) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function () {
+            showToast(successMsg);
+          }, function () {
+            fallbackCopy(text, successMsg);
+          });
+        } else {
+          fallbackCopy(text, successMsg);
+        }
+      }
+
+      function fallbackCopy(text) {
+        var box = document.getElementById("copyBox");
+        var ta = document.getElementById("copyTextarea");
+        if (box && ta) {
+          ta.value = text;
+          box.classList.add("open");
+          ta.focus();
+          ta.select();
+          showToast("已全选文本，请按 Ctrl+C / Cmd+C 复制");
+        } else {
+          showToast("请直接从同目录 wechat_followup.md 复制");
+        }
+      }
+
+      function saveDone() {
+        try {
+          window.localStorage.setItem(STORAGE_KEY, JSON.stringify(doneMap));
+        } catch (e) {}
+      }
+
+      function refreshUI() {
+        var rows = document.querySelectorAll("tr.action-row");
+        var doneCount = 0;
+        for (var i = 0; i < rows.length; i += 1) {
+          var row = rows[i];
+          var idx = row.getAttribute("data-idx");
+          var isDone = Boolean(doneMap[idx]);
+          if (isDone) doneCount += 1;
+          row.classList.toggle("is-done", isDone);
+          var cb = row.querySelector("input.task-check");
+          if (cb) cb.checked = isDone;
+          var pill = row.querySelector("[data-status-idx]");
+          if (pill) {
+            pill.textContent = isDone ? "已完成" : "待处理";
+            pill.classList.toggle("done", isDone);
+          }
+
+          var prio = row.getAttribute("data-prio") || "";
+          var owner = row.getAttribute("data-owner") || "";
+          var show = true;
+          if (currentFilter === "p0" && prio.indexOf("P0") !== 0) show = false;
+          if (currentFilter === "pending" && isDone) show = false;
+          if (currentFilter === "done" && !isDone) show = false;
+          if (currentOwner !== "__ALL__" && owner !== currentOwner) show = false;
+          row.style.display = show ? "" : "none";
+        }
+        var prog = document.getElementById("kpiProgress");
+        if (prog) prog.textContent = doneCount + " / " + DATA.actions.length;
+      }
+
+      var checks = document.querySelectorAll("input.task-check");
+      for (var c = 0; c < checks.length; c += 1) {
+        checks[c].addEventListener("change", function (ev) {
+          var idx = ev.target.getAttribute("data-idx");
+          doneMap[idx] = Boolean(ev.target.checked);
+          saveDone();
+          refreshUI();
+        });
+      }
+
+      var fBtns = document.querySelectorAll(".filter-btn");
+      for (var b = 0; b < fBtns.length; b += 1) {
+        fBtns[b].addEventListener("click", function (ev) {
+          for (var j = 0; j < fBtns.length; j += 1) fBtns[j].classList.remove("active");
+          ev.target.classList.add("active");
+          currentFilter = ev.target.getAttribute("data-filter") || "all";
+          refreshUI();
+        });
+      }
+
+      var ownerSelect = document.getElementById("ownerFilter");
+      if (ownerSelect) {
+        ownerSelect.addEventListener("change", function (ev) {
+          currentOwner = ev.target.value || "__ALL__";
+          refreshUI();
+        });
+      }
+
+      var btnRecap = document.getElementById("btnCopyRecap");
+      if (btnRecap) {
+        btnRecap.addEventListener("click", function () {
+          copyText(DATA.groupRecap, "已复制群回执摘要，可直接粘贴到微信/飞书群");
+        });
+      }
+
+      var btnPending = document.getElementById("btnCopyPending");
+      if (btnPending) {
+        btnPending.addEventListener("click", function () {
+          var lines = ["【待办进度跟进】" + DATA.title];
+          var pending = 0;
+          for (var i = 0; i < DATA.actions.length; i += 1) {
+            if (doneMap[String(i)]) continue;
+            var a = DATA.actions[i];
+            pending += 1;
+            var tag = a.missingOwner ? "【待认领】" : "@" + a.owner;
+            lines.push(pending + ". [" + a.priority + "] " + tag + " " + a.task + "（DDL：" + a.deadline + "）");
+          }
+          if (pending === 0) {
+            showToast("所有行动项均已勾选完成！");
+            return;
+          }
+          lines.push("辛苦相关同学方便时同步下最新进展，如需协助随时群里喊一声～");
+          copyText(lines.join("\n"), "已复制 " + pending + " 条未完成催办话术");
+        });
+      }
+
+      var btnPrint = document.getElementById("btnPrint");
+      if (btnPrint) {
+        btnPrint.addEventListener("click", function () {
+          window.print();
+        });
+      }
+
+      var btnCloseCopy = document.getElementById("btnCloseCopy");
+      if (btnCloseCopy) {
+        btnCloseCopy.addEventListener("click", function () {
+          var box = document.getElementById("copyBox");
+          if (box) box.classList.remove("open");
+        });
+      }
+
+      refreshUI();
+    })();
+  </script>
+</body>
+</html>
